@@ -6,7 +6,7 @@ Simple queueing application for Django: can be used for moderation or monitoring
 
 ## Install
 
-Clone, add `mqueue` to installed_apps and run migrations.
+`pip install django-mqueue`, then add `mqueue` to installed_apps and run migrations.
 
 ## Usage
 
