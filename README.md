@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Simple queueing application for Django: can be used for moderation or monitoring.
+Simple events queueing application for Django: can be used for moderation or monitoring.
 
 ## Install
 
@@ -19,7 +19,7 @@ from mqueue.models import MEvent
 content_type = ContentType.objects.get_for_model(MyModel)
 url = '/anything/'+obj.slug+'/' # for example
 note = 'Object X was saved!'
-MEvent.objects.create(name=obj.title, content_type=content_type, url=url, notes=notes, obj_pk = obj.pk)
+MEvent.objects.create(name=obj.title, content_type=content_type, url=url, notes=notes, obj_pk=obj.pk)
   ```
 Note: `name`, `content_type`, `obj_pk` and `url` are required fields. The url field is used in the admin to make a link to see the object.
 
