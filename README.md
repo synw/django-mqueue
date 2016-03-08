@@ -19,6 +19,6 @@ url = '/anything/'+obj.slug+'/' # for example
 note = 'Object X was saved!'
 ModerationEvent.objects.create(name=obj.title, content_type=content_type, url=url, notes=notes, obj_pk = obj.pk)
   ```
-Note: `name`, `content_type`, `obj_pk` and `url` are required fields
+Note: `name`, `content_type`, `obj_pk` and `url` are required fields. The url field is used in the admin to make a link to see the object.
 
 Then go to the admin to see your moderation queue.
