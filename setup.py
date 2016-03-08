@@ -4,7 +4,7 @@ setup(
   name = 'django-mqueue',
   packages=find_packages(),
   include_package_data=True,
-  version = '0.2',
+  version = '0.2.2',
   description = 'Events queue application for Django',
   author = 'synw',
   author_email = 'synwe@yahoo.com',
