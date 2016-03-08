@@ -23,4 +23,4 @@ MEvent.objects.create(name=obj.title, content_type=content_type, url=url, notes=
   ```
 Note: `name`, `content_type`, `obj_pk` and `url` are required fields. The url field is used in the admin to make a link to see the object.
 
-Then go to the admin to see your moderation queue.
+Then go to the admin to see your events queue.
