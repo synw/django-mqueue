@@ -1,5 +1,7 @@
 # Django Mqueue
 
+[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
+
 Simple queueing application for Django: can be used for moderation or monitoring.
 
 ## Install
