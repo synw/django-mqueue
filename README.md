@@ -25,7 +25,37 @@ Note: `name`, `content_type`, `obj_pk` and `url` are required fields. The url fi
 
 Then go to the admin to see your events queue.
 
-### Todo
+### New in 0.3 to come (for now in master)
 
-- [ ] Make an admin_url field
-- [ ] Make the url field blank=True
+Events manager for creation, no more ContentType import is required: just pass the model to the manager.
+
+  ```python
+from mqueue.models import MEvent
+
+url = '/anything/'+obj.slug+'/' #url for object view on site
+admin_url = '/admin/app/model/'+str(obj.pk)+'/' #url for object view in admin
+note = 'Object X was saved!'
+MEvent.events.create(model=MyModel, name=obj.title, obj_pk=obj.pk, url=url, admin_url=admin_url, notes=notes, event_class="Info")
+  ```
+
+Note: the only required fields are now `model`, `name`, and `obj_pk`
+
+New field: `admin_url` to get a link to the object admin page
+
+Feature: event classes: you can define your custom set of event classes and the corresponding css classes for display in the admin
+The default values are:
+
+  ```python
+MQUEUE_EVENT_CLASSES = {
+                 #~ 'label' : 'css class to apply',
+                'Default' : 'label label-default',
+                'Important' : 'label label-primary',
+                'Ok' : 'label label-success',
+                'Info' : 'label label-info',
+                'Debug' : 'label label-warning',
+                'Danger' : 'label label-danger',
+                }
+  ```
+  
+  To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting
+  
