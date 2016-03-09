@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-08 12:01+0000\n"
+"POT-Creation-Date: 2016-03-09 07:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,34 +18,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: mqueue/admin.py:17
-msgid "See"
-msgstr "Voir"
+#: admin.py:31
+msgid "See on site"
+msgstr "Voir sur le site"
 
-#: mqueue/apps.py:6
+#: admin.py:33
+msgid "See in admin"
+msgstr "Voir dans l'admin"
+
+#: admin.py:35 models.py:54
+msgid "Class"
+msgstr "Classe"
+
+#: apps.py:6
 msgid "Events queue"
 msgstr "File des évènements"
 
-#: mqueue/models.py:9
+#: models.py:45
 msgid "Content type"
 msgstr "Type de contenu"
 
-#: mqueue/models.py:10
-msgid "Name"
-msgstr "Nom"
-
-#: mqueue/models.py:11
-msgid "Url"
-msgstr "Url"
-
-#: mqueue/models.py:12
-msgid "Date posted"
-msgstr "Posté le"
-
-#: mqueue/models.py:13
+#: models.py:46
 msgid "Object primary key"
 msgstr "Clé primaire de l'objet"
 
-#: mqueue/models.py:17 mqueue/models.py:18
+#: models.py:47
+msgid "Name"
+msgstr "Nom"
+
+#: models.py:49
+msgid "Url"
+msgstr "Url"
+
+#: models.py:50
+msgid "Admin url"
+msgstr "Url d'admin"
+
+#: models.py:53
+msgid "Date posted"
+msgstr "Posté le"
+
+#: models.py:59 models.py:60
 msgid "Events"
 msgstr "Evènements"
+
+#~ msgid "See"
+#~ msgstr "Voir"
