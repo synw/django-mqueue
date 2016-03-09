@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Simple events queueing application for Django: can be used for moderation or monitoring.
+Simple events queueing application for Django: can be used for moderation or monitoring or loging.
+Events are linked to a model instance.
 
 ## Install
 
@@ -64,8 +65,9 @@ To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting. Ex:
   ```python
 MQUEUE_EVENT_CLASSES = {
                 'User post' : 'mycssclass1',
-                'Post reviewed' : 'mycssclass1 mycssclass1',
-                'MyModel created' : 'mycssclass1 mycssclass1',
+                'Post reviewed' : 'mycssclass1 mycssclass2',
+                'MyModel created' : 'mycssclass1 mycssclass2',
+                # ...
                 }
   ```
   
