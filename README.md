@@ -27,8 +27,6 @@ Then go to the admin to see your events queue.
 
 ### New in 0.3 to come (for now in master)
 
-![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
-
 **Events manager** for creation, no more ContentType import is required: just pass the model to the manager.
 
   ```python
@@ -47,7 +45,7 @@ New field: `admin_url` to get a link to the object admin page
 **Feature: event classes**: you can define your custom set of event classes and the corresponding css classes to 
 display in the admin. The default values are:
 
-  ```python
+
 MQUEUE_EVENT_CLASSES = {
                  #~ 'Envent label' : 'css class to apply',
                 'Default' : 'label label-default',
@@ -58,10 +56,12 @@ MQUEUE_EVENT_CLASSES = {
                 'Danger' : 'label label-danger',
                 }
   ```
+ 
+![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
+ 
+To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting. Ex:
   
-  To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting. Ex:
-  
-    ```python
+  ```python
 MQUEUE_EVENT_CLASSES = {
                 'User post' : 'mycssclass1',
                 'Post reviewed' : 'mycssclass1 mycssclass1',
