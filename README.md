@@ -45,7 +45,7 @@ New field: `admin_url` to get a link to the object admin page
 **Feature: event classes**: you can define your custom set of event classes and the corresponding css classes to 
 display in the admin. The default values are:
 
-
+  ```python
 MQUEUE_EVENT_CLASSES = {
                  #~ 'Envent label' : 'css class to apply',
                 'Default' : 'label label-default',
