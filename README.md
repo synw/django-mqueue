@@ -34,16 +34,14 @@ Then go to the admin to see your events queue.
 from mqueue.models import MEvent
 from myapp.models import MyModel
 
-url = '/anything/'+obj.slug+'/' #url for object view on site
-admin_url = '/admin/app/model/'+str(obj.pk)+'/' #url for object view in admin
-note = 'Object X was saved!'
 MEvent.events.create(
-					model=MyModel, 
-					name=obj.title, 
-					obj_pk=obj.pk, url=url, 
-					admin_url=admin_url, 
-					notes=notes, 
-					event_class="Info"
+					model = MyModel, 
+					name = obj.title, 
+					obj_pk = obj.pk, 
+					url = '/anything/'+obj.slug+'/', 
+					admin_url = '/admin/app/model/'+str(obj.pk)+'/', 
+					notes = 'Object X was saved!', 
+					event_class = 'Info'
 					)
   ```
 
