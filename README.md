@@ -11,7 +11,7 @@ Events are linked to a model instance.
 
 ## Usage
 
-You can plug mqueue into your app by creating a moderated event whenever you need. It can be in the save method of a model or in a form_valid method of a view for example.
+You can plug mqueue into your app by creating a mevent whenever you need. It can be in the save method of a model or in a form_valid method of a view for example.
 
   ```python
 from django.contrib.contenttypes.models import ContentType
@@ -32,14 +32,22 @@ Then go to the admin to see your events queue.
 
   ```python
 from mqueue.models import MEvent
+from myapp.models import MyModel
 
 url = '/anything/'+obj.slug+'/' #url for object view on site
 admin_url = '/admin/app/model/'+str(obj.pk)+'/' #url for object view in admin
 note = 'Object X was saved!'
-MEvent.events.create(model=MyModel, name=obj.title, obj_pk=obj.pk, url=url, admin_url=admin_url, notes=notes, event_class="Info")
+MEvent.events.create(
+					model=MyModel, 
+					name=obj.title, 
+					obj_pk=obj.pk, url=url, 
+					admin_url=admin_url, 
+					notes=notes, 
+					event_class="Info"
+					)
   ```
 
-Note: the only required fields are now `model`, `name`, and `obj_pk`
+The only required fields are now `model`, `name`, and `obj_pk`
 
 New field: `admin_url` to get a link to the object admin page
 
@@ -54,9 +62,11 @@ MQUEUE_EVENT_CLASSES = {
                 'Ok' : 'label label-success',
                 'Info' : 'label label-info',
                 'Debug' : 'label label-warning',
-                'Danger' : 'label label-danger',
+                'Error' : 'label label-danger',
                 }
   ```
+
+Note: if the `event_class` field is empty, the display will fallback to the 'Default' css.
  
 ![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
  
@@ -64,7 +74,8 @@ To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting. Ex:
   
   ```python
 MQUEUE_EVENT_CLASSES = {
-                'User post' : 'mycssclass1',
+				'Default' : 'mydefaultcssclass',
+                'User registered' : 'mycssclass1',
                 'Post reviewed' : 'mycssclass1 mycssclass2',
                 'MyModel created' : 'mycssclass1 mycssclass2',
                 # ...
