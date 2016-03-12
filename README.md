@@ -151,7 +151,7 @@ EVENT_EXTRA_HTML = {
                 } 
   ```
  
-#### Stop model monitoring
+#### Switch off model monitoring
  
 :pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
