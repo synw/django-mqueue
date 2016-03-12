@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.urlresolvers import reverse
-from mqueue.models import MEvent, MonitoredModel
+from mqueue.models import MEvent, MonitoredModel, HighlyMonitoredModel
 from mqueue.conf import bcolors
 
 MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
@@ -57,7 +57,7 @@ def get_admin_url(instance, _kwargs):
         admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
     return admin_url
     
-def mmessage_save(sender, instance, created, **kwargs):
+def mmessage_create(sender, instance, created, **kwargs):
     if created:
         #~ try to get the object name
         obj_name = get_object_name(instance)
@@ -93,8 +93,36 @@ def mmessage_delete(sender, instance, **kwargs):
     if settings.DEBUG:
         print bcolors.WARNING+'Event'+bcolors.ENDC+' : object '+obj_name+' deleted'
 
+def mmessage_save(sender, instance, created, **kwargs):
+    #~ try to get the object name
+    obj_name = get_object_name(instance)
+    #~ try to get the user
+    current_user = get_user(instance)
+    #~ try to get the admin url
+    admin_url = get_admin_url(instance, kwargs)
+    #~ create event
+    event_str = 'edited'
+    if created:
+        event_str = 'created'
+    MEvent.objects.create(
+                model = instance.__class__, 
+                name = obj_name, 
+                obj_pk = instance.pk, 
+                user = current_user,
+                admin_url = admin_url,
+                event_class = 'Object '+event_str
+                )
+    if settings.DEBUG:
+        print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+' '+event_str
+
+
 #~ register signals for monitored models
 for subclass in get_subclasses(MonitoredModel):
+    if subclass.__name__ not in MODELS_NOT_TO_MONITOR:
+        post_save.connect(mmessage_create, subclass)
+        post_delete.connect(mmessage_delete, subclass)
+        
+for subclass in get_subclasses(HighlyMonitoredModel):
     if subclass.__name__ not in MODELS_NOT_TO_MONITOR:
         post_save.connect(mmessage_save, subclass)
         post_delete.connect(mmessage_delete, subclass)

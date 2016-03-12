@@ -50,6 +50,8 @@ class MyModel(MonitoredModel):
 
 :pencil2: Note: no migration is needed for an existing model, just plug and play.
 
+To record also every save of a model instance replace `MonitoredModel` by `HighlyMonitoredModel`
+
 ### Settings
 
 **Event classes**: you can define your custom set of event classes and the corresponding css classes to 

@@ -71,6 +71,12 @@ class MonitoredModel(models.Model):
     
     class Meta:
         abstract = True
+        
+
+class HighlyMonitoredModel(models.Model):
+    
+    class Meta:
+        abstract = True
     
 
     

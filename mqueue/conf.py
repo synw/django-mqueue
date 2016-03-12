@@ -11,6 +11,7 @@ EVENT_CLASSES = {
                 'Warning' : 'label label-danger',
                 'Error' : 'label label-danger',
                 'Object created' : 'label label-primary',
+                'Object edited' : 'label label-info',
                 'Object deleted' : 'label label-warning',
                 }
 
