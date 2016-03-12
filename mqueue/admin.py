@@ -23,10 +23,12 @@ def format_event_class(obj):
     icon = ''
     if obj.event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[obj.event_class]+'&nbsp;'
+    else:
+        icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
     if obj.event_class in EVENT_CLASSES.keys():
         event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+obj.event_class+'</span>'
     else:
-        event_html += '<span class="'+EVENT_CLASSES['Default']+'">'+obj.event_class+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES['Default']+'">'+icon+obj.event_class+'</span>'
     if obj.event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[obj.event_class]
     return event_html

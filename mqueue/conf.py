@@ -21,7 +21,7 @@ EVENT_EXTRA_HTML = {
 
 EVENT_ICONS_HTML = {
                  #~ 'Event class lable' : 'icon css class',
-                'Default' : '<span class="label label-default"></span>',
+                'Default' : '<span class="glyphicon glyphicon-flash"></span>',
                 'Important' : '<span class="glyphicon glyphicon-star"></span>',
                 'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
                 'Info' : '<span class="glyphicon glyphicon-hand-right"></span>',

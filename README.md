@@ -100,8 +100,8 @@ MQUEUE_EVENT_CLASSES = {
                 }
   ```
   
- Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
- tuple will be used for formating.
+ Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the `'Default'` key 
+ will be used for formating.
  
  You can also extend the default event classes:
  
