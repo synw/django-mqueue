@@ -88,10 +88,17 @@ extra_classes = {
                 'Error in some process' : 'mycssclass1 mycssclass2',
                 # ...
                 }
-MQUEUE_EVENT_CLASSES = EVENT_CLASSES + extra_classes
+MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
   ```
  
- Note: if no `event_class` is provided during event creation the first tuple will be used as default. 
+ Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
+ tuple will be used as default. 
+ 
+ :pen: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
+ 
+    ```python
+MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
+  ```
 
 
   ```

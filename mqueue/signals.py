@@ -7,6 +7,10 @@ from django.core.urlresolvers import reverse
 from mqueue.models import MEvent, MonitoredModel
 from mqueue.conf import bcolors
 
+
+MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', None)
+
+
 def get_subclasses(cls):
     result = [cls]
     classes_to_inspect = [cls]
@@ -93,8 +97,9 @@ def mmessage_delete(sender, instance, **kwargs):
 
 #~ register signals for monitored models
 for subclass in get_subclasses(MonitoredModel):
-    post_save.connect(mmessage_save, subclass)
-    post_delete.connect(mmessage_delete, subclass)
+    if subclass.__name__ not in MODELS_NOT_TO_MONITOR:
+        post_save.connect(mmessage_save, subclass)
+        post_delete.connect(mmessage_delete, subclass)
 
 
     
