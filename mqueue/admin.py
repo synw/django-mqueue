@@ -37,9 +37,15 @@ def format_user(obj):
     
 @admin.register(MEvent)
 class MEventAdmin(admin.ModelAdmin):
+    date_hierarchy = 'date_posted'
     read_only = ['date_posted']
     list_display = ['name', link_to_object, link_to_object_admin, format_content_type, 'date_posted', format_user, format_event_class]
-    search_fields = ['name', 'user__username']
+    list_filter = (
+        'event_class',
+        'content_type',
+        ('user', admin.RelatedOnlyFieldListFilter),
+    )
+    search_fields = ['name', 'user__username', 'event_class']
     link_to_object.allow_tags = True   
     link_to_object.short_description = _(u'See on site')
     link_to_object_admin.allow_tags = True   

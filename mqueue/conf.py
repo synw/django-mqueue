@@ -8,6 +8,7 @@ EVENT_CLASSES = {
                 'Ok' : 'label label-success',
                 'Info' : 'label label-info',
                 'Debug' : 'label label-warning',
+                'Warning' : 'label label-danger',
                 'Error' : 'label label-danger',
                 'Object created' : 'label label-primary',
                 'Object deleted' : 'label label-warning',

@@ -8,7 +8,7 @@ from mqueue.models import MEvent, MonitoredModel
 from mqueue.conf import bcolors
 
 
-MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', None)
+MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
 
 
 def get_subclasses(cls):

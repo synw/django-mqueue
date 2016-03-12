@@ -62,7 +62,7 @@ class MEvent(models.Model):
     class Meta:
         verbose_name = _(u'Events')
         verbose_name_plural = _(u'Events')
-        ordering = ['-date_posted', 'event_class', 'name']
+        ordering = ['-date_posted']
         
     def __unicode__(self):
         return self.name
