@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
 Simple events queueing application for Django: can be used for moderation or monitoring or loging.
-Events are linked to a model instance.
+Events can be linked to a model instance and a user instance.
 
 ## Install
 
@@ -20,6 +20,7 @@ It can be in the save method of a model or in a form_valid method of a view for 
 from mqueue.models import MEvent
 from myapp.models import MyModel
 
+#~ full event
 MEvent.objects.create(
 					model = MyModel, 
 					name = obj.title, 
@@ -30,6 +31,9 @@ MEvent.objects.create(
 					notes = 'Object X was saved!', 
 					event_class = 'Info'
 					)
+
+#~ simpliest event
+MEvent.objects.create(name = 'Something happened!')
   ```
 
 The only required field is `name`
@@ -68,6 +72,7 @@ MQUEUE_EVENT_CLASSES = {
                 'Warning' : 'label label-danger',
                 'Error' : 'label label-danger',
                 'Object created' : 'label label-primary',
+                'Object edited' : 'label label-info',
                 'Object deleted' : 'label label-warning',
                 }
   ```
@@ -104,7 +109,7 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
  Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
  tuple will be used for formating. 
  
-:pencil2: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
+:pencil2: If later you want to stop monitoring some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
    ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
