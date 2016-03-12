@@ -122,7 +122,7 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
  
   ```python
 EVENT_ICONS_HTML = {
-                 #~ 'Event class label' : 'icon css class',
+                 #~ 'Event class label' : 'icon html',
                 'Default' : '<span class="glyphicon glyphicon-flash"></span>',
                 'Important' : '<span class="glyphicon glyphicon-star"></span>',
                 'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
@@ -146,7 +146,7 @@ You can add some extra html that will display after the event_class display:
 
   ```python
 EVENT_EXTRA_HTML = {
-                 #~ 'Event class lable' : 'html to apply',
+                 #~ 'Event class label' : 'html to apply',
                 'My event' : ' <span class="label label-danger">!!</span>',
                 } 
   ```
