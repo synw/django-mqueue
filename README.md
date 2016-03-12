@@ -122,7 +122,7 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
  
   ```python
 EVENT_ICONS_HTML = {
-                 #~ 'Event class lable' : 'icon css class',
+                 #~ 'Event class label' : 'icon css class',
                 'Default' : '<span class="glyphicon glyphicon-flash"></span>',
                 'Important' : '<span class="glyphicon glyphicon-star"></span>',
                 'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
@@ -135,8 +135,10 @@ EVENT_ICONS_HTML = {
                 'Object deleted' : '<span class="glyphicon glyphicon-remove"></span>',
                 }
   ``` 
+  
+If you don't want any icons set it empty.
  
- Extend it the same way as MQUEUE_EVENT_CLASSES
+Extend it the same way as MQUEUE_EVENT_CLASSES
  
 #### Event Extra html
   
