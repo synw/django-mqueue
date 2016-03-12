@@ -44,7 +44,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-:pen: Note: no migration is needed, just plug and play.
+:pencil2: Note: no migration is needed, just plug and play.
 
 ### Settings
 
@@ -98,7 +98,7 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
  Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
  tuple will be used as default. 
  
- :pen: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
+:pencil2: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
    ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
