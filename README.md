@@ -44,7 +44,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-Note: no migration is needed, just plug and play.
+:pen: Note: no migration is needed, just plug and play.
 
 ### Settings
 
@@ -100,12 +100,12 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
  
  :pen: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
-    ```python
+   ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
   ```
 
 
-  ```
+
 
  
 
