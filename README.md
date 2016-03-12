@@ -63,7 +63,7 @@ display in the admin. The default values are:
 
   ```python
 MQUEUE_EVENT_CLASSES = {
-                 #~ 'Envent label' : 'css class to apply',
+                 #~ 'Event class label' : 'css class to apply',
                 'Default' : 'label label-default',
                 'Important' : 'label label-primary',
                 'Ok' : 'label label-success',
@@ -85,6 +85,7 @@ To use your own event classes set a `MQUEUE_EVENT_CLASSES` setting. Ex:
   
   ```python
 MQUEUE_EVENT_CLASSES = {
+				#~ 'Event class label' : 'css class to apply',
 				'Default' : 'mydefaultcssclass',
                 'User registered' : 'mycssclass',
                 'Post reviewed' : 'mycssclass mycssclass2',

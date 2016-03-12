@@ -2,7 +2,7 @@
 
 
 EVENT_CLASSES = {
-                 #~ 'label' : 'css class to apply',
+                 #~ 'Event class label' : 'css class to apply',
                 'Default' : 'label label-default',
                 'Important' : 'label label-primary',
                 'Ok' : 'label label-success',
