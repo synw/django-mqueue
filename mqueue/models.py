@@ -65,7 +65,7 @@ class MEvent(models.Model):
         ordering = ['-date_posted']
         
     def __unicode__(self):
-        return self.name
+        return self.name+' - '+str(self.date_posted)
     
 class MonitoredModel(models.Model):
     

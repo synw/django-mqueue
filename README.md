@@ -48,7 +48,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-:pencil2: Note: no migration is needed for an existing app, just plug and play.
+:pencil2: Note: no migration is needed for an existing model, just plug and play.
 
 ### Settings
 
