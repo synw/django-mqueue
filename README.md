@@ -68,7 +68,7 @@ MQUEUE_EVENT_CLASSES = {
                 }
   ```
 
-Note: if the `event_class` field is empty, the display will fallback to the 'Default' css.
+Note: if the `event_class` field value is not in MQUEUE_EVENT_CLASSES, the display will fallback to the 'Default' css.
  
 ![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
  
