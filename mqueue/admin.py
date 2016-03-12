@@ -4,10 +4,12 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from mqueue.models import MEvent
-from mqueue.conf import EVENT_CLASSES
+from mqueue.conf import EVENT_CLASSES, EVENT_EXTRA_HTML, EVENT_ICONS_HTML
 
 
 EVENT_CLASSES=getattr(settings, 'MQUEUE_EVENT_CLASSES', EVENT_CLASSES)
+EVENT_EXTRA_HTML=getattr(settings, 'EVENT_EXTRA_HTML', EVENT_EXTRA_HTML)
+EVENT_ICONS_HTML=getattr(settings, 'EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 
 def link_to_object(obj):
@@ -17,10 +19,17 @@ def link_to_object_admin(obj):
     return '<a href="'+obj.admin_url+'" target="_blank">'+obj.admin_url+'</a>'
 
 def format_event_class(obj):
+    event_html = ''
+    icon = ''
+    if obj.event_class in EVENT_ICONS_HTML.keys():
+        icon = EVENT_ICONS_HTML[obj.event_class]+'&nbsp;'
     if obj.event_class in EVENT_CLASSES.keys():
-        return '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+obj.event_class+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+obj.event_class+'</span>'
     else:
-        return '<span class="'+EVENT_CLASSES['Default']+'">'+obj.event_class+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES['Default']+'">'+obj.event_class+'</span>'
+    if obj.event_class in EVENT_EXTRA_HTML.keys():
+        event_html += EVENT_EXTRA_HTML[obj.event_class]
+    return event_html
     
 def format_content_type(obj):
     if obj.content_type:

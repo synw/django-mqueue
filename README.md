@@ -58,7 +58,9 @@ To record also every save of a model instance replace `MonitoredModel` by `Highl
 
 ### Settings
 
-**Event classes**: you can define your custom set of event classes and the corresponding css classes to 
+#### Event classes 
+
+You can define your custom set of event classes and the corresponding css classes to 
 display in the admin. The default values are:
 
   ```python
@@ -103,7 +105,7 @@ MQUEUE_EVENT_CLASSES = {
  
  You can also extend the default event classes:
  
-   ```python
+  ```python
 from mqueue.conf import EVENT_CLASSES
 extra_classes = {
                 'User registered' : 'mycssclass1',
@@ -113,6 +115,41 @@ extra_classes = {
                 }
 MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
   ``` 
+ 
+#### Event Icons
+ 
+ You can provide html for displaying icons in your `event_class`. The defaults are:
+ 
+  ```python
+EVENT_ICONS_HTML = {
+                 #~ 'Event class lable' : 'icon css class',
+                'Default' : '<span class="label label-default"></span>',
+                'Important' : '<span class="glyphicon glyphicon-star"></span>',
+                'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
+                'Info' : '<span class="glyphicon glyphicon-hand-right"></span>',
+                'Debug' : '<span class="glyphicon glyphicon-cog"></span>',
+                'Warning' : '<span class="glyphicon glyphicon-exclamation-sign"></span>',
+                'Error' : '<span class="glyphicon glyphicon-alert"></span>',
+                'Object edited' : '<span class="glyphicon glyphicon-pencil"></span>',
+                'Object created' : '<span class="glyphicon glyphicon-download-alt"></span>',
+                'Object deleted' : '<span class="glyphicon glyphicon-remove"></span>',
+                }
+  ``` 
+ 
+ Extend it the same way as MQUEUE_EVENT_CLASSES
+ 
+#### Event Extra html
+  
+You can add some extra html that will display after the event_class display:
+
+  ```python
+EVENT_EXTRA_HTML = {
+                 #~ 'Event class lable' : 'html to apply',
+                'My event' : ' <span class="label label-danger">!!</span>',
+                } 
+  ```
+ 
+ #### Stop model monitoring
  
 :pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
