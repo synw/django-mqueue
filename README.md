@@ -92,6 +92,9 @@ MQUEUE_EVENT_CLASSES = {
                 # ...
                 }
   ```
+  
+ Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
+ tuple will be used for formating.
  
  You can also extend the default event classes:
  
@@ -104,12 +107,9 @@ extra_classes = {
                 # ...
                 }
 MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
-  ```
+  ``` 
  
- Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
- tuple will be used for formating. 
- 
-:pencil2: If later you want to stop monitoring some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
+:pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
    ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
