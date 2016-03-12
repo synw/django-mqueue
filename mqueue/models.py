@@ -8,7 +8,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 
 
-WARN_ON=getattr(settings, 'MQUEUE_WARN_ON', 'warning')
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 
@@ -46,7 +45,7 @@ class MEventManager(models.Manager):
 
 class MEvent(models.Model):
     #~ required fields
-    content_type = models.ForeignKey(ContentType, null=True, verbose_name=_(u"Content type"))
+    content_type = models.ForeignKey(ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
     obj_pk = models.IntegerField(blank=True, null=True, verbose_name=_(u"Object primary key"))
     name = models.CharField(max_length=120, verbose_name=_(u"Name"))
     #~ content fields

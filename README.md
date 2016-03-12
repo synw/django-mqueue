@@ -9,7 +9,7 @@ Events are linked to a model instance.
 
 `pip install django-mqueue`, then add `mqueue` to installed_apps and run migrations.
 
-### 0.3 to come (for now in master)
+### Usage
 
 **Events manager** : you can plug mqueue into your app by creating a mevent whenever you need. 
 It can be in the save method of a model or in a form_valid method of a view for example.
@@ -30,6 +30,20 @@ MEvent.events.create(
   ```
 
 The only required field is `name`
+
+**Monitored Model** :
+
+If you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
+via a signals for all the inherited monitored models every time an instance is created or deleted.
+
+   ```python
+from django.db import models
+from mqueue.models import MonitoredModel
+
+class MyModel(MonitoredModel):
+	# ...
+
+### Settings
 
 **Event classes**: you can define your custom set of event classes and the corresponding css classes to 
 display in the admin. The default values are:
@@ -67,29 +81,18 @@ MQUEUE_EVENT_CLASSES = {
  You can also extend the default event classes:
  
    ```python
-from mqueue.conf import MQUEUE_EVENT_CLASSES
+from mqueue.conf import EVENT_CLASSES
 extra_classes = {
                 'User registered' : 'mycssclass1',
                 'Post reviewed' : 'mycssclass1 mycssclass2',
                 'Error in some process' : 'mycssclass1 mycssclass2',
                 # ...
                 }
-MQUEUE_EVENT_CLASSES += MQUEUE_EVENT_CLASSES
+MQUEUE_EVENT_CLASSES = EVENT_CLASSES + extra_classes
   ```
  
  Note: if no `event_class` is provided during event creation the first tuple will be used as default. 
- 
-**Monitored Model** :
 
-If you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
-via a signals for all the inherited monitored models every time an instance is created or deleted.
-
-   ```python
-from django.db import models
-from mqueue.models import MonitoredModel
-
-class MyModel(MonitoredModel):
-	# ...
 
   ```
 
