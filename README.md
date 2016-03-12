@@ -22,6 +22,7 @@ MEvent.events.create(
 					model = MyModel, 
 					name = obj.title, 
 					obj_pk = obj.pk, 
+					user = request.user,
 					url = '/anything/'+obj.slug+'/', 
 					admin_url = '/admin/app/model/'+str(obj.pk)+'/', 
 					notes = 'Object X was saved!', 
@@ -34,12 +35,13 @@ The only required field is `name`
 **Monitored Model** :
 
 If you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
-via a signals for all the inherited monitored models every time an instance is created or deleted.
+via signals for all the inherited monitored models every time an instance is created or deleted.
 
    ```python
 from django.db import models
 from mqueue.models import MonitoredModel
 
+#~ for an existing model replace class MyModel(models.Model) by this:
 class MyModel(MonitoredModel):
 	# ...
   ```
@@ -96,7 +98,7 @@ MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
   ```
  
  Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the first 
- tuple will be used as default. 
+ tuple will be used for formating. 
  
 :pencil2: To stop monitoring a MonitoredModel add a setting MQUEUE_STOP_MONITORING with the names of the models:
  
