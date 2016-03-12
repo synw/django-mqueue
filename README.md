@@ -11,6 +11,8 @@ Events are linked to a model instance.
 
 ### Usage
 
+There is two ways to use it:
+
 **Events manager** : you can plug mqueue into your app by creating a mevent whenever you need. 
 It can be in the save method of a model or in a form_valid method of a view for example.
 
@@ -18,7 +20,7 @@ It can be in the save method of a model or in a form_valid method of a view for 
 from mqueue.models import MEvent
 from myapp.models import MyModel
 
-MEvent.events.create(
+MEvent.objects.create(
 					model = MyModel, 
 					name = obj.title, 
 					obj_pk = obj.pk, 
@@ -46,7 +48,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-:pencil2: Note: no migration is needed, just plug and play.
+:pencil2: Note: no migration is needed for an existing app, just plug and play.
 
 ### Settings
 

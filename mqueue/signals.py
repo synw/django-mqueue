@@ -7,9 +7,7 @@ from django.core.urlresolvers import reverse
 from mqueue.models import MEvent, MonitoredModel
 from mqueue.conf import bcolors
 
-
 MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
-
 
 def get_subclasses(cls):
     result = [cls]
@@ -68,7 +66,7 @@ def mmessage_save(sender, instance, created, **kwargs):
         #~ try to get the admin url
         admin_url = get_admin_url(instance, kwargs)
         #~ create event
-        MEvent.events.create(
+        MEvent.objects.create(
                     model = instance.__class__, 
                     name = obj_name, 
                     obj_pk = instance.pk, 
@@ -85,7 +83,7 @@ def mmessage_delete(sender, instance, **kwargs):
     #~ try to get the user
     user = get_user(instance)
     #~ create event
-    MEvent.events.create(
+    MEvent.objects.create(
                 model = instance.__class__, 
                 name = obj_name, 
                 obj_pk = instance.pk, 

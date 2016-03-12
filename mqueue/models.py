@@ -45,7 +45,7 @@ class MEventManager(models.Manager):
 
 class MEvent(models.Model):
     #~ required fields
-    content_type = models.ForeignKey(ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
+    content_type = models.ForeignKey(ContentType, null=True, verbose_name=_(u"Content type"))
     obj_pk = models.IntegerField(blank=True, null=True, verbose_name=_(u"Object primary key"))
     name = models.CharField(max_length=120, verbose_name=_(u"Name"))
     #~ content fields
@@ -57,7 +57,7 @@ class MEvent(models.Model):
     event_class = models.CharField(max_length=120, blank=True, verbose_name=_(u"Class"))
     user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))   
     #~ manager
-    events = MEventManager()
+    objects = MEventManager()
     
     class Meta:
         verbose_name = _(u'Events')
