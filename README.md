@@ -81,14 +81,18 @@ Note: if the `event_class` field value is not in MQUEUE_EVENT_CLASSES, the displ
  
 ![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
  
-To use your own event classes customize the `MQUEUE_EVENT_CLASSES` setting. Ex:
+To use your own event classes set a `MQUEUE_EVENT_CLASSES` setting. Ex:
   
   ```python
 MQUEUE_EVENT_CLASSES = {
 				'Default' : 'mydefaultcssclass',
-                'User registered' : 'mycssclass1',
-                'Post reviewed' : 'mycssclass1 mycssclass2',
-                'Error in some process' : 'mycssclass1 mycssclass2',
+                'User registered' : 'mycssclass',
+                'Post reviewed' : 'mycssclass mycssclass2',
+                'Error in some process' : 'mycssclass mycssclass2',
+                #~ keep those for monitored models
+                'Object created' : 'mycssclass',
+                'Object edited' : 'mycssclass',
+                'Object deleted' : 'mycssclass',
                 # ...
                 }
   ```
