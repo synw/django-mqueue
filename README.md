@@ -100,7 +100,7 @@ MQUEUE_EVENT_CLASSES = {
                 }
   ```
   
- Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the `'Default'` key 
+ Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the 'Default' css
  will be used for formating.
  
  You can also extend the default event classes:
