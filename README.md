@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Simple events queueing application for Django: can be used for moderation or monitoring or loging.
+Events queueing application for Django 1.8+: can be used for moderation or monitoring or loging.
 Events can be linked to a model instance and a user instance.
 
 ## Install
@@ -14,7 +14,7 @@ Events can be linked to a model instance and a user instance.
 There is two ways to use it:
 
 **Events manager** : you can plug mqueue into your app by creating a mevent whenever you need. 
-It can be in the save method of a model or in a form_valid method of a view for example.
+It can be in the save method of a model, a form_valid method of a view or in a signal for example.
 
   ```python
 from mqueue.models import MEvent

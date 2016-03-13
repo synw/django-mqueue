@@ -19,7 +19,7 @@ setup(
         'Programming Language :: Python :: 2.7',
     ],
   install_requires=[
-        "Django",
+        "Django>=1.8",
     ],
   zip_safe=False
 )

@@ -66,7 +66,8 @@ class MEvent(models.Model):
         
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)
-    
+
+ 
 class MonitoredModel(models.Model):
     
     class Meta:
