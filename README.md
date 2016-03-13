@@ -38,9 +38,7 @@ MEvent.objects.create(name = 'Something happened!')
 
 The only required field is `name`
 
-**Monitored Model** :
-
-If you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
+**Monitored Model** : if you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
 via signals for all the inherited monitored models every time an instance is created or deleted.
 
    ```python
@@ -138,7 +136,7 @@ EVENT_ICONS_HTML = {
   
 If you don't want any icons set it empty.
  
-Extend it the same way as MQUEUE_EVENT_CLASSES
+Overide or extend it the same way as MQUEUE_EVENT_CLASSES
  
 #### Event Extra html
   
