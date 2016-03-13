@@ -13,7 +13,7 @@ Events can be linked to a model instance and a user instance.
 
 There is two ways to use it:
 
-**Events manager** : you can plug mqueue into your app by creating a mevent whenever you need. 
+:one: **Events manager** : you can plug mqueue into your app by creating a mevent whenever you need. 
 It can be in the save method of a model, a form_valid method of a view or in a signal for example.
 
   ```python
@@ -38,7 +38,7 @@ MEvent.objects.create(name = 'Something happened!')
 
 The only required field is `name`
 
-**Monitored Model** : if you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
+:two: **Monitored Model** : if you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
 via signals for all the inherited monitored models every time an instance is created or deleted.
 
    ```python
