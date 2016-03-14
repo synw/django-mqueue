@@ -38,8 +38,10 @@ MEvent.objects.create(name = 'Something happened!')
 
 The only required field is `name`
 
-:two: **Monitored Model** : if you want a model to be automaticaly monitored you can inherit from `MonitoredModel`. This creates events
-via signals for all the inherited monitored models every time an instance is created or deleted.
+:two: **Monitored Models** : if you want a model to be automaticaly monitored you can inherit from these base models that create events
+via signals for all the inherited monitored models.
+
+`MonitoredModel` : records any instance creation and deletion:
 
    ```python
 from django.db import models
@@ -50,9 +52,14 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-:pencil2: Note: no migration is needed for an existing model, just plug and play.
+To record also every save of a model instance replace `MonitoredModel` 
 
-To record also every save of a model instance replace `MonitoredModel` by `HighlyMonitoredModel`
+`HighlyMonitoredModel` : also records every save of an instance.
+
+:pencil2: Note: for these no migration is needed for an existing model, just plug and play.
+
+`ObjectLevelMonitoredModel` : this one needs a migration as it adds a `monitoring_level` field to the model. 
+Any instance can be set to a monitoring level via the value of this field: `0` is no monitoring, `1` records create and delete, '2` records also saves.
 
 ### Settings
 

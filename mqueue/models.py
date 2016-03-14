@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
+from mqueue.conf import MONITORING_LEVELS
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -78,7 +79,14 @@ class HighlyMonitoredModel(models.Model):
     
     class Meta:
         abstract = True
+        
+        
+
+class ObjectLevelMonitoredModel(models.Model):
+    monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=0)
     
+    class Meta:
+        abstract = True
 
     
     
