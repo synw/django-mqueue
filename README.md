@@ -105,19 +105,6 @@ MQUEUE_EVENT_CLASSES = {
  Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the 'Default' css
  will be used for formating.
  
- You can also extend the default event classes:
- 
-  ```python
-from mqueue.conf import EVENT_CLASSES
-extra_classes = {
-                'User registered' : 'mycssclass1',
-                'Post reviewed' : 'mycssclass1 mycssclass2',
-                'Error in some process' : 'mycssclass1 mycssclass2',
-                # ...
-                }
-MQUEUE_EVENT_CLASSES = dict(EVENT_CLASSES, **extra_classes)
-  ``` 
- 
 #### Event Icons
  
  You can provide html for displaying icons in your `event_class`. The defaults are:
@@ -140,8 +127,6 @@ EVENT_ICONS_HTML = {
   
 If you don't want any icons set it empty.
  
-Overide or extend it the same way as MQUEUE_EVENT_CLASSES
- 
 #### Event Extra html
   
 You can add some extra html that will display after the event_class display:
@@ -155,7 +140,8 @@ EVENT_EXTRA_HTML = {
  
 #### Switch off model monitoring
  
-:pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING with the names of the models:
+:pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING 
+with the names of the models:
  
    ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
