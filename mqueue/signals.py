@@ -37,22 +37,24 @@ def check_monitored_object(instance, created=True, deleted=False):
     return create_event
 
 def get_object_name(instance, user):
-    obj_name = instance.__class__.__name__
+    obj_name=''
     try:
-        obj_name += ' '+instance.name
+        obj_name = ' '+instance.name
     except:
         try:
-            obj_name += ' '+instance.title
+            obj_name = ' '+instance.title
         except:
             try:
-                obj_name += ' '+instance.slug
+                obj_name = ' '+instance.slug
             except:
                 try:
-                    obj_name += ' '+str(instance.pk)
+                    obj_name = ' '+str(instance.pk)
                 except:
                     pass
-    if len(obj_name) >= 20:
-        obj_name = obj_name[:20]+'...'
+    if obj_name:
+        if len(obj_name) >= 45:
+            obj_name = obj_name[:45]+'...'
+    obj_name = instance.__class__.__name__+' '+obj_name
     if user:
         obj_name += ' ('+user.username+')'
     return obj_name
@@ -68,6 +70,12 @@ def get_user(instance):
         except:
             pass
     return user
+
+def get_url(instance):
+    get_absolute_url = getattr(instance.__class__, 'get_absolute_url', None)
+    if callable(get_absolute_url):
+        return instance.get_absolute_url()
+    return ''
 
 def get_admin_url(instance):
     admin_url = ''
@@ -97,6 +105,7 @@ def mmessage_create(sender, instance, created, **kwargs):
                         name = obj_name, 
                         obj_pk = instance.pk, 
                         user = user,
+                        url = get_url(instance),
                         admin_url = admin_url,
                         event_class = 'Object created'
                         )
@@ -141,6 +150,7 @@ def mmessage_save(sender, instance, created, **kwargs):
                     name = obj_name, 
                     obj_pk = instance.pk, 
                     user = user,
+                    url = get_url(instance),
                     admin_url = admin_url,
                     event_class = 'Object '+event_str
                     )
