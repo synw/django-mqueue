@@ -38,8 +38,8 @@ MEvent.objects.create(name = 'Something happened!')
 
 The only required field is `name`
 
-:two: **Monitored Models** : if you want a model to be automaticaly monitored you can inherit from these base models that create events
-via signals for all the inherited monitored models.
+:two: **Monitored Models** : if you want a model to be automaticaly monitored you can inherit from these base 
+models that create events via signals for all the inherited monitored models.
 
 `MonitoredModel` : records any instance creation and deletion:
 
@@ -51,7 +51,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-To record also every save of a model instance replace `MonitoredModel` by `HighlyMonitoredModel` : also records every save of an instance.
+To record also every save of a model instance replace `MonitoredModel` by `HighlyMonitoredModel`.  
 
 :pencil2: Note: for these no migration is needed for an existing model, just plug and play.
 
