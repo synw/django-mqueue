@@ -59,7 +59,7 @@ To record also every save of a model instance replace `MonitoredModel`
 :pencil2: Note: for these no migration is needed for an existing model, just plug and play.
 
 `ObjectLevelMonitoredModel` : this one needs a migration as it adds a `monitoring_level` field to the model. 
-Any instance can be set to a monitoring level via the value of this field: `0` is no monitoring, `1` records create and delete, '2` records also saves.
+Any instance can be set to a monitoring level via the value of this field: `0` is no monitoring, `1` records create and delete, `2` records also saves.
 
 ### Settings
 
@@ -164,8 +164,9 @@ EVENT_EXTRA_HTML = {
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
   ```
 
+## Todo
 
-
+- [ ] Templatetags based on event classes 
 
  
 
