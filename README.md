@@ -44,7 +44,6 @@ via signals for all the inherited monitored models.
 `MonitoredModel` : records any instance creation and deletion:
 
    ```python
-from django.db import models
 from mqueue.models import MonitoredModel
 
 #~ for an existing model replace class MyModel(models.Model) by this:
@@ -52,9 +51,7 @@ class MyModel(MonitoredModel):
 	# ...
   ```
 
-To record also every save of a model instance replace `MonitoredModel` 
-
-`HighlyMonitoredModel` : also records every save of an instance.
+To record also every save of a model instance replace `MonitoredModel` by `HighlyMonitoredModel` : also records every save of an instance.
 
 :pencil2: Note: for these no migration is needed for an existing model, just plug and play.
 
@@ -166,7 +163,7 @@ MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
 
 ## Todo
 
-- [ ] Templatetags based on event classes 
+- [ ] Templatetags based on event classes and content types
 
  
 
