@@ -36,23 +36,25 @@ def check_monitored_object(instance, created=True, deleted=False):
                 create_event = False
     return create_event
 
-def get_object_name(instance):
+def get_object_name(instance, user):
     obj_name = instance.__class__.__name__
     try:
-        obj_name += ' "'+instance.name+'"'
+        obj_name += ' '+instance.name
     except:
         try:
-            obj_name = ' "'+instance.title+'"'
+            obj_name += ' '+instance.title
         except:
             try:
-                obj_name = ' "'+instance.slug+'"'
+                obj_name += ' '+instance.slug
             except:
                 try:
-                    obj_name = ' "'+str(instance.pk)+'"'
+                    obj_name += ' '+str(instance.pk)
                 except:
                     pass
     if len(obj_name) >= 20:
         obj_name = obj_name[:20]+'...'
+    if user:
+        obj_name += ' ('+user.username+')'
     return obj_name
 
 def get_user(instance):
@@ -67,7 +69,7 @@ def get_user(instance):
             pass
     return user
 
-def get_admin_url(instance, _kwargs):
+def get_admin_url(instance):
     admin_url = ''
     obj_pk = ''
     try:
@@ -80,12 +82,12 @@ def get_admin_url(instance, _kwargs):
     
 def mmessage_create(sender, instance, created, **kwargs):
     if created:
-        #~ try to get the object name
-        obj_name = get_object_name(instance)
         #~ try to get the user
-        current_user = get_user(instance)
+        user = get_user(instance)
+        #~ try to get the object name
+        obj_name = get_object_name(instance, user)
         #~ try to get the admin url
-        admin_url = get_admin_url(instance, kwargs)
+        admin_url = get_admin_url(instance)
         #~ check for object level monitoring
         create_event = check_monitored_object(instance, created)
         if create_event:
@@ -94,7 +96,7 @@ def mmessage_create(sender, instance, created, **kwargs):
                         model = instance.__class__, 
                         name = obj_name, 
                         obj_pk = instance.pk, 
-                        user = current_user,
+                        user = user,
                         admin_url = admin_url,
                         event_class = 'Object created'
                         )
@@ -102,10 +104,10 @@ def mmessage_create(sender, instance, created, **kwargs):
                 print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+' created'
             
 def mmessage_delete(sender, instance, **kwargs):
-    #~ try to get the object name
-    obj_name = get_object_name(instance)
     #~ try to get the user
     user = get_user(instance)
+    #~ try to get the object name
+    obj_name = get_object_name(instance, user)
     #~ check for object level monitoring
     create_event = check_monitored_object(instance, deleted=True)
     if create_event:
@@ -121,12 +123,12 @@ def mmessage_delete(sender, instance, **kwargs):
             print bcolors.WARNING+'Event'+bcolors.ENDC+' : object '+obj_name+' deleted'
 
 def mmessage_save(sender, instance, created, **kwargs):
-    #~ try to get the object name
-    obj_name = get_object_name(instance)
     #~ try to get the user
-    current_user = get_user(instance)
+    user = get_user(instance)
+    #~ try to get the object name
+    obj_name = get_object_name(instance, user)
     #~ try to get the admin url
-    admin_url = get_admin_url(instance, kwargs)
+    admin_url = get_admin_url(instance)
     event_str = 'edited'
     #~ check for object level monitoring
     create_event = check_monitored_object(instance, created)
@@ -138,7 +140,7 @@ def mmessage_save(sender, instance, created, **kwargs):
                     model = instance.__class__, 
                     name = obj_name, 
                     obj_pk = instance.pk, 
-                    user = current_user,
+                    user = user,
                     admin_url = admin_url,
                     event_class = 'Object '+event_str
                     )

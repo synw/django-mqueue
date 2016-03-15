@@ -8,8 +8,8 @@ from mqueue.conf import EVENT_CLASSES, EVENT_EXTRA_HTML, EVENT_ICONS_HTML
 
 
 EVENT_CLASSES=getattr(settings, 'MQUEUE_EVENT_CLASSES', EVENT_CLASSES)
-EVENT_EXTRA_HTML=getattr(settings, 'EVENT_EXTRA_HTML', EVENT_EXTRA_HTML)
-EVENT_ICONS_HTML=getattr(settings, 'EVENT_ICONS_HTML', EVENT_ICONS_HTML)
+EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', EVENT_EXTRA_HTML)
+EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 
 def link_to_object(obj):
@@ -33,24 +33,12 @@ def format_event_class(obj):
         event_html += EVENT_EXTRA_HTML[obj.event_class]
     return event_html
     
-def format_content_type(obj):
-    if obj.content_type:
-        return obj.content_type.name
-    else:
-        return ''
-
-def format_user(obj):
-    if obj.user:
-        return obj.user.username
-    else:
-        return ''
-    
     
 @admin.register(MEvent)
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_posted'
     read_only = ['date_posted']
-    list_display = ['name', link_to_object, link_to_object_admin, format_content_type, 'date_posted', format_user, format_event_class]
+    list_display = ['name', link_to_object, link_to_object_admin, 'date_posted', format_event_class]
     list_filter = (
         'event_class',
         'content_type',
@@ -63,9 +51,7 @@ class MEventAdmin(admin.ModelAdmin):
     link_to_object_admin.short_description = _(u'See in admin')
     format_event_class.allow_tags = True   
     format_event_class.short_description = _(u'Class')
-    format_user.short_description = _(u'User')
-    format_content_type.short_description = _(u'Content type')
-    
+
 
     
     
