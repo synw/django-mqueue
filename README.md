@@ -56,7 +56,7 @@ To record also every save of a model instance replace `MonitoredModel` by `Highl
 :pencil2: Note: for these no migration is needed for an existing model, just plug and play.
 
 `ObjectLevelMonitoredModel` : this one needs a migration as it adds a `monitoring_level` field to the model. 
-Any instance can be set to a monitoring level via the value of this field: `0` is no monitoring, `1` records create and delete, `2` records also saves.
+Any instance can be set to a monitoring level via the value of this field: `0` is no monitoring (default), `1` records create and delete, `2` records also saves.
 
 ### Settings
 
@@ -140,7 +140,7 @@ EVENT_EXTRA_HTML = {
  
 #### Switch off model monitoring
  
-:pencil2: If you want to switch off monitoring for some models add a setting MQUEUE_STOP_MONITORING 
+:pencil2: If later on you want to switch off monitoring for some models add a setting `MQUEUE_STOP_MONITORING` 
 with the names of the models:
  
    ```python
