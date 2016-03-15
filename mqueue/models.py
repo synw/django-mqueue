@@ -84,6 +84,7 @@ class HighlyMonitoredModel(models.Model):
 
 class ObjectLevelMonitoredModel(models.Model):
     monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=0)
+    event_class = models.CharField(max_length=60, blank=True, verbose_name=_(u'Event class'))
     
     class Meta:
         abstract = True
