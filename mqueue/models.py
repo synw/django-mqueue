@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
-from mqueue.conf import MONITORING_LEVELS
+from mqueue.conf import MONITORING_LEVELS, EVENT_CHOICES
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -78,13 +78,11 @@ class MonitoredModel(models.Model):
 class HighlyMonitoredModel(models.Model):
     
     class Meta:
-        abstract = True
-        
+        abstract = True    
         
 
 class ObjectLevelMonitoredModel(models.Model):
     monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=0)
-    event_class = models.CharField(max_length=60, blank=True, verbose_name=_(u'Event class'))
     
     class Meta:
         abstract = True

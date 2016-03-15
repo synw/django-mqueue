@@ -98,6 +98,7 @@ def mmessage_create(sender, instance, created, **kwargs):
         admin_url = get_admin_url(instance)
         #~ check for object level monitoring
         create_event = check_monitored_object(instance, created)
+        event_class = 'Object created'
         if create_event:
             #~ create event
             MEvent.objects.create(
@@ -107,7 +108,7 @@ def mmessage_create(sender, instance, created, **kwargs):
                         user = user,
                         url = get_url(instance),
                         admin_url = admin_url,
-                        event_class = 'Object created'
+                        event_class = event_class,
                         )
             if settings.DEBUG:
                 print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+' created'
@@ -119,6 +120,7 @@ def mmessage_delete(sender, instance, **kwargs):
     obj_name = get_object_name(instance, user)
     #~ check for object level monitoring
     create_event = check_monitored_object(instance, deleted=True)
+    event_class = 'Object deleted'
     if create_event:
         #~ create event
         MEvent.objects.create(
@@ -126,7 +128,7 @@ def mmessage_delete(sender, instance, **kwargs):
                     name = obj_name, 
                     obj_pk = instance.pk, 
                     user = user,
-                    event_class = 'Object deleted'
+                    event_class = event_class,
                     )
         if settings.DEBUG:
             print bcolors.WARNING+'Event'+bcolors.ENDC+' : object '+obj_name+' deleted'
@@ -138,11 +140,12 @@ def mmessage_save(sender, instance, created, **kwargs):
     obj_name = get_object_name(instance, user)
     #~ try to get the admin url
     admin_url = get_admin_url(instance)
-    event_str = 'edited'
+    event_str = ' edited'
     #~ check for object level monitoring
     create_event = check_monitored_object(instance, created)
     if created:
-        event_str = 'created'
+        event_str = ' created'
+    event_class = 'Object'+event_str
     if create_event:
         #~ create event
         MEvent.objects.create(
@@ -152,7 +155,7 @@ def mmessage_save(sender, instance, created, **kwargs):
                     user = user,
                     url = get_url(instance),
                     admin_url = admin_url,
-                    event_class = 'Object '+event_str
+                    event_class = event_class,
                     )
         if settings.DEBUG:
             print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+event_str

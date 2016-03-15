@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import collections
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 
-MONITORING_LEVELS = (
+MONITORING_LEVELS = [
                      (0, _(u"No monitoring")),
                      (1, _(u"Basic monitoring")),
                      (2, _(u"High monitoring")),
-                     )
+                     ]
 
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
@@ -23,9 +25,12 @@ EVENT_CLASSES = {
                 _(u'Object deleted') : 'label label-primary',
                 }
 
-EVENT_EXTRA_HTML = {
-                 #~ 'Event class lable' : 'html to apply',
-                }
+EVENT_CLASSES=getattr(settings, 'MQUEUE_EVENT_CLASSES', EVENT_CLASSES)
+
+EVENT_CHOICES = []
+event_classes = collections.OrderedDict(sorted(EVENT_CLASSES.items()))
+for event_class in event_classes.keys():
+    EVENT_CHOICES.append( ( event_class, event_class ) )
 
 EVENT_ICONS_HTML = {
                  #~ 'Event class label' : 'icon css class',
@@ -41,6 +46,10 @@ EVENT_ICONS_HTML = {
                 _(u'Object deleted') : '<span class="glyphicon glyphicon-remove text-danger"></span>',
                 }
 
+EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
+
+EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -51,3 +60,4 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
