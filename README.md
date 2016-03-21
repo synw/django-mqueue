@@ -126,7 +126,7 @@ If you don't want any icons set it empty.
  
 #### Event Extra html
   
-You can add some extra html that will display after the event_class display:
+You can add some extra html that will display after the event_class label:
 
   ```python
 EVENT_EXTRA_HTML = {
