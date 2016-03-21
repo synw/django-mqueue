@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Events queueing application for Django 1.8+: can be used for moderation or monitoring or loging.
+Events queueing application for Django: can be used for moderation or monitoring or loging.
 Events can be linked to a model instance and a user instance.
 
 ## Install
@@ -101,9 +101,6 @@ MQUEUE_EVENT_CLASSES = {
                 # ...
                 }
   ```
-  
- Note: if an `event_class` that is not in is MQUEUE_EVENT_CLASSES is provided during event creation the 'Default' css
- will be used for formating.
  
 #### Event Icons
  
@@ -134,22 +131,17 @@ You can add some extra html that will display after the event_class display:
   ```python
 EVENT_EXTRA_HTML = {
                  #~ 'Event class label' : 'html to apply',
-                'My event' : ' <span class="label label-danger">!!</span>',
+                'My event' : ' <blink>!!</blink>',
                 } 
   ```
  
 #### Switch off model monitoring
  
 :pencil2: If later on you want to switch off monitoring for some models add a setting `MQUEUE_STOP_MONITORING` 
-with the names of the models:
+with the class names of the models:
  
    ```python
 MQUEUE_STOP_MONITORING = ['Model1', 'Model2']
   ```
 
-## Todo
-
-- [ ] Templatetags based on event classes and content types
-
- 
 
