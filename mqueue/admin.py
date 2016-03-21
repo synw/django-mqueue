@@ -36,7 +36,7 @@ def format_event_class(obj):
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_posted'
     read_only = ['date_posted']
-    list_display = ['name', link_to_object, link_to_object_admin, 'date_posted', format_event_class]
+    list_display = ['name', link_to_object, link_to_object_admin, 'content_type', 'date_posted', 'user', format_event_class]
     list_filter = (
         'event_class',
         'content_type',
@@ -49,9 +49,9 @@ class MEventAdmin(admin.ModelAdmin):
     link_to_object_admin.short_description = _(u'See in admin')
     format_event_class.allow_tags = True   
     format_event_class.short_description = _(u'Class')
-
-
     
-    
-
+    list_select_related = (
+        'user',
+        'content_type',
+    )
 

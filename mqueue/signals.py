@@ -39,18 +39,21 @@ def check_monitored_object(instance, created=True, deleted=False):
 def get_object_name(instance, user):
     obj_name=''
     try:
-        obj_name = ' '+instance.name
-    except:
+        obj_name=instance.__unicode__()
+    except AttributeError:
         try:
-            obj_name = ' '+instance.title
+            obj_name = ' '+instance.name
         except:
             try:
-                obj_name = ' '+instance.slug
+                obj_name = ' '+instance.title
             except:
                 try:
-                    obj_name = ' '+str(instance.pk)
+                    obj_name = ' '+instance.slug
                 except:
-                    pass
+                    try:
+                        obj_name = ' '+str(instance.pk)
+                    except:
+                        pass
     if obj_name:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45]+'...'
@@ -72,6 +75,9 @@ def get_user(instance):
     return user
 
 def get_url(instance):
+    get_event_object_url = getattr(instance.__class__, 'get_event_object_url', None)
+    if callable(get_event_object_url):
+        return instance.get_event_object_url()
     get_absolute_url = getattr(instance.__class__, 'get_absolute_url', None)
     if callable(get_absolute_url):
         return instance.get_absolute_url()

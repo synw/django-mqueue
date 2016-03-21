@@ -42,6 +42,16 @@ class MEventManager(models.Manager):
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         mevent.save(force_insert=True)
         return mevent
+    
+    def events_for_model(self, model, event_classes=[]):
+        content_type = ContentType.objects.get_for_model(model)
+        qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes)
+        return qs
+
+    def count_for_model(self, model, event_classes=[]):
+        content_type = ContentType.objects.get_for_model(model)
+        qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
+        return qs
 
 
 class MEvent(models.Model):
