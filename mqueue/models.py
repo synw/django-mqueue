@@ -52,6 +52,15 @@ class MEventManager(models.Manager):
         content_type = ContentType.objects.get_for_model(model)
         qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
         return qs
+    
+    def event_for_object(self, obj):
+        event = None
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        try:
+            event = MEvent.objects.get(content_type=content_type, obj_pk=obj.pk)
+        except MEvent.ObjectDoesNotExist:
+            pass
+        return event
 
 
 class MEvent(models.Model):
