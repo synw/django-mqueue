@@ -84,6 +84,7 @@ class MEvent(models.Model):
         verbose_name = _(u'Events')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
+        unique_together = ['content_type','obj_pk']
         
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)
