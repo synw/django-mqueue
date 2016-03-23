@@ -61,14 +61,13 @@ class MEventManager(models.Manager):
         except MEvent.ObjectDoesNotExist:
             pass
         return event
-
+    
 
 class MEvent(models.Model):
-    #~ required field
-    name = models.CharField(max_length=120, verbose_name=_(u"Name"))
-    #~ foreign references
+    #~ required fields
     content_type = models.ForeignKey(ContentType, null=True, verbose_name=_(u"Content type"))
     obj_pk = models.IntegerField(blank=True, null=True, verbose_name=_(u"Object primary key"))
+    name = models.CharField(max_length=120, verbose_name=_(u"Name"))
     #~ content fields
     url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Url"))
     admin_url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Admin url"))
@@ -84,7 +83,6 @@ class MEvent(models.Model):
         verbose_name = _(u'Events')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
-        unique_together = ['content_type','obj_pk']
         
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)

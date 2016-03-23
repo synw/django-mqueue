@@ -5,9 +5,8 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.urlresolvers import reverse
 from mqueue.models import MEvent, MonitoredModel, HighlyMonitoredModel, ObjectLevelMonitoredModel
-from mqueue.conf import bcolors
+from mqueue.conf import bcolors, MODELS_NOT_TO_MONITOR
 
-MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
 
 def get_subclasses(cls):
     result = [cls]
@@ -75,13 +74,14 @@ def get_user(instance):
     return user
 
 def get_url(instance):
+    url = ''
     get_event_object_url = getattr(instance.__class__, 'get_event_object_url', None)
     if callable(get_event_object_url):
-        return instance.get_event_object_url()
+        url = instance.get_event_object_url()
     get_absolute_url = getattr(instance.__class__, 'get_absolute_url', None)
     if callable(get_absolute_url):
-        return instance.get_absolute_url()
-    return ''
+        url = instance.get_absolute_url()
+    return url
 
 def get_admin_url(instance):
     admin_url = ''
@@ -104,7 +104,7 @@ def mmessage_create(sender, instance, created, **kwargs):
         admin_url = get_admin_url(instance)
         #~ check for object level monitoring
         create_event = check_monitored_object(instance, created)
-        event_class = 'Object created'
+        event_class = instance.__class__.__name__+' created'
         if create_event:
             #~ create event
             MEvent.objects.create(
@@ -126,7 +126,7 @@ def mmessage_delete(sender, instance, **kwargs):
     obj_name = get_object_name(instance, user)
     #~ check for object level monitoring
     create_event = check_monitored_object(instance, deleted=True)
-    event_class = 'Object deleted'
+    event_class = instance.__class__.__name__+' deleted'
     if create_event:
         #~ create event
         MEvent.objects.create(
@@ -151,7 +151,7 @@ def mmessage_save(sender, instance, created, **kwargs):
     create_event = check_monitored_object(instance, created)
     if created:
         event_str = ' created'
-    event_class = 'Object'+event_str
+    event_class = instance.__class__.__name__+event_str
     if create_event:
         #~ create event
         MEvent.objects.create(

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from mqueue.models import MEvent
-from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
+from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML, RESTRICT_VIEW
 
 
 def link_to_object(obj):
@@ -13,8 +15,19 @@ def link_to_object(obj):
 def link_to_object_admin(obj):
     return '<a href="'+obj.admin_url+'" target="_blank">'+obj.admin_url+'</a>'
 
+def get_event_class_str(obj):
+    event_class_str = 'Default'
+    if 'created' in obj.event_class:
+        event_class_str = 'Object created'
+    if 'deleted' in obj.event_class:
+        event_class_str = 'Object deleted'
+    if 'edited' in obj.event_class:
+        event_class_str = 'Object edited'
+    return event_class_str
+
 def format_event_class(obj):
     event_html = ''
+    event_class_str = get_event_class_str(obj)
     icon = ''
     if obj.event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[obj.event_class]+'&nbsp;'
@@ -22,11 +35,12 @@ def format_event_class(obj):
         icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
     if obj.content_type:
         model = obj.content_type.model_class()
-        event_class_str = obj.event_class.replace('Object', model.__name__)
+        #event_class_str = obj.event_class.replace('Object', model.__name__)
     if obj.event_class in EVENT_CLASSES.keys():
-        event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+event_class_str+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+obj.event_class+'</span>'
     else:
-        event_html += '<span class="'+EVENT_CLASSES['Default']+'">'+icon+event_class_str+'</span>'
+        
+        event_html += '<span class="'+EVENT_CLASSES[event_class_str]+'">'+icon+obj.event_class+'</span>'
     if obj.event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[obj.event_class]
     return event_html
@@ -54,4 +68,37 @@ class MEventAdmin(admin.ModelAdmin):
         'user',
         'content_type',
     )
+
+    def get_queryset(self, request):
+        qs = super(MEventAdmin, self).get_queryset(request).select_related('user','content_type')
+        user_groups = request.user.groups.all()
+        restrict_view = False
+        if RESTRICT_VIEW:
+            restrict_view = True
+        if request.user.is_superuser or not restrict_view:
+            return qs
+        else:
+            for restriction in RESTRICT_VIEW:
+                #~ control keys
+                if not restriction.has_key('event_classes'):
+                    raise ImproperlyConfigured('You must provide an event_classes key in each RESTRICT_VIEW restriction')
+                if not restriction.has_key('users') and not restriction.has_key('groups'):
+                    raise ImproperlyConfigured('You must provide either a user list or a group list in each RESTRICT_VIEW restriction')
+                #~ check if the user is restricted
+                restrict = False
+                if restriction.has_key('users'):
+                    if request.user.username in restriction['users']:
+                        #~ check if user exists
+                        user = get_user_model().objects.get(username=request.user.username)
+                        restrict = True 
+                if restriction.has_key('groups'):
+                    for group in user_groups:
+                        if group.name in restriction['groups']:      
+                            restrict = True
+                            break
+                qs = qs.filter(event_class__in=restriction['event_classes'])
+                print str(qs)
+        return qs
+    
+
 

@@ -3,6 +3,7 @@
 import collections
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 
 MONITORING_LEVELS = [
@@ -10,6 +11,10 @@ MONITORING_LEVELS = [
                      (1, _(u"Basic monitoring")),
                      (2, _(u"High monitoring")),
                      ]
+
+MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
+
+RESTRICT_VIEW = getattr(settings, 'MQUEUE_RESTRICT_VIEW', [])
 
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
@@ -49,7 +54,6 @@ EVENT_ICONS_HTML = {
 EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
-
 
 class bcolors:
     HEADER = '\033[95m'
