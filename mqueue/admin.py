@@ -4,7 +4,6 @@ from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from mqueue.models import MEvent
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML, RESTRICT_VIEW
 
@@ -89,15 +88,15 @@ class MEventAdmin(admin.ModelAdmin):
                 if restriction.has_key('users'):
                     if request.user.username in restriction['users']:
                         #~ check if user exists
-                        user = get_user_model().objects.get(username=request.user.username)
                         restrict = True 
-                if restriction.has_key('groups'):
-                    for group in user_groups:
-                        if group.name in restriction['groups']:      
-                            restrict = True
-                            break
-                qs = qs.filter(event_class__in=restriction['event_classes'])
-                print str(qs)
+                if not restrict:
+                    if restriction.has_key('groups'):
+                        for group in user_groups:
+                            if group.name in restriction['groups']:      
+                                restrict = True 
+                                break
+                if restrict:
+                    qs = qs.filter(event_class__in=restriction['event_classes'])
         return qs
     
 
