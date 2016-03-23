@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-12 15:57+0000\n"
+"POT-Creation-Date: 2016-03-23 20:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,53 +18,111 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: admin.py:44
+#: admin.py:60
 msgid "See on site"
 msgstr "Voir sur le site"
 
-#: admin.py:46
+#: admin.py:62
 msgid "See in admin"
 msgstr "Voir dans l'admin"
 
-#: admin.py:48 models.py:58
+#: admin.py:64 models.py:94
 msgid "Class"
 msgstr "Classe"
-
-#: admin.py:49 models.py:59
-msgid "User"
-msgstr "Utilisateur"
-
-#: admin.py:50 models.py:49
-msgid "Content type"
-msgstr "Type de contenu"
 
 #: apps.py:6
 msgid "Events queue"
 msgstr "File des évènements"
 
-#: models.py:50
+#: conf.py:10
+msgid "No monitoring"
+msgstr "Pas de monitoring"
+
+#: conf.py:11
+msgid "Basic monitoring"
+msgstr "Monitoring de base"
+
+#: conf.py:12
+msgid "High monitoring"
+msgstr "Monitoring élevé"
+
+#: conf.py:21 conf.py:42
+msgid "Default"
+msgstr "Défaut"
+
+#: conf.py:22 conf.py:43
+msgid "Important"
+msgstr "Important"
+
+#: conf.py:23 conf.py:44
+msgid "Ok"
+msgstr "Ok"
+
+#: conf.py:24 conf.py:45
+msgid "Info"
+msgstr "Info"
+
+#: conf.py:25 conf.py:46
+msgid "Debug"
+msgstr "Debug"
+
+#: conf.py:26 conf.py:47
+msgid "Warning"
+msgstr "Alerte"
+
+#: conf.py:27 conf.py:48
+msgid "Error"
+msgstr "Erreur"
+
+#: conf.py:28 conf.py:50
+#, fuzzy
+#| msgid "Object primary key"
+msgid "Object created"
+msgstr "Clé primaire de l'objet"
+
+#: conf.py:29 conf.py:49
+msgid "Object edited"
+msgstr "Objet édité"
+
+#: conf.py:30 conf.py:51
+msgid "Object deleted"
+msgstr "Objet effacé"
+
+#: models.py:85
+msgid "Content type"
+msgstr "Type de contenu"
+
+#: models.py:86
 msgid "Object primary key"
 msgstr "Clé primaire de l'objet"
 
-#: models.py:51
+#: models.py:87
 msgid "Name"
 msgstr "Nom"
 
-#: models.py:53
+#: models.py:89
 msgid "Url"
 msgstr "Url"
 
-#: models.py:54
+#: models.py:90
 msgid "Admin url"
 msgstr "Url d'admin"
 
-#: models.py:57
+#: models.py:93
 msgid "Date posted"
 msgstr "Posté le"
 
-#: models.py:64 models.py:65
+#: models.py:95
+msgid "User"
+msgstr "Utilisateur"
+
+#: models.py:100 models.py:101
 msgid "Events"
 msgstr "Evènements"
+
+#: models.py:121
+msgid "Monitoring level"
+msgstr "Niveau de monitoring"
 
 #~ msgid "See"
 #~ msgstr "Voir"

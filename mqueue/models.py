@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from mqueue.conf import MONITORING_LEVELS, EVENT_CHOICES
+from mqueue.utils import get_user, get_url, get_admin_url
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -19,26 +21,45 @@ class MEventManager(models.Manager):
         else:
             name = kwargs['name']
         obj_pk = None
-        if 'obj_pk' in kwargs.keys():
+        if 'obj_pk' in kwargs.keys() and not 'instance' in kwargs.keys():
             obj_pk = kwargs['obj_pk'] 
         content_type = None
-        if 'model' in kwargs.keys():
+        if 'model' in kwargs.keys() and not 'instance' in kwargs.keys():
             content_type = ContentType.objects.get_for_model(kwargs['model'])
+        #~ trying to grab an object instance in order to guess some fields
+        instance = None
+        if obj_pk and content_type and not 'instance' in kwargs.keys():
+            instance = content_type.get_object_for_this_type(pk=obj_pk)
+        if 'instance' in kwargs.keys():
+            instance = kwargs['instance']
+            obj_pk = instance.pk
+            content_type = ContentType.objects.get_for_model(kwargs['instance'].__class__)
+        #~ guessed stuff
         user = None
         if 'user' in kwargs.keys():
             user = kwargs['user']
-        notes = ''
-        if 'notes' in kwargs.keys():
-            notes = kwargs['notes']
+        else:
+            if instance:
+                user = get_user(instance)
         url = ''
         if 'url' in kwargs.keys():
             url = kwargs['url']
+        else:
+            if instance:
+                url = get_url(instance)
         admin_url = ''
         if 'admin_url' in kwargs.keys():
             admin_url = kwargs['admin_url']
+        else:
+            if instance:
+                admin_url = get_admin_url(instance)
+        #~ static stuff
         event_class = ''
         if 'event_class' in kwargs.keys():
             event_class = kwargs['event_class']
+        notes = ''
+        if 'notes' in kwargs.keys():
+            notes = kwargs['notes']
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         mevent.save(force_insert=True)
         return mevent
@@ -53,14 +74,10 @@ class MEventManager(models.Manager):
         qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
         return qs
     
-    def event_for_object(self, obj):
-        event = None
+    def events_for_object(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        try:
-            event = MEvent.objects.get(content_type=content_type, obj_pk=obj.pk)
-        except MEvent.ObjectDoesNotExist:
-            pass
-        return event
+        events = MEvent.objects.filter(content_type=content_type, obj_pk=obj.pk)
+        return events
     
 
 class MEvent(models.Model):
