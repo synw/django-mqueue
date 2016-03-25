@@ -31,14 +31,18 @@ def format_event_class(obj):
     if obj.event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[obj.event_class]+'&nbsp;'
     else:
-        icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
-    if obj.content_type:
-        model = obj.content_type.model_class()
+        if 'created' in obj.event_class:
+            icon = EVENT_ICONS_HTML['Object created']+'&nbsp;'
+        elif 'edited' in obj.event_class:
+            icon = EVENT_ICONS_HTML['Object edited']+'&nbsp;'
+        elif 'deleted' in obj.event_class:
+            icon = EVENT_ICONS_HTML['Object deleted']+'&nbsp;'
+        else:
+            icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
         #event_class_str = obj.event_class.replace('Object', model.__name__)
     if obj.event_class in EVENT_CLASSES.keys():
         event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+obj.event_class+'</span>'
     else:
-        
         event_html += '<span class="'+EVENT_CLASSES[event_class_str]+'">'+icon+obj.event_class+'</span>'
     if obj.event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[obj.event_class]

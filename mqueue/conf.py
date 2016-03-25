@@ -18,16 +18,16 @@ RESTRICT_VIEW = getattr(settings, 'MQUEUE_RESTRICT_VIEW', [])
 
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
-                _(u'Default') : 'label label-default',
-                _(u'Important') : 'label label-warning',
-                _(u'Ok') : 'label label-success',
-                _(u'Info') : 'label label-info',
-                _(u'Debug') : 'label label-warning',
-                _(u'Warning') : 'label label-danger',
-                _(u'Error') : 'label label-danger',
-                _(u'Object created') : 'label label-primary',
-                _(u'Object edited') : 'label label-info',
-                _(u'Object deleted') : 'label label-primary',
+                'Default' : 'label label-default',
+                'Important' : 'label label-warning',
+                'Ok' : 'label label-success',
+                'Info' : 'label label-info',
+                'Debug' : 'label label-warning',
+                'Warning' : 'label label-danger',
+                'Error' : 'label label-danger',
+                'Object created' : 'label label-primary',
+                'Object edited' : 'label label-info',
+                'Object deleted' : 'label label-primary',
                 }
 
 EVENT_CLASSES=getattr(settings, 'MQUEUE_EVENT_CLASSES', EVENT_CLASSES)
@@ -39,16 +39,16 @@ for event_class in event_classes.keys():
 
 EVENT_ICONS_HTML = {
                  #~ 'Event class label' : 'icon css class',
-                _(u'Default') : '<span class="glyphicon glyphicon-flash"></span>',
-                _(u'Important') : '<span class="glyphicon glyphicon-star"></span>',
-                _(u'Ok') : '<span class="glyphicon glyphicon-ok"></span>',
-                _(u'Info') : '<span class="glyphicon glyphicon-hand-right"></span>',
-                _(u'Debug') : '<span class="glyphicon glyphicon-cog"></span>',
-                _(u'Warning') : '<span class="glyphicon glyphicon-exclamation-sign"></span>',
-                _(u'Error') : '<span class="glyphicon glyphicon-alert"></span>',
-                _(u'Object edited') : '<span class="glyphicon glyphicon-pencil"></span>',
-                _(u'Object created') : '<span class="glyphicon glyphicon-download-alt"></span>',
-                _(u'Object deleted') : '<span class="glyphicon glyphicon-remove text-danger"></span>',
+                'Default' : '<span class="glyphicon glyphicon-flash"></span>',
+                'Important' : '<span class="glyphicon glyphicon-star"></span>',
+                'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
+                'Info' : '<span class="glyphicon glyphicon-hand-right"></span>',
+                'Debug' : '<span class="glyphicon glyphicon-cog"></span>',
+                'Warning' : '<span class="glyphicon glyphicon-exclamation-sign"></span>',
+                'Error' : '<span class="glyphicon glyphicon-alert"></span>',
+                'Object edited' : '<span class="glyphicon glyphicon-pencil"></span>',
+                'Object created' : '<span class="glyphicon glyphicon-download-alt"></span>',
+                'Object deleted' : '<span class="glyphicon glyphicon-remove text-danger"></span>',
                 }
 
 EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)

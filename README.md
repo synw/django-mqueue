@@ -77,7 +77,7 @@ MQUEUE_EVENT_CLASSES = {
                 'Error' : 'label label-danger',
                 'Object created' : 'label label-primary',
                 'Object edited' : 'label label-info',
-                'Object deleted' : 'label label-warning',
+                'Object deleted' : 'label label-primary',
                 }
   ```
 
