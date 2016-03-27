@@ -29,7 +29,10 @@ class MEventManager(models.Manager):
         #~ trying to grab an object instance in order to guess some fields
         instance = None
         if obj_pk and content_type and not 'instance' in kwargs.keys():
-            instance = content_type.get_object_for_this_type(pk=obj_pk)
+            try:
+                instance = content_type.get_object_for_this_type(pk=obj_pk)
+            except:
+                pass
         if 'instance' in kwargs.keys():
             instance = kwargs['instance']
             obj_pk = instance.pk
