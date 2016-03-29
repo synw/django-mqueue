@@ -9,6 +9,6 @@ label:
 ::
 
    python EVENT_EXTRA_HTML = {                  
-	#~ 'Event class label' : 'html to apply',                 
-	'My event' : ' <blink>!!</blink>',                 
-	}
+   #~ 'Event class label' : 'html to apply',                 
+   'My event' : ' <blink>!!</blink>',                 
+   }

@@ -14,21 +14,21 @@ Event creation
 
    python from mqueue.models import MEvent from myapp.models import MyModel
 
-	# simpliest event
-	MEvent.objects.create(name = 'Something happened!')
-	
-	# full event
-	MEvent.objects.create( 
-		name = obj.title, 
-		model = MyModel, obj_pk =
-		obj.pk, 
-		instance = obj, 
-		user = request.user, 
-		url ='/anything/'+obj.slug+'/', 
-		admin_url ='/admin/app/model/'+str(obj.pk)+'/', 
-		notes = 'Object X was saved!',
-		event_class = 'Info' 
-		)
+   # simpliest event
+   MEvent.objects.create(name = 'Something happened!')
+   
+   # full event
+   MEvent.objects.create( 
+      name = obj.title, 
+      model = MyModel, obj_pk =
+      obj.pk, 
+      instance = obj, 
+      user = request.user, 
+      url ='/anything/'+obj.slug+'/', 
+      admin_url ='/admin/app/model/'+str(obj.pk)+'/', 
+      notes = 'Object X was saved!',
+      event_class = 'Info' 
+      )
 
 The only required field is ``name``
 
@@ -54,7 +54,7 @@ Example:
 
    python from mqueue.models import MEvent
 
-	MEvent.objects.create(name = 'Something happened!', instance=my_obj)
+   MEvent.objects.create(name = 'Something happened!', instance=my_obj)
 
 
 So that ``user``, ``url`` and ``admin_url`` will be auto guessed

@@ -10,7 +10,7 @@ automaticaly monitored.
 
    python from mqueue import tracking from theapp.models import TheModel
 
-	tracking.register(TheModel)
+   tracking.register(TheModel)
 
 
 By default this will set the model to montoring level 1 (records create

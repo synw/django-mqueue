@@ -9,18 +9,18 @@ css classes to display in the admin. The default values are:
 ::
 
    python MQUEUE_EVENT_CLASSES = {                  
-	#~ 'Event class label' : 'css class to apply',                
-	'Default' : 'label label-default',                 
-	'Important' : 'label label-primary',                 
-	'Ok' : 'label label-success',                 
-	'Info' : 'label label-info',                 
-	'Debug' : 'label label-warning',                 
-	'Warning' : 'label label-danger',                 
-	'Error' : 'label label-danger',                 
-	'Object created' : 'label label-primary',                 
-	'Object edited' : 'label label-info',                 
-	'Object deleted' : 'label label-primary',                 
-	}
+   #~ 'Event class label' : 'css class to apply',                
+   'Default' : 'label label-default',                 
+   'Important' : 'label label-primary',                 
+   'Ok' : 'label label-success',                 
+   'Info' : 'label label-info',                 
+   'Debug' : 'label label-warning',                 
+   'Warning' : 'label label-danger',                 
+   'Error' : 'label label-danger',                 
+   'Object created' : 'label label-primary',                 
+   'Object edited' : 'label label-info',                 
+   'Object deleted' : 'label label-primary',                 
+   }
 
 Note: if the ``event_class`` field value is not in
 MQUEUE\_EVENT\_CLASSES, the display will fallback to the 'Default' css.
@@ -36,10 +36,10 @@ Ex:
 ::
 
    python MQUEUE_EVENT_CLASSES = {                
-	#~ 'Event class label' : 'css class to apply',
-	'Default' : 'mydefaultcssclass',
-	'User registered' : 'mycssclass',
-	'Post reviewed' : 'mycssclass mycssclass2',
-	'Error in some process' : 'mycssclass mycssclass2',
-	# ...                 
-	}
+   #~ 'Event class label' : 'css class to apply',
+   'Default' : 'mydefaultcssclass',
+   'User registered' : 'mycssclass',
+   'Post reviewed' : 'mycssclass mycssclass2',
+   'Error in some process' : 'mycssclass mycssclass2',
+   # ...                 
+   }

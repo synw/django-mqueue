@@ -13,9 +13,9 @@ monitored models.
 
    python from mqueue.models import MonitoredModel
 
-	#for an existing model replace class MyModel(models.Model) by this:
-	class MyModel(MonitoredModel): 
-		# ...
+   #for an existing model replace class MyModel(models.Model) by this:
+   class MyModel(MonitoredModel): 
+      # ...
 
 To record also every save of a model instance replace ``MonitoredModel``
 by ``HighlyMonitoredModel``.
