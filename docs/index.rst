@@ -1,0 +1,37 @@
+.. Django Mqueue documentation master file, created by
+   sphinx-quickstart on Tue Mar 29 14:18:50 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Django Mqueue's documentation
+=============================
+
+To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_APPS and run migrations.
+
+* :ref:`usage`
+* :ref:`settings`
+
+.. usage
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Usage
+   
+	usage/create_event
+	usage/monitored_models
+	usage/registered_models
+
+.. settings
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Settings
+
+	settings/event_classes
+	settings/event_icons
+	settings/event_extra_html
+
+
+
+
+
