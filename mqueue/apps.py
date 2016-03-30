@@ -4,6 +4,9 @@ import inspect
 
 
 def tracking_load_registry(*args, **kwargs):
+    """
+    Thanks to https://github.com/emencia/emencia-django-tracking
+    """
     stack = inspect.stack()
 
     for stack_info in stack[1:]:

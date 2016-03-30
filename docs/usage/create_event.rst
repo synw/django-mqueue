@@ -1,14 +1,14 @@
 Record events
 =============
 
-.. highlight:: python
-
 You can plug mqueue into your app by creating a mevent whenever you
 need. It can be in the save method of a model, a form\_valid method of a
 view or in a signal for example.
 
 Event creation
 ~~~~~~~~~~~~~~
+
+.. highlight:: python
 
 ::
 
@@ -20,8 +20,8 @@ Event creation
    # full event
    MEvent.objects.create( 
       name = obj.title, 
-      model = MyModel, obj_pk =
-      obj.pk, 
+      model = MyModel, 
+      obj_pk =obj.pk, 
       instance = obj, 
       user = request.user, 
       url ='/anything/'+obj.slug+'/', 
