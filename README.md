@@ -7,5 +7,5 @@ Events can be linked to a model instance and a user instance.
 
 Read the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
-![Event classes](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
+![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
  
