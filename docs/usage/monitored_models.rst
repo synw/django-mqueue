@@ -3,6 +3,9 @@ Monitored Models
 
 .. highlight:: python
 
+Enable model monitoring
+^^^^^^^^^^^^^^^^^^^^^^^
+
 If you want a model to be automaticaly monitored you can inherit from
 these base models that create events via signals for all the inherited
 monitored models.
