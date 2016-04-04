@@ -55,6 +55,7 @@ def get_url(instance):
     get_event_object_url = getattr(instance.__class__, 'get_event_object_url', None)
     if callable(get_event_object_url):
         url = instance.get_event_object_url()
+        return url
     get_absolute_url = getattr(instance.__class__, 'get_absolute_url', None)
     if callable(get_absolute_url):
         url = instance.get_absolute_url()
