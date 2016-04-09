@@ -42,7 +42,7 @@ Ex: let's say you have a page management app and you want to monitor only certai
 ::
 
    # models.py
-   python from mqueue.models import MonitoredModel
+   python from mqueue.models import ObjectLevelMonitoredModel
 
    class Page(ObjectLevelMonitoredModel): 
       # ...

@@ -12,7 +12,8 @@ Event creation
 
 ::
 
-   python from mqueue.models import MEvent from myapp.models import MyModel
+   from mqueue.models import MEvent 
+   from myapp.models import MyModel
 
    # simpliest event
    MEvent.objects.create(name = 'Something happened!')

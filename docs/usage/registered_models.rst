@@ -46,7 +46,6 @@ class in the ``apps.py`` of your app:
        name = "myapp"
        verbose_name = "My app"
     
-    
        def ready(self):
            from contact_form.models import Message
            from mqueue.tracking import MTracker
