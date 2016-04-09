@@ -50,6 +50,7 @@ class in the ``apps.py`` of your app:
            from contact_form.models import Message
            from mqueue.tracking import MTracker
            #~ this will track create/delete and save actions on the Message model 
+           #~ set it to 1 to track only create/delete actions
            MTracker().register(Message, 2)
 
 
