@@ -1,7 +1,8 @@
 Event classes
 ^^^^^^^^^^^^^
 
-The default settings plays well with [django-admin-bootstraped](https://github.com/django-admin-bootstrapped/django-admin-bootstrapped)
+The default settings plays well with `django-admin-bootstraped
+<https://github.com/django-admin-bootstrapped/django-admin-bootstrapped/>`_.
 
 You can define your custom set of event classes and the corresponding
 css classes to display in the admin. The default values are:
