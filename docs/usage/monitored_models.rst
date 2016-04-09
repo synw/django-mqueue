@@ -17,7 +17,7 @@ monitored models.
 
 ::
 
-   python from mqueue.models import MonitoredModel
+   from mqueue.models import MonitoredModel
 
    #for an existing model replace class MyModel(models.Model) by this:
    class MyModel(MonitoredModel): 
@@ -42,7 +42,7 @@ Ex: let's say you have a page management app and you want to monitor only certai
 ::
 
    # models.py
-   python from mqueue.models import ObjectLevelMonitoredModel
+   from mqueue.models import ObjectLevelMonitoredModel
 
    class Page(ObjectLevelMonitoredModel): 
       # ...

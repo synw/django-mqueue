@@ -53,7 +53,7 @@ Example:
 
 ::
 
-   python from mqueue.models import MEvent
+   from mqueue.models import MEvent
 
    MEvent.objects.create(name = 'Something happened!', instance=my_obj)
 

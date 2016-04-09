@@ -33,7 +33,7 @@ Ex:
 
 ::
 
-   python MQUEUE_EVENT_CLASSES = {                
+   MQUEUE_EVENT_CLASSES = {                
    #~ 'Event class label' : 'css class to apply',
    'Default' : 'mydefaultcssclass',
    'User registered' : 'mycssclass',
