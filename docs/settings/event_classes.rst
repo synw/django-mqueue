@@ -1,7 +1,7 @@
 Event classes
 ^^^^^^^^^^^^^
 
-The default settings plays well with `django-admin-bootstraped
+The default settings play well with `django-admin-bootstraped
 <https://github.com/django-admin-bootstrapped/django-admin-bootstrapped/>`_.
 
 You can define your custom set of event classes and the corresponding

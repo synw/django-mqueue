@@ -59,7 +59,8 @@ def get_url(instance):
     get_absolute_url = getattr(instance.__class__, 'get_absolute_url', None)
     if callable(get_absolute_url):
         url = instance.get_absolute_url()
-    return url
+        return url
+    return
 
 def get_admin_url(instance):
     admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
