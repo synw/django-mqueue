@@ -1,15 +1,18 @@
 from setuptools import setup, find_packages
 
+
+version = __import__('mqueue').__version__
+
 setup(
   name = 'django-mqueue',
   packages=find_packages(),
   include_package_data=True,
-  version = '0.3.2',
+  version = version,
   description = 'Events queue application for Django',
   author = 'synw',
   author_email = 'synwe@yahoo.com',
   url = 'https://github.com/synw/django-mqueue', 
-  download_url = 'https://github.com/synw/django-mqueue/releases/tag/0.3.2', 
+  download_url = 'https://github.com/synw/django-mqueue/releases/tag/'+version, 
   keywords = ['django', 'moderation', 'monitoring'], 
   classifiers = [
         'Development Status :: 3 - Alpha',
