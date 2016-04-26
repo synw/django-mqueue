@@ -3,8 +3,7 @@ Registered models
 
 .. highlight:: python
 
-Another way to use mqueue is to register some models. They will be
-automaticaly monitored.
+Models can be registered. They will be automaticaly monitored.
 
 Register a model
 ^^^^^^^^^^^^^^^^

@@ -107,24 +107,6 @@ class MEvent(models.Model):
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)
 
- 
-class MonitoredModel(models.Model):
-    
-    class Meta:
-        abstract = True
-        
-
-class HighlyMonitoredModel(models.Model):
-    
-    class Meta:
-        abstract = True    
-        
-
-class ObjectLevelMonitoredModel(models.Model):
-    monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=OBJECT_LEVEL_DEFAULT_MONITORING)
-    
-    class Meta:
-        abstract = True
 
     
     

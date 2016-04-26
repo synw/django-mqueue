@@ -8,9 +8,6 @@ Django Mqueue's documentation
 
 To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_APPS and run migrations.
 
-* :ref:`usage`
-* :ref:`settings`
-
 .. usage
 
 .. toctree::
@@ -18,7 +15,6 @@ To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_A
 	:caption: Usage
    
 	usage/create_event
-	usage/monitored_models
 	usage/registered_models
 
 .. settings
