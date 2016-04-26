@@ -7,7 +7,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
-from mqueue.conf import MONITORING_LEVELS, EVENT_CHOICES
+from mqueue.conf import MONITORING_LEVELS, OBJECT_LEVEL_DEFAULT_MONITORING
 from mqueue.utils import get_user, get_url, get_admin_url
 
 
@@ -121,7 +121,7 @@ class HighlyMonitoredModel(models.Model):
         
 
 class ObjectLevelMonitoredModel(models.Model):
-    monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=0)
+    monitoring_level = models.PositiveSmallIntegerField(verbose_name=_(u'Monitoring level'), choices=MONITORING_LEVELS, default=OBJECT_LEVEL_DEFAULT_MONITORING)
     
     class Meta:
         abstract = True

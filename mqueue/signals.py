@@ -16,14 +16,15 @@ def is_object_level_monitored(instance):
     return False
 
 def check_monitored_object(instance, created=True, deleted=False):
-    create_event = True
     if is_object_level_monitored(instance):
         if instance.monitoring_level == 0:
-            create_event = False
-        if instance.monitoring_level == 1:
-            if not created and not deleted:
-                create_event = False
-    return create_event
+            return False
+        if created is True or deleted is True:
+            return True
+        if instance.monitoring_level > 1:
+            if not created is True and not deleted is True:
+                return True
+    return True
 
 #~ signals
 def mmessage_create(sender, instance, created, **kwargs):

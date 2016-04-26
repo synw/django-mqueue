@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Events queueing application for Django: can be used for moderation or monitoring or loging.
+Events queue application for Django: can be used for moderation or monitoring or loging.
 Events can be linked to a model instance and a user instance. This app is pluggable on existing models to
 enable monitoring on them.
 

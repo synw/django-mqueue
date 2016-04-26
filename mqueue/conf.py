@@ -12,6 +12,8 @@ MONITORING_LEVELS = [
                      (2, _(u"High monitoring")),
                      ]
 
+OBJECT_LEVEL_DEFAULT_MONITORING = getattr(settings, 'MQUEUE_OBJECT_LEVEL_DEFAULT_MONITORING', 1)
+
 MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
 
 RESTRICT_VIEW = getattr(settings, 'MQUEUE_RESTRICT_VIEW', [])
