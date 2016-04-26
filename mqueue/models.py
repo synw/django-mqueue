@@ -69,12 +69,18 @@ class MEventManager(models.Manager):
     
     def events_for_model(self, model, event_classes=[]):
         content_type = ContentType.objects.get_for_model(model)
-        qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes)
+        if event_classes:
+            qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes)
+        else:
+            qs = MEvent.objects.filter(content_type=content_type)
         return qs
 
     def count_for_model(self, model, event_classes=[]):
         content_type = ContentType.objects.get_for_model(model)
-        qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
+        if event_classes:
+            qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
+        else:
+            qs = MEvent.objects.filter(content_type=content_type).count()
         return qs
     
     def events_for_object(self, obj):

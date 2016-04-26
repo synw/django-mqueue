@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""
 from django.views.generic import ListView
 from mqueue.models import MEvent
 
@@ -13,3 +13,4 @@ class MQueueView(ListView):
         qs = MEvent.objects.all()
         print "user="+str(self.request.user)
         return qs
+"""

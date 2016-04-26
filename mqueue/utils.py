@@ -2,16 +2,6 @@
 
 from django.core.urlresolvers import reverse
 
-def get_subclasses(cls):
-    result = [cls]
-    classes_to_inspect = [cls]
-    while classes_to_inspect:
-        class_to_inspect = classes_to_inspect.pop()
-        for subclass in class_to_inspect.__subclasses__():
-            if subclass not in result:
-                result.append(subclass)
-                classes_to_inspect.append(subclass)
-    return result
 
 def get_object_name(instance, user):
     obj_name=''

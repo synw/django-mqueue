@@ -5,15 +5,8 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from mqueue.models import MEvent
 from mqueue.conf import bcolors, MODELS_NOT_TO_MONITOR
-from mqueue.utils import get_user, get_url, get_admin_url, get_object_name, get_subclasses
+from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
 
-
-#~ utilities
-def is_object_level_monitored(instance):
-    parent_cls = instance.__class__.__bases__
-    if ObjectLevelMonitoredModel in parent_cls:
-        return True
-    return False
 
 #~ signals
 def mmessage_create(sender, instance, created, **kwargs):
