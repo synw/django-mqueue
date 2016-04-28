@@ -3,19 +3,11 @@
 
 from django.db.models.signals import post_save, post_delete
 from mqueue.signals import mmessage_save, mmessage_delete, mmessage_create
-
-"""
-Thanks to https://github.com/emencia/emencia-django-tracking
-"""   
+  
 
 class MTracker(object):
 
-    def __init__(self):
-        self.registery = {}
-        super(MTracker, self).__init__()
-
     def register(self, model , monitoring_level=1):
-        self.registery[model] = model
         if monitoring_level == 1:
             post_save.connect(mmessage_create, sender=model)
         if monitoring_level == 2:
