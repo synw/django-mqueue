@@ -56,6 +56,14 @@ class MEventManager(models.Manager):
         else:
             if instance:
                 admin_url = get_admin_url(instance)
+        # request 
+        save_request = False 
+        if 'request' in kwargs.keys():
+            request = kwargs['request']
+            formated_request = ''
+            for key in request.META.keys():
+                formated_request += str(key)+' : '+str(request.META[key])+'\n'
+            save_request = True
         #~ static stuff
         event_class = ''
         if 'event_class' in kwargs.keys():
@@ -64,7 +72,14 @@ class MEventManager(models.Manager):
         if 'notes' in kwargs.keys():
             notes = kwargs['notes']
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
-        mevent.save(force_insert=True)
+        if save_request is True:
+            mevent.request = formated_request
+        # save by default unless it is said not to
+        if 'commit' in kwargs.keys():
+            if kwargs['commit'] is False:
+                return mevent
+        else:
+            mevent.save(force_insert=True)
         return mevent
     
     def events_for_model(self, model, event_classes=[]):
@@ -102,6 +117,7 @@ class MEvent(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Date posted"))
     event_class = models.CharField(max_length=120, blank=True, verbose_name=_(u"Class"))
     user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))   
+    request = models.TextField(blank=True, verbose_name=_(u'Request'))
     #~ manager
     objects = MEventManager()
     

@@ -13,12 +13,12 @@ In ``models.py``:
 ::
 
    # myapp/models.py
-   from mqueue.tracking import MTracker
+   from mqueue.tracking import mqueue_tracker
    
    class TheModel(models.Model): 
       # ...
     
-   MTracker().register(TheModel)
+   mqueue_tracker.register(TheModel)
 
 
 By default this will set the model to monitoring level 1 (records create
@@ -27,7 +27,7 @@ model:
 
 ::
 
-   MTracker().register(TheModel, 2)
+   mqueue_tracker.register(TheModel, 2)
 
 
 Register a foreign model

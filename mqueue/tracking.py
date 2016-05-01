@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from django.db.models.signals import post_save, post_delete
 from mqueue.signals import mmessage_save, mmessage_delete, mmessage_create
   
@@ -14,3 +13,5 @@ class MTracker(object):
             post_save.connect(mmessage_save, sender=model)
         post_delete.connect(mmessage_delete, sender=model)
         return
+    
+mqueue_tracker = MTracker()
