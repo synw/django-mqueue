@@ -16,6 +16,7 @@ To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_A
    
 	usage/create_event
 	usage/registered_models
+	usage/retrieve_events
 
 .. settings
 

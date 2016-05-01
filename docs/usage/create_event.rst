@@ -28,13 +28,30 @@ Event creation
       url ='/anything/'+obj.slug+'/', 
       admin_url ='/admin/app/model/'+str(obj.pk)+'/', 
       notes = 'Object X was saved!',
-      event_class = 'Info' 
+      event_class = 'Info',
+      request = request,
       )
 
 The only required field is ``name``
 
 The ``instance`` parameter will not be recorded: it is only used for
-auto guessing some fields.
+auto guessing some fields. 
+
+Note this method will return the mevent instance just created. There is an option for not to save it immediately:
+
+::
+
+   from mqueue.models import MEvent 
+   from myapp.models import MyModel
+
+   # initiate event
+   mevent = MEvent.objects.create(name='No commit', commit=False)
+   # do things ...
+   # update event
+   mevent.notes='Some stuff'
+   # and save it
+   mevent.save()
+   
 
 Fields autoguess
 ~~~~~~~~~~~~~~~~

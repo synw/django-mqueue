@@ -125,6 +125,9 @@ class MEvent(models.Model):
         verbose_name = _(u'Events')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
+        permissions = (
+                       ("view_mevent", "Can see Events"),
+                       )
         
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)

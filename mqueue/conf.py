@@ -16,8 +16,6 @@ OBJECT_LEVEL_DEFAULT_MONITORING = getattr(settings, 'MQUEUE_OBJECT_LEVEL_DEFAULT
 
 MODELS_NOT_TO_MONITOR = getattr(settings, 'MQUEUE_STOP_MONITORING', [])
 
-RESTRICT_VIEW = getattr(settings, 'MQUEUE_RESTRICT_VIEW', [])
-
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
                 'Default' : 'label label-default',

@@ -2,10 +2,11 @@
 
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
+from django.http import HttpResponseForbidden
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from mqueue.models import MEvent
-from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML, RESTRICT_VIEW
+from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
 
 def link_to_object(obj):
@@ -72,36 +73,6 @@ class MEventAdmin(admin.ModelAdmin):
         'content_type',
     )
 
-    def get_queryset(self, request):
-        qs = super(MEventAdmin, self).get_queryset(request).select_related('user','content_type')
-        user_groups = request.user.groups.all()
-        restrict_view = False
-        if RESTRICT_VIEW:
-            restrict_view = True
-        if request.user.is_superuser or not restrict_view:
-            return qs
-        else:
-            for restriction in RESTRICT_VIEW:
-                #~ control keys
-                if not restriction.has_key('event_classes'):
-                    raise ImproperlyConfigured('You must provide an event_classes key in each RESTRICT_VIEW restriction')
-                if not restriction.has_key('users') and not restriction.has_key('groups'):
-                    raise ImproperlyConfigured('You must provide either a user list or a group list in each RESTRICT_VIEW restriction')
-                #~ check if the user is restricted
-                restrict = False
-                if restriction.has_key('users'):
-                    if request.user.username in restriction['users']:
-                        #~ check if user exists
-                        restrict = True 
-                if not restrict:
-                    if restriction.has_key('groups'):
-                        for group in user_groups:
-                            if group.name in restriction['groups']:      
-                                restrict = True 
-                                break
-                if restrict:
-                    qs = qs.filter(event_class__in=restriction['event_classes'])
-        return qs
     
 
 
