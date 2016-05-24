@@ -24,6 +24,7 @@ To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_A
 	:maxdepth: 2
 	:caption: Settings
 
+	settings/general_settings
 	settings/event_classes
 	settings/event_icons
 	settings/event_extra_html
