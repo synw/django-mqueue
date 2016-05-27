@@ -27,10 +27,11 @@ def get_event_class_str(obj):
 
 def format_event_class(obj):
     event_html = ''
-    event_class_str = get_event_class_str(obj)
+    printed_class = get_event_class_str(obj)
     icon = ''
     if obj.event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[obj.event_class]+'&nbsp;'
+        printed_class = obj.event_class
     else:
         if 'created' in obj.event_class:
             icon = EVENT_ICONS_HTML['Object created']+'&nbsp;'
@@ -40,11 +41,26 @@ def format_event_class(obj):
             icon = EVENT_ICONS_HTML['Object deleted']+'&nbsp;'
         else:
             icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
+        if 'error' in obj.event_class.lower():
+            icon = EVENT_ICONS_HTML['Error']+'&nbsp;'
+            printed_class = 'Error'
+        elif 'debug' in obj.event_class.lower():
+            icon = EVENT_ICONS_HTML['Debug']+'&nbsp;'
+            printed_class = 'Debug'
+        elif 'warning' in obj.event_class.lower():
+            icon = EVENT_ICONS_HTML['Warning']+'&nbsp;'
+            printed_class = 'Warning'
+        elif 'info' in obj.event_class.lower():
+            icon = EVENT_ICONS_HTML['Info']+'&nbsp;'
+            printed_class = 'Info'
+        elif 'important' in obj.event_class.lower():
+            icon = EVENT_ICONS_HTML['Important']+'&nbsp;'
+            printed_class = 'Important'
         #event_class_str = obj.event_class.replace('Object', model.__name__)
     if obj.event_class in EVENT_CLASSES.keys():
-        event_html += '<span class="'+EVENT_CLASSES[obj.event_class]+'">'+icon+obj.event_class+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+obj.event_class+'</span>'
     else:
-        event_html += '<span class="'+EVENT_CLASSES[event_class_str]+'">'+icon+obj.event_class+'</span>'
+        event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+obj.event_class+'</span>'
     if obj.event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[obj.event_class]
     return event_html
@@ -72,6 +88,13 @@ class MEventAdmin(admin.ModelAdmin):
         'user',
         'content_type',
     )
+    
+    def get_readonly_fields(self, request, obj=None):
+        super(MEventAdmin, self).get_readonly_fields(request, obj)
+        if 'log' in obj.event_class.lower():
+            return ('notes', 'request')
+        else:
+            return ('request',)
 
     
 
