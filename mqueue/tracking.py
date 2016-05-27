@@ -2,7 +2,7 @@
 
 from django.db.models.signals import post_save, post_delete
 from mqueue.signals import mmessage_save, mmessage_delete, mmessage_create
-  
+
 
 class MTracker(object):
 

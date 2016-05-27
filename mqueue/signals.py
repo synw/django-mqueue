@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from mqueue.models import MEvent
-from mqueue.conf import bcolors, MODELS_NOT_TO_MONITOR
+from mqueue.conf import bcolors
 from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
 
 

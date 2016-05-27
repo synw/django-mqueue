@@ -7,7 +7,6 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
-from mqueue.conf import MONITORING_LEVELS, OBJECT_LEVEL_DEFAULT_MONITORING
 from mqueue.utils import get_user, get_url, get_admin_url
 
 
@@ -122,7 +121,8 @@ class MEvent(models.Model):
     objects = MEventManager()
     
     class Meta:
-        verbose_name = _(u'Events')
+        app_label = 'mqueue'
+        verbose_name = _(u'Event')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
         permissions = (
