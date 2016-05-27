@@ -8,7 +8,7 @@ Django Mqueue's documentation
 
 To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_APPS and run migrations.
 
-..usage
+.. usage
 
 .. toctree::
 	:maxdepth: 2
@@ -23,7 +23,8 @@ To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_A
 .. toctree::
 	:maxdepth: 2
 	:caption: Logs handler
-	usage/logs_handler
+	
+	logs/logs_handler
 
 .. settings
 
@@ -31,7 +32,6 @@ To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_A
 	:maxdepth: 2
 	:caption: Settings
 
-	settings/general_settings
 	settings/event_classes
 	settings/event_icons
 	settings/event_extra_html
