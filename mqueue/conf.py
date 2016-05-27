@@ -108,7 +108,36 @@ LOGGING = {
          },
     }
 }
-
+LOGGING_WARNING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+        'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'prodlog':{
+            'level': 'WARNING',
+            'filters': ['require_debug_false'],
+            'class': 'mqueue.handlers.LogsDBHandler',
+            'formatter': 'verbose',
+            },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['prodlog'],
+            'propagate': True,
+            
+         },
+    }
+}
 
 class bcolors:
     HEADER = '\033[95m'
