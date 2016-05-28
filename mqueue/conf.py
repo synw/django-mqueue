@@ -5,32 +5,32 @@ from django.conf import settings
 
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
-                'Default' : 'label label-default',
-                'Important' : 'label label-warning',
-                'Ok' : 'label label-success',
-                'Info' : 'label label-info',
-                'Debug' : 'label label-warning',
-                'Warning' : 'label label-warning',
-                'Error' : 'label label-danger',
-                'Object created' : 'label label-primary',
-                'Object edited' : 'label label-info',
-                'Object deleted' : 'label label-primary',
+                'Default' : 'mq-label mq-default',
+                'Important' : 'mq-label mq-important',
+                'Ok' : 'mq-label mq-ok',
+                'Info' : 'mq-label mq-info',
+                'Debug' : 'mq-label mq-debug',
+                'Warning' : 'mq-label mq-warning',
+                'Error' : 'mq-label mq-error',
+                'Object created' : 'mq-label mq-created',
+                'Object edited' : 'mq-label mq-edited',
+                'Object deleted' : 'mq-label mq-deleted',
                 }
 
 EVENT_CLASSES=getattr(settings, 'MQUEUE_EVENT_CLASSES', EVENT_CLASSES)
 
 EVENT_ICONS_HTML = {
                  #~ 'Event class label' : 'icon css class',
-                'Default' : '<span class="glyphicon glyphicon-flash"></span>',
-                'Important' : '<span class="glyphicon glyphicon-star"></span>',
-                'Ok' : '<span class="glyphicon glyphicon-ok"></span>',
-                'Info' : '<span class="glyphicon glyphicon-hand-right"></span>',
-                'Debug' : '<span class="glyphicon glyphicon-cog"></span>',
-                'Warning' : '<span class="glyphicon glyphicon-exclamation-sign"></span>',
-                'Error' : '<span class="glyphicon glyphicon-alert"></span>',
-                'Object edited' : '<span class="glyphicon glyphicon-pencil"></span>',
-                'Object created' : '<span class="glyphicon glyphicon-download-alt"></span>',
-                'Object deleted' : '<span class="glyphicon glyphicon-remove text-danger"></span>',
+                'Default' : '<i class="fa fa-flash"></i>',
+                'Important' : '<i class="fa fa-exclamation"></i>',
+                'Ok' : '<i class="fa fa-thumbs-up"></i>',
+                'Info' : '<i class="fa fa-info-circle"></i>',
+                'Debug' : '<i class="fa fa-cog"></i>',
+                'Warning' : '<i class="fa fa-exclamation"></i>',
+                'Error' : '<i class="fa fa-exclamation-triangle"></i>',
+                'Object edited' : '<i class="fa fa-pencil"></i>',
+                'Object created' : '<i class="fa fa-plus"></i>',
+                'Object deleted' : '<i class="fa fa-remove"></i>',
                 }
 
 EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)

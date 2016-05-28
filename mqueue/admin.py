@@ -73,7 +73,7 @@ class MEventAdmin(admin.ModelAdmin):
     list_display = ['name', link_to_object, link_to_object_admin, 'content_type', 'date_posted', 'user', format_event_class]
     list_filter = (
         'event_class',
-        'content_type',
+        ('content_type', admin.RelatedOnlyFieldListFilter),
         ('user', admin.RelatedOnlyFieldListFilter),
     )
     search_fields = ['name', 'user__username', 'event_class']
@@ -83,6 +83,7 @@ class MEventAdmin(admin.ModelAdmin):
     link_to_object_admin.short_description = _(u'See in admin')
     format_event_class.allow_tags = True   
     format_event_class.short_description = _(u'Class')
+    filters_on_top = True
     
     list_select_related = (
         'user',
