@@ -2,14 +2,13 @@
 
 from logging import Handler
 from django.conf import settings
-from mqueue.models import MEvent
 import traceback
 
  
 class LogsDBHandler(Handler,object):
  
     def emit(self,record):
-        print str(record)
+        from mqueue.models import MEvent
         msg = record.getMessage()
         name= msg
         if record.exc_info:

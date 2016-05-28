@@ -5,15 +5,24 @@ Registered models
 
 Models can be registered. They will be automaticaly monitored.
 
+In any installed app ``apps.py`` :
+
 Register a model
 ^^^^^^^^^^^^^^^^
 
 ::
 
-   from mqueue.tracking import mqueue_tracker
-   from myapp.models import TheModel
+   from django.apps import AppConfig
+   
+   class DjConfig(AppConfig):
+       name = "myapp"
+       verbose_name = "My app"
+       
+       def ready(self):
+           from mqueue.tracking import mqueue_tracker
+           from myapp.models import TheModel
     
-   mqueue_tracker.register(TheModel)
+           mqueue_tracker.register(TheModel)
 
 
 By default this will set the model to monitoring level 1 (records create
