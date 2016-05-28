@@ -1,29 +1,26 @@
 Event classes
 ^^^^^^^^^^^^^
 
-The default settings play well with `django-admin-bootstraped
-<https://github.com/django-admin-bootstrapped/django-admin-bootstrapped/>`_.
-
 You can define your custom set of event classes and the corresponding
-css classes to display in the admin. The default values are:
+css classes to display in the admin. The default values are (check ``mqueue/static/mqueue.css``):
 
 .. highlight:: python
 
 ::
 
    MQUEUE_EVENT_CLASSES = {                  
-	   #~ 'Event class label' : 'css class to apply',                
-	   'Default' : 'label label-default',                 
-	   'Important' : 'label label-primary',                 
-	   'Ok' : 'label label-success',                 
-	   'Info' : 'label label-info',                 
-	   'Debug' : 'label label-warning',                 
-	   'Warning' : 'label label-danger',                 
-	   'Error' : 'label label-danger',                 
-	   'Object created' : 'label label-primary',                 
-	   'Object edited' : 'label label-info',                 
-	   'Object deleted' : 'label label-primary',                 
-	   }
+	#~ 'Event class label' : 'css class to apply',                
+	'Default' : 'mq-label mq-default',
+   	'Important' : 'mq-label mq-important',
+   	'Ok' : 'mq-label mq-ok',
+   	'Info' : 'mq-label mq-info',
+   	'Debug' : 'mq-label mq-debug',
+   	'Warning' : 'mq-label mq-warning',
+   	'Error' : 'mq-label mq-error',
+   	'Object created' : 'mq-label mq-created',
+   	'Object edited' : 'mq-label mq-edited',
+   	'Object deleted' : 'mq-label mq-deleted',                
+	}
 
 Note: if the ``event_class`` field value is not in
 MQUEUE\_EVENT\_CLASSES, the display will fallback to 'Default'.

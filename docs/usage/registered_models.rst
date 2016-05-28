@@ -5,10 +5,10 @@ Registered models
 
 Models can be registered. They will be automaticaly monitored.
 
-In any installed app ``apps.py`` :
-
 Register a model
 ^^^^^^^^^^^^^^^^
+
+In any installed app ``apps.py`` :
 
 ::
 

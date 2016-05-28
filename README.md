@@ -4,7 +4,7 @@
 
 Events queue application for Django: can be used for moderation or monitoring or loging.
 Events can be linked to a model instance and a user instance. This app is pluggable on existing models to
-enable monitoring on them. It also provides a log handler to store the django logs in the db.
+enable monitoring on them. It also provides a log handler to store the django logs into the db.
 
 Read the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 

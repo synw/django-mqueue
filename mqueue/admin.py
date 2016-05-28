@@ -70,7 +70,7 @@ def format_event_class(obj):
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_posted'
     readonly_fields = ['date_posted', 'request']
-    list_display = ['name', link_to_object, link_to_object_admin, 'content_type', 'date_posted', 'user', format_event_class]
+    list_display = ['name', link_to_object, link_to_object_admin, 'content_type', 'user', 'date_posted', format_event_class]
     list_filter = (
         'event_class',
         ('content_type', admin.RelatedOnlyFieldListFilter),

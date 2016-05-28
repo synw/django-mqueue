@@ -1,7 +1,7 @@
 Logs handler
 ============
 
-Mqueue has a log handler that you can use to store the django logs in the db.
+Mqueue has a log handler that to stores the django logs into the db as events.
 
 To enable it add this to `settings.py`
 
