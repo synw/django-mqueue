@@ -3,7 +3,7 @@ Registered models
 
 .. highlight:: python
 
-Models can be registered. They will be automaticaly monitored.
+Models can be registered. They will be automatically monitored.
 
 Autoregister a model
 ^^^^^^^^^^^^^^^^^^^^
@@ -13,10 +13,10 @@ In ``settings.py``:
 ::
 
    MQUEUE_AUTOREGISTER = (
-   						#('app.module.model', registration level: 1=create+delete, 2=1+save),
-                       	('django.contrib.auth.models.User', 1),
-                       	('alapage.models.Page', 2),
-                       	)
+   	#('app.module.model', registration level: 1=create+delete, 2=1+save),
+   	('django.contrib.auth.models.User', 1),
+   	('alapage.models.Page', 2),
+   	)
 
 The registered modules will be monitored.
 
