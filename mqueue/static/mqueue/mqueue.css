@@ -22,7 +22,7 @@
 	color:white;
 }
 .mq-warning {
-	background-color: gold;
+	background-color: orangered;
 	color:black;
 }
 .mq-info {
@@ -46,6 +46,6 @@
 	color:white;
 }
 .mq-deleted {
-	background-color: orangered;
+	background-color: gold;
 	color:white;
 }
