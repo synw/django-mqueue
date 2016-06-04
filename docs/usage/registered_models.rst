@@ -14,8 +14,8 @@ In ``settings.py``:
 
    MQUEUE_AUTOREGISTER = (
    	#('app.module.model', registration level: 1=create+delete, 2=1+save),
-   	('django.contrib.auth.models.User', 1),
-   	('alapage.models.Page', 2),
+   	('pages.models.Page', 2),
+   	('contact.models.Message', 1),
    	)
 
 The registered modules will be monitored.
