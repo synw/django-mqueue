@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser 
 from mqueue.utils import get_user, get_url, get_admin_url
 
 
@@ -70,6 +70,8 @@ class MEventManager(models.Manager):
         notes = ''
         if 'notes' in kwargs.keys():
             notes = kwargs['notes']
+        if isinstance(user, AnonymousUser):
+            user = None
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         if save_request is True:
             mevent.request = formated_request

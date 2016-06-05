@@ -15,14 +15,14 @@ setup(
   download_url = 'https://github.com/synw/django-mqueue/releases/tag/'+version, 
   keywords = ['django', 'moderation', 'monitoring'], 
   classifiers = [
-        'Development Status :: 3 - Alpha',
-        'Framework :: Django :: 1.8',
+        'Development Status :: 4 - Beta',
+        'Framework :: Django :: 1.9',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2.7',
     ],
   install_requires=[
-        "Django>=1.7",
+        "Django",
     ],
   zip_safe=False
 )

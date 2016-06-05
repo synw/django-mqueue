@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import traceback
 from logging import Handler
 from django.conf import settings
-import traceback
+from django.contrib.auth import get_user
 
  
 class LogsDBHandler(Handler,object):
@@ -20,11 +21,15 @@ class LogsDBHandler(Handler,object):
             event_class = 'Dev log '+record.levelname
         else:
             event_class = 'Log '+record.levelname
+        user=get_user(record.request)
+        from django.contrib.auth.models import AnonymousUser
+        if isinstance(user, AnonymousUser):
+            user = None
         MEvent.objects.create(
                               name=name, 
                               event_class=event_class, 
                               notes=msg, 
-                              user=record.request.user, 
+                              user=user, 
                               request=record.request,
                               url=record.request.path,
                               )
