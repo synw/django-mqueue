@@ -10,7 +10,7 @@ class LogsDBHandler(Handler,object):
     def emit(self,record):
         from mqueue.models import MEvent
         msg = record.getMessage()
-        name= msg
+        name= msg[:120]
         if record.exc_info:
             ex_type = repr((record.exc_info[0]))
             ex_title =  repr(record.exc_info[1])
