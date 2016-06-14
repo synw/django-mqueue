@@ -21,8 +21,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2.7',
     ],
-  install_requires=[
-        "Django",
-    ],
   zip_safe=False
 )
