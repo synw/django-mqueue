@@ -19,7 +19,7 @@ In ``settings.py``:
    	('contact.models.Message', 1),
    	)
 
-The registered modules will be monitored.
+The registered models will be monitored according to the chosen monitoring level.
 
 Manualy register a model
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -30,7 +30,7 @@ In any installed app ``apps.py`` :
 
    from django.apps import AppConfig
    
-   class DjConfig(AppConfig):
+   class MyappConfig(AppConfig):
        name = "myapp"
        verbose_name = "My app"
        

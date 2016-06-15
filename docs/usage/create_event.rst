@@ -63,7 +63,8 @@ guess the following fields unless you provided arguments for:
    field and populates from it
 -  ``url``: checks for a ``get_event_object_url()`` method in your
    model, and then check for a ``get_absolute_url()`` method and
-   populates from it
+   populates from it. Write your own ``get_event_object_url()`` method  in your model to 
+   manage which url will be associated to the object.
 -  ``admin_url``: will be reversed from the instance
 
 Example:

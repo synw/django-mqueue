@@ -12,7 +12,7 @@ To enable it add this to ``settings.py``
    from mqueue.conf import LOGGING
    
 This will enable logging on ERROR level when ``DEBUG`` is ``False``. To log on WARNING level 
-(which also handles the the 404 errors) do this:
+(which also handles the the 404 errors nd friends) do this:
 
 ::
 
