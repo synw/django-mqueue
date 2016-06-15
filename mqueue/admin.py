@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render_to_response
 from django.contrib import admin
+from admin_views.admin import AdminViews
 from mqueue.models import MEvent
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
@@ -67,7 +70,7 @@ def format_event_class(obj):
     
     
 @admin.register(MEvent)
-class MEventAdmin(admin.ModelAdmin):
+class MEventAdmin(AdminViews):
     date_hierarchy = 'date_posted'
     readonly_fields = ['date_posted', 'request']
     list_display = ['name', link_to_object, link_to_object_admin, 'content_type', 'user', 'date_posted', format_event_class]
@@ -96,6 +99,69 @@ class MEventAdmin(admin.ModelAdmin):
             return ('notes', 'request')
         else:
             return ('request',)
+        
+    admin_views =   (
+                    ('Stats', 'stats'),
+                    )
+
+    def stats(self, *args, **kwargs):
+        allevents = MEvent.objects.all().prefetch_related()
+        # count events for class
+        events_by_class = {}
+        for event in allevents.order_by('event_class'):
+            if event.event_class in events_by_class.keys():
+                events_by_class[event.event_class] = events_by_class[event.event_class]+1
+            else:
+                events_by_class[event.event_class] = 1
+        # count events for user
+        events_by_user = {}
+        for event in allevents.order_by('user'):
+            if event.user:
+                if event.user.username in events_by_user.keys():
+                    events_by_user[event.user.username] = events_by_user[event.user.username]+1
+                else:
+                    events_by_user[event.user.username] = 1
+            else:
+                if _(u'No user') in events_by_user.keys():
+                    events_by_user[_(u'No user')] = events_by_user[_(u'No user')]+1
+                else:
+                    events_by_user[_(u'No user')] = 1
+        # count events for models
+        events_by_model = {}
+        for event in allevents.order_by('content_type'):
+            if event.content_type:
+                ct = str(event.content_type).title()
+                if ct in events_by_model.keys():
+                    events_by_model[ct] = events_by_model[ct]+1
+                else:
+                    events_by_model[ct] = 1
+            else:
+                if _(u'No model') in events_by_model.keys():
+                    events_by_model[_(u'No model')] = events_by_model[_(u'No model')]+1
+                else:
+                    events_by_model[_(u'No model')] = 1
+        # events overtime
+        events_overtime = OrderedDict()
+        for event in allevents.order_by('date_posted'):
+            event_date = event.date_posted.strftime("%Y-%m-%d")
+            if event_date in events_overtime.keys():
+                events_overtime[event_date] = events_overtime[event_date]+1
+            else:
+                events_overtime[event_date] = 1
+        datapack_overtime = {'chart_id': 'chart_overtime','data_label': 'events', 'dataset': events_overtime}
+        datapack_models = {'chart_id': 'chart_by_model','data_label': 'events','dataset': events_by_model,'legend': False,}
+        datapack_users = {'chart_id': 'chart_by_user','data_label': 'events','dataset': events_by_user,'legend': False,}
+        datapack_classes = {'chart_id': 'chart_by_classes','data_label': 'events','dataset': events_by_class,'legend': False,}
+        return render_to_response('admin/mqueue/stats.html',
+                                    {
+                                     'datapack_classes': datapack_classes,
+                                     'datapack_users': datapack_users,
+                                     'datapack_models': datapack_models,
+                                     'datapack_overtime': datapack_overtime,
+                                     },
+                                    )
+
+        
 
     
 

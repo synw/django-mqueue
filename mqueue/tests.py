@@ -35,8 +35,6 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.content_type, self._content_type)
         self.assertEqual(mevent.obj_pk, 1)
         return
-    """
-    nedds fixing
     
     def test_managers(self):
         user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
@@ -55,6 +53,5 @@ class MqueueTest(TestCase):
         self.assertEqual(MEvent.objects.count_for_model(User, event_classes=["class2"]), 1)
         self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
         return
-    """    
 
 
