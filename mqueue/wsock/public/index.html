@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Channel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+    <div id="content"></div>
+    <script>    
+        $(document).ready(function() {
+        	//console.log('READY');
+            //var socket = new io.Socket('localhost', {port: 3000, rememberTransport: false/*, transports: ['xhr-polling']*/});
+            var socket = io();
+            var content = $('#content');
+
+            socket.on('message', function(message){
+                content.prepend(message + '<br />');
+                window.top.postMessage(message, '*')
+            }) ;
+
+            socket.connect();
+        });
+    </script>
+</body>
+</html>

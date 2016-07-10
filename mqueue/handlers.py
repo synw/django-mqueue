@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import traceback
+from django.utils import timezone
 from logging import Handler
 from django.conf import settings
-import traceback
+from mqueue.conf import LIVE_STREAM, LOGS_CHANNEL, STREAM_LOGS
 
- 
+
 class LogsDBHandler(Handler,object):
  
     def emit(self,record):
@@ -20,13 +22,27 @@ class LogsDBHandler(Handler,object):
             event_class = 'Dev log '+record.levelname
         else:
             event_class = 'Log '+record.levelname
-        MEvent.objects.create(
-                              name=name, 
-                              event_class=event_class, 
-                              notes=msg, 
-                              user=record.request.user, 
-                              request=record.request,
-                              url=record.request.path,
-                              )
+        user = record.request.user
+        if LIVE_STREAM is True and STREAM_LOGS is True:
+            MEvent.objects.create(
+                                  name=name, 
+                                  event_class=event_class, 
+                                  notes=msg, 
+                                  user=user, 
+                                  request=record.request,
+                                  url=record.request.path,
+                                  commit = False,
+                                  stream = True,
+                                  channel = LOGS_CHANNEL,
+                                  )
+        else:
+            MEvent.objects.create(
+                                  name=name, 
+                                  event_class=event_class, 
+                                  notes=msg, 
+                                  user=user, 
+                                  request=record.request,
+                                  url=record.request.path,
+                                  )
         return
 

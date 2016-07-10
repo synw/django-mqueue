@@ -7,8 +7,12 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser 
-from mqueue.utils import get_user, get_url, get_admin_url
+from mqueue.utils import get_user, get_url, get_admin_url, format_event_class
+from mqueue.conf import LIVE_STREAM, REDIS_HOST, REDIS_PORT, REDIS_DB
 
+if LIVE_STREAM is True:
+    import redis
+    from django.utils import timezone
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
@@ -75,6 +79,22 @@ class MEventManager(models.Manager):
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         if save_request is True:
             mevent.request = formated_request
+        # redis stream
+        stream = False
+        if 'stream' in kwargs.keys():
+            stream = kwargs['stream']
+        if LIVE_STREAM is True and stream is True:
+            # post in redis
+            r = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+            date = timezone.now().strftime('%d/%m %H:%M')
+            username = ''
+            if user is not None:
+                username = ' - '+user.username
+            emit_msg = format_event_class(obj=None, event_class=event_class)+'&nbsp;&nbsp;'+name+' - '+date+username
+            channel = 'public'
+            if 'channel' in kwargs.keys():
+                channel = kwargs['channel']
+            r.publish(channel, emit_msg)
         # save by default unless it is said not to
         if 'commit' in kwargs.keys():
             if kwargs['commit'] is False:

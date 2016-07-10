@@ -3,6 +3,7 @@
 from django.conf import settings
 
 
+# ===================== Events formats ===================================
 EVENT_CLASSES = {
                  #~ 'Event class label' : 'css class to apply',
                 'Default' : 'mq-label mq-default',
@@ -36,7 +37,24 @@ EVENT_ICONS_HTML = {
 EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
-    
+
+# ===================== Reddis / websocket stream ===================================
+LIVE_STREAM = getattr(settings, 'MQUEUE_LIVE_STREAM', False)
+
+REDIS_HOST = getattr(settings, 'MQUEUE_REDIS_HOST', 'localhost')
+REDIS_PORT = getattr(settings, 'MQUEUE_REDIS_PORT', 6379)
+REDIS_DB = getattr(settings, 'MQUEUE_REDIS_DB', 0)
+
+WSOCK_HOST = getattr(settings, 'MQUEUE_WSOCK_HOST', 'localhost')
+WSOCK_PORT = getattr(settings, 'MQUEUE_WSOCK_PORT', 3000)
+WSOCK_ADMIN_HOST = getattr(settings, 'MQUEUE_WSOCK_ADMIN_HOST', 'localhost')
+WSOCK_ADMIN_PORT = getattr(settings, 'MQUEUE_WSOCK_ADMIN_PORT', 3001)
+
+MODELS_CHANNEL = getattr(settings, 'MQUEUE_MODELS_CHANNEL', 'admin')
+LOGS_CHANNEL = getattr(settings, 'MQUEUE_LOGS_CHANNEL', 'admin')
+STREAM_LOGS = getattr(settings, 'MQUEUE_STREAM_LOGS', True)
+
+# ====================================== Logs ======================================
 DEV_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -136,6 +154,7 @@ LOGGING_WARNING = {
     }
 }
 
+# terminal output colors
 class bcolors:
     HEADER = '\033[95m'
     PRIMARY = '\033[94m'

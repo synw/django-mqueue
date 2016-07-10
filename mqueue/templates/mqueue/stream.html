@@ -1,0 +1,66 @@
+{% load staticfiles mq %}
+
+<link rel="stylesheet" href="{% static 'mqueue/mqueue.css' %}" />
+<iframe src="{% get_channel_url user %}" style="display:none" scrolling="auto"></iframe>
+<style>
+#streambox {
+	position:fixed;
+	top:1em;
+	right:1em;
+}
+.inbox {
+	padding:1em;
+	border-radius:0.5em;
+	border:1px solid grey;
+	background-color:white;
+	margin-bottom:0.5em;
+}
+.admin-msg {
+	background-color:firebrick !important;
+}
+.admin-msg a, .admin-msg a:visited {
+	color:white !important;
+}
+.admin-msg a.btn, .admin-msg a.btn:visited {
+	background-color:white !important;
+	color:black !important;
+}
+</style>
+<div id="streambox" style="display:none;"></div>
+<script type="text/javascript">
+function increment_counter() {
+	var new_num = parseFloat($('#num_msgs').html())+1;
+	$('#num_msgs').html(new_num);
+	return
+}
+function decrement_counter() {
+	var num_msgs = parseFloat($('#num_msgs').html());
+	var new_num = num_msgs - 1;
+	if (new_num <= 0) {
+		$('#msgs_counter').hide();
+	}
+	$('#num_msgs').html(new_num);
+	return
+}
+function delete_msg(msg) {
+	msg.parentNode.remove();
+	decrement_counter();
+}
+function format_data(data, msgclass) {
+	var dataclass = msgclass+'-msg'; 
+	return '<div class="inbox '+dataclass+'"><a href="#" onclick="delete_msg(this)">'+data+'</a>&nbsp;&nbsp;<a class="btn btn-default pull-right" style="background-color:lightgrey;position:relative;top:-0.5em" href="#" onclick="delete_msg(this)">OK</a></div>'
+}
+window.onmessage = function(e){
+	l = e.data.split('#!#');
+	data = l[0];
+	msgclass = l[1];
+	if ( e.origin == '{% admin_channel_url %}' || e.origin == '{% public_channel_url %}' ) {
+		$('#streambox').prepend(format_data(data, msgclass));
+	}
+	else { return };
+    increment_counter();
+    $('#msgs_counter').show();
+    $('#streambox').show();
+    $('#streambox').delay(15000).fadeOut();
+    }
+</script>
