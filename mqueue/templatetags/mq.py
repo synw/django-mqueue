@@ -17,8 +17,6 @@ if LIVE_STREAM is True:
     REDIS_DB = getattr(settings, 'MQUEUE_REDIS_DB', 0)
     WSOCK_HOST = getattr(settings, 'MQUEUE_WSOCK_HOST', 'localhost')
     WSOCK_PORT = getattr(settings, 'MQUEUE_WSOCK_PORT', 3000)
-    WSOCK_ADMIN_HOST = getattr(settings, 'MQUEUE_WSOCK_ADMIN_HOST', 'localhost')
-    WSOCK_ADMIN_PORT = getattr(settings, 'MQUEUE_WSOCK_ADMIN_PORT', 3001)
 
 #LIVE_STREAM = True
 register = template.Library()
@@ -26,22 +24,25 @@ register = template.Library()
 @register.simple_tag
 def get_channel_url(user):
     if LIVE_STREAM is True:
+        stream_class = 'public'
+        if user.is_authenticated():
+            stream_class = 'logged_in_user'
+        if user.is_staff:
+            stream_class = 'staff'
         if user.is_superuser:
-            store = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+            stream_class = 'admin'
+        print stream_class
+        store = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+        if stream_class == 'public':
+            key = 'p'
+        else:
             # set a key for authentication on the websocket server
             key = generate_key()
-            val = "admin"
-            store.set(key, val)
-            store.expire(key, 5)
-            return 'http://'+WSOCK_ADMIN_HOST+':'+str(WSOCK_ADMIN_PORT)+'?k='+key
-        else:
-            return 'http://'+WSOCK_HOST+':'+str(WSOCK_PORT)
+            store.set(key, stream_class)
+            store.expire(key, 3)
+        return 'http://'+WSOCK_HOST+':'+str(WSOCK_PORT)+'?k='+key
     return ''
 
 @register.simple_tag
-def public_channel_url():
+def channel_url():
     return 'http://'+WSOCK_HOST+':'+str(WSOCK_PORT)
-
-@register.simple_tag
-def admin_channel_url():
-    return 'http://'+WSOCK_ADMIN_HOST+':'+str(WSOCK_ADMIN_PORT)

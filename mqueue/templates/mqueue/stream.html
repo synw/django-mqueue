@@ -1,7 +1,7 @@
 {% load staticfiles mq %}
 
 <link rel="stylesheet" href="{% static 'mqueue/mqueue.css' %}" />
-<iframe src="{% get_channel_url user %}" style="display:none" scrolling="auto"></iframe>
+<iframe src="{% get_channel_url user %}" style="width:100%;height:120px" scrolling="auto"></iframe>
 <style>
 #streambox {
 	position:fixed;
@@ -54,7 +54,7 @@ window.onmessage = function(e){
 	l = e.data.split('#!#');
 	data = l[0];
 	msgclass = l[1];
-	if ( e.origin == '{% admin_channel_url %}' || e.origin == '{% public_channel_url %}' ) {
+	if ( e.origin == '{% channel_url %}' ) {
 		$('#streambox').prepend(format_data(data, msgclass));
 	}
 	else { return };
