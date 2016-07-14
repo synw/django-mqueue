@@ -5,15 +5,14 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 </head>
-<body>
-    <div id="content"></div>
-    <script>    
+<body style="background-color:white">
+    <div id="msgbox"></div>
+    <script type="text/javascript">
         $(document).ready(function() {
         	var socket = io();
-            var content = $('#content');
             socket.on('message', function(message){
-                content.prepend(message + '<br />');
-                window.top.postMessage(message, '*')
+                window.top.postMessage(message, '*');
+                //$('#msgbox').prepend(message);
             }) ;
             socket.connect();
         });

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import random
 from django.core.urlresolvers import reverse
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
@@ -110,4 +111,8 @@ def get_url(instance):
 def get_admin_url(instance):
     admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
     return admin_url
+
+def generate_key():
+    return ''.join([random.SystemRandom().choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') for i in range(60)])
+
 

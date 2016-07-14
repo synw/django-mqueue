@@ -54,6 +54,10 @@ MODELS_CHANNEL = getattr(settings, 'MQUEUE_MODELS_CHANNEL', 'admin')
 LOGS_CHANNEL = getattr(settings, 'MQUEUE_LOGS_CHANNEL', 'admin')
 STREAM_LOGS = getattr(settings, 'MQUEUE_STREAM_LOGS', True)
 
+GLOBAL_STREAMS =  getattr(settings, 'MQUEUE_GLOBAL_STREAMS', ())
+SITE_SLUG =  getattr(settings, 'SITE_SLUG', 'site')
+SITE_NAME =  getattr(settings, 'SITE_NAME', 'Site')
+
 # ====================================== Logs ======================================
 DEV_LOGGING = {
     'version': 1,
