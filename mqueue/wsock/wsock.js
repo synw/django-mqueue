@@ -109,25 +109,27 @@ client.subscribe(admin_channel);
 	
 // listener
 client.on("message", function(channel, message){
+	var l=message.split('#!#');
+	var msg = l[0]
+	var event_class = l[1]
 	if (DEBUG === true) {
-		console.log('MESSAGE: '+channel + ": " + message);
+		console.log('MESSAGE ('+event_class+'): '+channel + ": " + msg);
 	}
-	var msg = message;
 	if ( channel == admin_channel ) {
-		msg = message+'#!#admin';
-		socket.to(admin_channel).emit("message", msg);
+		data = { 'message':msg, 'channel':'admin', 'event_class':event_class};
+		socket.to(admin_channel).emit("message", data);
 	}
 	else if ( channel == staff_channel ) {
-		msg = message+'#!#staff';
-		socket.to(staff_channel).emit("message", msg);
+		data = { 'message':msg, 'channel':'staff', 'event_class':event_class};
+		socket.to(staff_channel).emit("message", data);
 	}
 	else if ( channel == user_channel ) {
-		msg = message+'#!#user';
-		socket.to(user_channel).emit("message", msg);
+		data = { 'message':msg, 'channel':'user', 'event_class':event_class};
+		socket.to(user_channel).emit("message", data);
 	}
 	else if ( channel == public_channel ) {
-		msg = message+'#!#public';
-		socket.emit("message", msg);
+		data = { 'message':msg, 'channel':'public', 'event_class':event_class};
+		socket.emit("message", data);
 	}
 });
 

@@ -1,0 +1,11 @@
+<div id="importantbox" class="jumbotron" style="display:none;margin:2em;position:absolute;top:0;left:0;z-index:1000"></div>
+<script type="text/javascript">
+function handlers_for_event_class(event_class, message) {
+	// return true if we want the regular alert to be displayed, false otherwise
+	if (event_class == 'Minor') {
+		console.log(message);
+		return false
+	}
+	return true
+}
+</script>

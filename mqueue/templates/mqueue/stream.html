@@ -49,6 +49,7 @@ a#mqclose_btn, a:visited#mqclose_btn {
 		<a id="mqclose_btn" style="margin-left:0.7em;" href="javascript:hide_streambox()" title="{% trans 'Close' %}"><i class="fa fa-check fa-2x"></i></a>
 	</div>
 </div>
+{% include "mqueue/handlers_for_event_class.html" %}
 <script type="text/javascript">
 function hide_streambox() {
 	$('#streambox-btns').hide();
@@ -89,16 +90,21 @@ function format_data(data, msgclass) {
 	return '<div class="mqmsg inbox '+dataclass+'"><a href="#" onclick="delete_msg(this)">'+data+'</a>&nbsp;&nbsp;<a class="btn btn-default pull-right" style="background-color:lightgrey;position:relative;top:-0.5em" href="#" onclick="delete_msg(this)">OK</a></div>'
 }
 window.onmessage = function(e){
-	l = e.data.split('#!#');
-	data = l[0];
-	msgclass = l[1];
+	var message = e.data.message;
+	var channel = e.data.channel;
+	var event_class = e.data.event_class;
 	if ( e.origin == '{% channel_url %}' ) {
-		$('#streambox').prepend(format_data(data, msgclass));
+		var alert_on_event = handlers_for_event_class(event_class, message);
+		if (alert_on_event === true) {
+			$('#streambox').prepend(format_data(message, channel));
+			num_msgs = increment_counter();
+		}
 	}
 	else { return };
-	num_msgs = increment_counter();
-    $('#msgs_counter').show();
-    $('#streambox').show();
+	if (num_msgs > 0) {
+    	$('#msgs_counter').show();
+    	$('#streambox').show();
+	}
     if (num_msgs > 1) {
     	$('#streambox-btns').show();
     }

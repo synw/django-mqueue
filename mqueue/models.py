@@ -90,7 +90,7 @@ class MEventManager(models.Manager):
             username = ''
             if user is not None:
                 username = ' - '+user.username
-            emit_msg = format_event_class(obj=None, event_class=event_class)+'&nbsp;&nbsp;'+name+' - '+date+username
+            emit_msg = format_event_class(obj=None, event_class=event_class)+'&nbsp;&nbsp;'+name+' - '+date+username+'#!#'+event_class
             channel = 'public'
             if 'channel' in kwargs.keys():
                 channel = kwargs['channel']
