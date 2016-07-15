@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-14 14:39+0000\n"
+"POT-Creation-Date: 2016-07-15 13:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,6 +123,18 @@ msgstr "Evènements par modèle"
 msgid "Events overtime"
 msgstr "File des évènements"
 
+#: templates/mqueue/broadcast.html:4
+msgid "Broadcast form"
+msgstr ""
+
+#: templates/mqueue/broadcast.html:15
+msgid "Broadcast to a channel"
+msgstr "Emettre sur une chaine"
+
+#: templates/mqueue/broadcast.html:19
+msgid "Send"
+msgstr "Envoyer"
+
 #: templates/mqueue/stream.html:48
 msgid "Delete all"
 msgstr "Effacer tout"
@@ -130,6 +142,10 @@ msgstr "Effacer tout"
 #: templates/mqueue/stream.html:49
 msgid "Close"
 msgstr "Fermer"
+
+#: views.py:21
+msgid "Message broadcasted to channel "
+msgstr "Message envoyé à la chaine"
 
 #~ msgid "No monitoring"
 #~ msgstr "Pas de monitoring"

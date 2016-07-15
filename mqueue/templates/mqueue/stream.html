@@ -98,16 +98,16 @@ window.onmessage = function(e){
 		if (alert_on_event === true) {
 			$('#streambox').prepend(format_data(message, channel));
 			num_msgs = increment_counter();
+			if (num_msgs > 0) {
+		    	$('#msgs_counter').show();
+		    	$('#streambox').show();
+			}
+		    if (num_msgs > 1) {
+		    	$('#streambox-btns').show();
+		    }
 		}
 	}
 	else { return };
-	if (num_msgs > 0) {
-    	$('#msgs_counter').show();
-    	$('#streambox').show();
-	}
-    if (num_msgs > 1) {
-    	$('#streambox-btns').show();
-    }
     $('#streambox').delay(15000).fadeOut();
     }
 </script>
