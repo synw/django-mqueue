@@ -60,12 +60,12 @@ app.get('/', function(req, res){
 		if ( key !== 'p' && typeof key != 'undefined' && key !== null ) {
 			client2.hgetall(key, function(err, reply) {
 				if (reply !== null) {
+					client2.del(key);
 					var user_class = reply['user_class'];
 					var username = reply['username'];
 					if (DEBUG === true) {
 						console.log(user_class+' user '+username+' connected');
 					}
-					client2.del(key);
 					if (user_class == 'admin') {
 						socket.join(admin_channel);
 						socket.join(staff_channel);
