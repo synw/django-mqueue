@@ -4,7 +4,9 @@ Usage
 To run the nodejs/socketio server: copy the mqueue/wsocks folder where you want it, cd to the folder and run the server:
 
 Get the js requirements with ``npm install express socket.io redis``
-``nodejs wsocks.js``
+Configure on top of the file wsocks.js at least the SITE_SLUG with the same you put in settings.py
+
+Then run ``nodejs wsocks.js``
 
 Stream events from code
 ~~~~~~~~~~~~~~~~~~~~~~~
