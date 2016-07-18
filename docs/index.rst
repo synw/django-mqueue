@@ -37,6 +37,16 @@ and run them.
 	settings/event_icons
 	settings/event_extra_html
 
+.. realtime
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Real time messaging
+
+	realtime/configuration
+	realtime/usage
+	realtime/handlers
+
 
 
 
