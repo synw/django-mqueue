@@ -3,6 +3,7 @@ Usage
 
 To run the nodejs/socketio server: copy the mqueue/wsocks folder where you want it, cd to the folder and run the server:
 
+Get the js requirements with ``npm install express socket.io redis``
 ``nodejs wsocks.js``
 
 Stream events from code

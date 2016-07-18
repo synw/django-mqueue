@@ -5,7 +5,7 @@ Mqueue can deliver the messages in real time to the users. This is made using th
 
 **Warning**: this feature is experimental and is not yet in the pip version (use master). The api may change.
 
-You must have Redis and Nodejs installed. On Debian and friends: ``sudo apt-get install redis-server nodejs``
+You must have Redis and Nodejs installed. On Debian and friends: ``sudo apt-get install redis-server nodejs npm``
 
 Then ``pip install redis`` to get the python client
 
@@ -23,6 +23,9 @@ Settings
 In settings.py:
 
 ::
+
+   # use redis for the sessions
+   SESSION_ENGINE = 'redis_sessions.session'
    
    # 1. Required settings
    MQUEUE_LIVE_STREAM = True
@@ -45,3 +48,9 @@ all the sites it is connected to: if you enabled the log handler the logs will a
 channel. And if this one is global the admin can see the logs from all the connected sites in his live stream. 
 
 Important: if you use the log handler these settings must be placed before ``from mqueue.conf import LOGGING``
+
+Templates
+~~~~~~~~~
+
+In your main template or into the footer include this ``{% include "mqueue/stream.html" %}``
+Add ``{% include "mqueue/messages.html" %}`` where you want the message counter to be.
