@@ -1,10 +1,11 @@
 Usage
 =====
 
-To run the nodejs/socketio server: copy the mqueue/wsocks folder where you want it, cd to the folder and run the server:
+To run the nodejs/socketio server: copy the mqws/wsocks folder where you want it, cd to the folder and run the server:
 
-Get the js requirements with ``npm install express socket.io redis``
-Configure on top of the file wsocks.js at least the SITE_SLUG with the same you put in settings.py
+Get the js requirements with ``npm install express socket.io redis striptags``
+Configure the websocket server on top of the file wsocks.js with at least the SITE_SLUG with the same value that you put 
+in settings.py"
 
 Then run ``nodejs wsocks.js``
 

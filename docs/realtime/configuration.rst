@@ -9,18 +9,20 @@ You must have Redis and Nodejs installed. On Debian and friends: ``sudo apt-get 
 
 Then ``pip install redis`` to get the python client
 
-Enable the mqueue views by adding this to your urls.py:
+Clone the websocket server part: ``git clone https://github.com/synw/django-mqws.git && cp -R django-mqws/mqws . && rm -rf django-mqws``
+
+Enable the views by adding this to your urls.py:
 
 .. highlight:: python
 
 ::
 
-   url('^mq/', include('mqueue.urls')),
+   url('^mq/', include('mqws.urls')),
 
 Settings
 ~~~~~~~~
 
-In settings.py:
+Add ``mqws`` to installed apps and configure settings.py:
 
 ::
 
@@ -52,5 +54,5 @@ Important: if you use the log handler these settings must be placed before ``fro
 Templates
 ~~~~~~~~~
 
-In your main template or into the footer include this ``{% include "mqueue/stream.html" %}``
-Add ``{% include "mqueue/messages.html" %}`` where you want the message counter to be.
+In your main template or into the footer include this ``{% include "mqws/stream.html" %}``
+Add ``{% include "mqws/messages.html" %}`` where you want the message counter to be.
