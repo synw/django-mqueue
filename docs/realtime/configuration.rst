@@ -7,7 +7,7 @@ Mqueue can deliver the messages in real time to the users. This is made using th
 
 You must have Redis and Nodejs installed. On Debian and friends: ``sudo apt-get install redis-server nodejs npm``
 
-Then ``pip install redis`` to get the python client
+Then ``pip install redis django-redis-sessions``
 
 Clone the websocket server part: ``git clone https://github.com/synw/django-mqws.git && cp -R django-mqws/mqws . && rm -rf django-mqws``
 

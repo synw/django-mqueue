@@ -7,6 +7,22 @@ Get the js requirements with ``npm install express socket.io redis striptags``
 Configure the websocket server on top of the file wsocks.js with at least the SITE_SLUG with the same value that you put 
 in settings.py"
 
+Configure the settings on top of the file ``wsocks.js``. Defaults are:
+
+.. highlight:: javascript
+
+::
+
+   // config
+   var REDIS_PORT = 6379;
+   var REDIS_HOST = 'localhost'
+   var PORT = 3000; 
+   var DEBUG = true;
+   var SITE_SLUG = 'mogo31'
+   var GLOBAL_CHANNELS = ['admin']
+   
+You should configure at least the SITE_SLUG to match the name you put in your settings.py
+
 Then run ``nodejs wsocks.js``
 
 Stream events from code
