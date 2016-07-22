@@ -54,5 +54,6 @@ Important: if you use the log handler these settings must be placed before ``fro
 Templates
 ~~~~~~~~~
 
-In your main template or into the footer include this ``{% include "mqws/stream.html" %}``
+Where you want the chat to be put ``{% include "mqws/stream.html" %}``. If you want no chatroom configure the
+template to set the iframe invisible.
 Add ``{% include "mqws/messages.html" %}`` where you want the message counter to be.
