@@ -2,7 +2,7 @@ Client-side event handlers
 ==========================
 
 You can customize the javascript that will handle each class of event. Use the template 
-``mqueue/handlers_for_event_class.html`` and add your own event handler in the function:
+``mqws/handlers_for_event_class.html`` and add your own event handler in the function:
 
 .. highlight:: javascript
 
@@ -13,7 +13,7 @@ You can customize the javascript that will handle each class of event. Use the t
 	if (event_class == 'Important') {
 		// do whatever you want
 		alert('The message '+message+' is important');
-		// false to discard the regular message behavior
+		// false to discard the regular message behavior, true to keep it
 		return false
 	}
 	return true
