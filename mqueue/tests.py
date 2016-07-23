@@ -1,60 +1,60 @@
-# -*- coding: utf-8 -*-
-
+import tempfile
 from django.test import TestCase
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
-from mqueue.models import MEvent
+from django.conf import settings
+from django.test.utils import override_settings
+from django.utils.translation import ugettext_lazy as _
+from jssor.models import Slideshow, Slide
 
 
-class MqueueTest(TestCase):
-    
-    def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
-        self._content_type = ContentType.objects.get_for_model(User)
-        return MEvent.objects.create(name=name, url=url, obj_pk=obj_pk, notes=notes, model=User, content_type=self._content_type)
-    
-    def test_mevent_creation(self):
-        mevent = self.create_mevent()
-        self.assertTrue(isinstance(mevent, MEvent))
-        self.assertEqual(mevent.content_type, self._content_type)
-        self.assertEqual(mevent.url, "/")
-        self.assertEqual(mevent.name, "M event")
-        self.assertEqual(mevent.obj_pk, 1)
-        self.assertEqual(mevent.notes, "Notes")
-        self.assertEqual(mevent.__unicode__(), unicode(mevent.name+' - '+str(mevent.date_posted)))
-        return
+SLIDESHOW_TYPES = (
+                   ('jssor/full_width_slider.html',_(u'Full width slider')),
+                   ('jssor/banner_slider.html',_(u'Banner slider')),
+                   ('jssor/bootstrap_slider.html',_(u'Bootstrap slider')),
+                   )
+# models test
+class SlideshowTest(TestCase):
+
+    def create_slideshow(self, template_name="full_width_slider.html", title="Slideshow", width=780, height=300):        
+        return Slideshow.objects.create(template_name=template_name, title=title, width=width, height=height)
+
+    @override_settings(SLIDESHOW_TYPES=SLIDESHOW_TYPES)
+    def test_slideshow_creation(self):
+        slideshow = self.create_slideshow()
+        self.assertEqual(settings.SLIDESHOW_TYPES, SLIDESHOW_TYPES)
+        self.assertTrue(isinstance(slideshow, Slideshow))
+        self.assertEqual(slideshow.template_name, "full_width_slider.html")
+        self.assertEqual(slideshow.title, "Slideshow")
+        self.assertEqual(slideshow.autoplay, False)
+        self.assertEqual(slideshow.width, 780)
+        self.assertEqual(slideshow.height, 300)
+        self.assertEqual(slideshow.__unicode__(), slideshow.title)
         
-    def test_create_mevent_empty(self):
-        self.assertRaises(ValueError, MEvent.objects.create, 'name')
-        return
-    
-    def test_mevent_creation_with_instance(self):
-        self._content_type = ContentType.objects.get_for_model(User)
-        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
-        mevent = MEvent.objects.create(name='M Event', instance=user)
-        self.assertTrue(isinstance(mevent, MEvent))
-        self.assertEqual(mevent.content_type, self._content_type)
-        self.assertEqual(mevent.obj_pk, 1)
-        return
-    """
-    nedds fixing
-    
-    def test_managers(self):
-        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
-        mevent1 = MEvent.objects.create(name="event1", model=User)
-        mevent2 = MEvent.objects.create(name="event2", instance=user)
-        self.assertEqual(list(MEvent.objects.events_for_model(User)), [mevent2, mevent1])
-        self.assertEqual(MEvent.objects.count_for_model(User), 2)
-        self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
-        return
-    
-    def test_managers_with_event_class(self):
-        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
-        mevent1 = MEvent.objects.create(name="event1", model=User, event_class="class1")
-        mevent2 = MEvent.objects.create(name="event2", instance=user, event_class="class2")
-        self.assertEqual(list(MEvent.objects.events_for_model(User, event_classes=["class1"] )), [mevent1])
-        self.assertEqual(MEvent.objects.count_for_model(User, event_classes=["class2"]), 1)
-        self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
-        return
-    """    
 
+class SlideTest(TestCase):
+    
+    def create_slideshow(self, template_name="full_width_slider.html", title="Slideshow", width=780, height=300):
+        return Slideshow.objects.create(template_name=template_name, title=title, width=width, height=height)
 
+    def create_slide(self, title='Test slide', slideshow=None, order=10, link='/'):
+        self.image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.slideshow = slideshow
+        slide = Slide.objects.create(title=title, slideshow=slideshow, order=order, link=link, image=self.image)
+        return slide
+    
+    def test_slide_creation(self):
+        slideshow=self.create_slideshow()
+        slide=self.create_slide(slideshow=slideshow)
+        self.assertTrue(isinstance(slide, Slide))
+        self.assertEqual(slide.title, "Test slide")
+        self.assertEqual(slide.__unicode__(), "Test slide")
+        self.assertEqual(slide.image, self.image)
+        self.assertEqual(slide.slideshow, self.slideshow)
+        self.assertEqual(slide.order, 10)
+        self.assertEqual(slide.link, '/')
+        self.assertEqual(str(slide),unicode(slide.title))
+        self.assertFalse(slide.link_is_blank)
+
+        
+        
+    
+    

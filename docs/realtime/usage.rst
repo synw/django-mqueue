@@ -18,7 +18,7 @@ Configure the settings on top of the file ``wsocks.js``. Defaults are:
    var REDIS_HOST = 'localhost'
    var PORT = 3000; 
    var DEBUG = true;
-   var SITE_SLUG = 'mogo31'
+   var SITE_SLUG = 'localsite'
    var GLOBAL_CHANNELS = ['admin']
    
 You should configure at least the SITE_SLUG to match the name you put in your settings.py
