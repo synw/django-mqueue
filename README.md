@@ -2,11 +2,18 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Events queue application for Django: can be used for moderation or monitoring or loging.
-Events can be linked to a model instance and a user instance. This app is pluggable on existing models to
-enable monitoring on them. It also provides a log handler to store the django logs into the db.
+Events queue application for Django: can be used for monitoring or loging, or to build apps with moderation.
+Features:
 
-Read the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
+- Send events from code: they will be recorder into the db
+- Monitoring on models: the events (create/save/delete) will be recorder according to the choosen log level
+- Logs handler: to record the Django logs into the db
+- Experimental feature: live stream of events using the websockets with 
+[Centrifugo](https://github.com/centrifugal/centrifugo/).
+
+Events can be linked to a model instance and a user instance.
+
+Check the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
 ![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/img/events_list.png)
  
