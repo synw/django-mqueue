@@ -1,17 +1,40 @@
 Configuration
 =============
 
-Mqueue can deliver the messages in real time to the users. This is made using the websockets.
-
+Mqueue can deliver the messages in real time to the users. This is made using the `Centrifugo <https://github.com/centrifugal/centrifugo/>`_  websockets server.
+ 
 **Warning**: this feature is experimental and is not yet in the pip version (use master). The api may change.
 
-You must have Redis and Nodejs installed. On Debian and friends: ``sudo apt-get install redis-server nodejs npm``
+1. Install Centrifugo: example for Debian: 
 
-Then ``pip install redis django-redis-sessions``
+.. highlight:: bash
 
-Clone the websocket server part: ``git clone https://github.com/synw/django-mqws.git && cp -R django-mqws/mqws . && rm -rf django-mqws``
+::
 
-Enable the views by adding this to your urls.py:
+   sudo apt-get install golang
+   mkdir go && cd go
+   wget https://github.com/centrifugal/centrifugo/releases/download/v1.5.1/centrifugo-1.5.1-linux-386.zip
+   unzip centrifugo-1.5.1-linux-386.zip
+   cd centrifugo-1.5.1-linux-386
+
+
+2. Configure Centrifugo
+
+::
+
+   ./centrifugo genconfig
+   
+This will generate your secret key.
+
+3. Install django-mqws
+
+::
+
+   cd my_django_project_root
+   git clone https://github.com/synw/django-mqws.git
+   mv django-mqws/mqws . && rm -rf django_mqws
+   
+Set the urls:
 
 .. highlight:: python
 
@@ -22,38 +45,24 @@ Enable the views by adding this to your urls.py:
 Settings
 ~~~~~~~~
 
-Add ``mqws`` to installed apps and configure settings.py:
+Add ``'mqws',`` to installed apps and configure settings.py:
 
 ::
 
-   # use redis for the sessions
-   SESSION_ENGINE = 'redis_sessions.session'
-   
-   # 1. Required settings
-   MQUEUE_LIVE_STREAM = True
-   SITE_SLUG = 'my_site_name'
-   SITE_NAME = 'My site name'
-   
-   # 2. Optional settings
-   MQUEUE_GLOBAL_STREAMS = ('admin',)
-   # set Redis config: default is:
-   MQUEUE_REDIS_HOST = 'localhost'
-   MQUEUE_REDIS_PORT = 6379
-   MQUEUE_REDIS_DB = 0
-   # set the websocket server config. Default is:
-   WSOCK_HOST = 'localhost'
-   WSOCK_PORT = 3000
+   # required settings
+   SITE_SLUG = "my_site" # used internaly to prefix the channels
+   MQUEUE_LIVE_STREAM = True # tell mqueue we want to use the stream future
+   CENTRIFUGO_SECRET_KEY = "the_key_that_is_in_config.json"
+   # optionnal settings
+   CENTRIFUGO_HOST = 'http://ip_here' #default: localhost
+   CENTRIFUGO_PORT = 8012 # default: 8001
 
-By default the channels will be prefixed with the site name. If you want one channel to be able to receive messages from 
-several sites enable it as global in MQUEUE_GLOBAL_STREAMS. Example here: the admin channel will receive messages from 
-all the sites it is connected to: if you enabled the log handler the logs will automatically be broadcasted to the admin 
-channel. And if this one is global the admin can see the logs from all the connected sites in his live stream. 
+
 
 Important: if you use the log handler these settings must be placed before ``from mqueue.conf import LOGGING``
 
 Templates
 ~~~~~~~~~
 
-Include the template (nothing will be displayed) ``{% include "mqws/stream.html" %}``. If you want the chatroom to be 
-displayed use ``{% with True as enable_chat %}{% include "mqws/stream.html" %}{% endwith %}``.
-Add ``{% include "mqws/messages.html" %}`` where you want the message counter to be.
+Include the template ``{% include "mqws/stream.html" %}`` anywhere (nothing will be displayed it is the engine), 
+in the footer for example. Add ``{% include "mqws/messages.html" %}`` where you want the message counter to be.

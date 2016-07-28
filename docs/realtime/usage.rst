@@ -1,35 +1,23 @@
 Usage
 =====
 
-To run the nodejs/socketio server: copy the mqws/wsocks folder where you want it, cd to the folder and run the server:
+Run the Centrifugo server:
 
-Get the js requirements with ``npm install express socket.io redis striptags``
-Configure the websocket server on top of the file wsocks.js with at least the SITE_SLUG with the same value that you put 
-in settings.py"
-
-Configure the settings on top of the file ``wsocks.js``. Defaults are:
-
-.. highlight:: javascript
+.. highlight:: bash
 
 ::
 
-   // config
-   var REDIS_PORT = 6379;
-   var REDIS_HOST = 'localhost'
-   var PORT = 3000; 
-   var DEBUG = true;
-   var SITE_SLUG = 'localsite'
-   var GLOBAL_CHANNELS = ['admin']
+   ./centrifugo --config=config.json
    
-You should configure at least the SITE_SLUG to match the name you put in your settings.py
+Use the ``-d`` flag for debug.
 
-Then run ``nodejs wsocks.js``
+**Note**: for now events can only be broadcasted to the site public channel. This means the messages sent
+this way will be visible by everyone. A private channels implementation is on the todo list.
+
+There is two ways to broadcast events:
 
 Stream events from code
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Then you can send events in channels from your code. There are 4 channels available: *public* (everyone), *user* (everyone 
-minus anonymous users), *staff* (admins and staff) and *admin* (only admins). 
+~~~~~~~~~~~~~~~~~~~~~~~ 
 
 .. highlight:: python
 
@@ -38,31 +26,16 @@ minus anonymous users), *staff* (admins and staff) and *admin* (only admins).
    from mqueue.models import MEvent 
 
    # fire an event on the public channel
-   MEvent.objects.create(name='Hello world', stream=True, commit=False, channel='public', event_class="Infos")
+   MEvent.objects.create(name='Hello world', stream=True, commit=False, event_class="Infos")
    
-The ``commit=False`` is to tell mqueue not to save the event into the database. Do not set if you want it recorded in 
-the db as well.
-
-Stream from registered models
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Register your models in settings.py with the stream enabled:
-
-::
-
-   MQUEUE_AUTOREGISTER = (
-   	#('app.module.model', registration level: 1=create+delete, 2=1+save, True to enable the live stream),
-   	('alapage.models.Page', 2, True),
-   	('contactform.models.Email', 1, True),
-   	)
-
-In this example the Page model will send messages in the admin channel everytime it is created/saved/deleted. The contact
-form will fire a message everytime an Email is created/deleted.
+The ``stream=True`` parameter is required to stream the event, ``commit=False`` is 
+to tell mqueue not to save the event into the database. Do not set if you want 
+it recorded in the db as well.
 
 Direct broadcast of events
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Got to /mq/ as superuser and use the form to broadcast a message to any channel.
+Got to /mq/ as superuser and use the form to broadcast a message to the public channel.
 
 By default the sent messages popup on the top-right corner of the page. The next section will describe how to 
 customize the handlers on the client side according to the event class.
