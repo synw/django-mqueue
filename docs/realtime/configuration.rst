@@ -41,6 +41,16 @@ Set the urls:
 ::
 
    url('^mq/', include('mqws.urls')),
+   
+4. Install the js part with npm:
+
+.. highlight:: python
+
+::
+
+   cd static
+   mkdir mqws && cd mqws
+   npm install centrifuge
 
 Settings
 ~~~~~~~~
