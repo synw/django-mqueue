@@ -83,9 +83,7 @@ class MEventManager(models.Manager):
         stream = False
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
-        print "STREAM: "+str(LIVE_STREAM)+' / '+str(stream)
         if LIVE_STREAM is True and stream is True:
-            print "POST LIVE --------------------------"
             cent_url = CENTRIFUGO_HOST+":"+str(CENTRIFUGO_PORT)
             client = Client(cent_url, SECRET_KEY, timeout=1)
             channel = 'public'
