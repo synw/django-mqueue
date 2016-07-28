@@ -24,7 +24,17 @@ Mqueue can deliver the messages in real time to the users. This is made using th
 
    ./centrifugo genconfig
    
-This will generate your secret key.
+This will generate your secret key. Set anonymous to true if you want all users to receive the messages. 
+Leave it if you want only the logged in users to see the messages.
+
+.. highlight:: json
+
+::
+
+   {
+  "secret": "70b651f6-775a-4949-982b-b387b31c1d84",
+  "anonymous": true
+  }
 
 3. Install django-mqws
 
