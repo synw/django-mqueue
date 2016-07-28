@@ -38,25 +38,8 @@ EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
 
-# ===================== Reddis / websocket stream ===================================
+# ===================== Websocket stream ===================================
 LIVE_STREAM = getattr(settings, 'MQUEUE_LIVE_STREAM', False)
-
-REDIS_HOST = getattr(settings, 'MQUEUE_REDIS_HOST', 'localhost')
-REDIS_PORT = getattr(settings, 'MQUEUE_REDIS_PORT', 6379)
-REDIS_DB = getattr(settings, 'MQUEUE_REDIS_DB', 0)
-
-WSOCK_HOST = getattr(settings, 'MQUEUE_WSOCK_HOST', 'localhost')
-WSOCK_PORT = getattr(settings, 'MQUEUE_WSOCK_PORT', 3000)
-WSOCK_ADMIN_HOST = getattr(settings, 'MQUEUE_WSOCK_ADMIN_HOST', 'localhost')
-WSOCK_ADMIN_PORT = getattr(settings, 'MQUEUE_WSOCK_ADMIN_PORT', 3001)
-
-MODELS_CHANNEL = getattr(settings, 'MQUEUE_MODELS_CHANNEL', 'admin')
-LOGS_CHANNEL = getattr(settings, 'MQUEUE_LOGS_CHANNEL', 'admin')
-STREAM_LOGS = getattr(settings, 'MQUEUE_STREAM_LOGS', True)
-
-GLOBAL_STREAMS =  getattr(settings, 'MQUEUE_GLOBAL_STREAMS', ())
-SITE_SLUG =  getattr(settings, 'SITE_SLUG', 'site')
-SITE_NAME =  getattr(settings, 'SITE_NAME', 'Site')
 
 # ====================================== Logs ======================================
 DEV_LOGGING = {

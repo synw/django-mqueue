@@ -112,7 +112,5 @@ def get_admin_url(instance):
     admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
     return admin_url
 
-def generate_key():
-    return ''.join([random.SystemRandom().choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') for i in range(60)])
 
 

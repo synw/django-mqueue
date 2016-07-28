@@ -4,7 +4,8 @@ import traceback
 from django.utils import timezone
 from logging import Handler
 from django.conf import settings
-from mqueue.conf import LIVE_STREAM, LOGS_CHANNEL, STREAM_LOGS
+#from mqueue.conf import LIVE_STREAM
+#from mqws.conf import LOGS_CHANNEL, STREAM_LOGS
 
 
 class LogsDBHandler(Handler,object):
@@ -23,6 +24,7 @@ class LogsDBHandler(Handler,object):
         else:
             event_class = 'Log '+record.levelname
         user = record.request.user
+        """ TODO ***
         if LIVE_STREAM is True and STREAM_LOGS is True:
             MEvent.objects.create(
                                   name=name, 
@@ -36,13 +38,14 @@ class LogsDBHandler(Handler,object):
                                   channel = LOGS_CHANNEL,
                                   )
         else:
-            MEvent.objects.create(
-                                  name=name, 
-                                  event_class=event_class, 
-                                  notes=msg, 
-                                  user=user, 
-                                  request=record.request,
-                                  url=record.request.path,
-                                  )
+        """
+        MEvent.objects.create(
+                              name=name, 
+                              event_class=event_class, 
+                              notes=msg, 
+                              user=user, 
+                              request=record.request,
+                              url=record.request.path,
+                              )
         return
 

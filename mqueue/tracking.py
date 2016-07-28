@@ -12,9 +12,6 @@ class MTracker(object):
         if monitoring_level == 2:
             post_save.connect(mmessage_save, sender=model)
         post_delete.connect(mmessage_delete, sender=model)
-        if stream is True:
-            post_save.connect(stream_to_redis, sender=model)
-            post_delete.connect(stream_to_redis_delete, sender=model)
         return
     
 mqueue_tracker = MTracker()

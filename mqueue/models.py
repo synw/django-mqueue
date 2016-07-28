@@ -6,14 +6,14 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, AnonymousUser 
+from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url, format_event_class
-from mqueue.conf import LIVE_STREAM, REDIS_HOST, REDIS_PORT, REDIS_DB, SITE_SLUG, GLOBAL_STREAMS
+from mqueue.conf import LIVE_STREAM
 
 if LIVE_STREAM is True:
-    import redis
-    from django.utils import timezone
-
+    from cent.core import Client
+    from mqws.conf import GLOBAL_STREAMS, CENTRIFUGO_HOST, CENTRIFUGO_PORT, SITE_SLUG, SECRET_KEY
+    
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 
@@ -83,20 +83,21 @@ class MEventManager(models.Manager):
         stream = False
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
+        print "STREAM: "+str(LIVE_STREAM)+' / '+str(stream)
         if LIVE_STREAM is True and stream is True:
-            # post in redis
-            r = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
-            date = timezone.now().strftime('%d/%m %H:%M')
-            username = ''
-            if user is not None:
-                username = ' - '+user.username
-            emit_msg = format_event_class(obj=None, event_class=event_class)+'&nbsp;&nbsp;'+name+' - '+date+username+'#!#'+event_class
+            print "POST LIVE --------------------------"
+            cent_url = CENTRIFUGO_HOST+":"+str(CENTRIFUGO_PORT)
+            client = Client(cent_url, SECRET_KEY, timeout=1)
             channel = 'public'
             if 'channel' in kwargs.keys():
                 channel = kwargs['channel']
             if channel not in GLOBAL_STREAMS:
                 channel = SITE_SLUG+'_'+channel
-            cli = r.publish(channel, emit_msg)
+            msg_label = format_event_class(obj=None, event_class=event_class)
+            data = {"message": name, 'message_label':msg_label, 'event_class':event_class }
+            print "Channel :"+channel
+            print "Data : "+str(data)
+            client.publish(channel, data)
             #print 'CLI: '+str(cli)+' channel :'+channel+' / MSG: '+emit_msg
         # save by default unless it is said not to
         if 'commit' in kwargs.keys():
