@@ -93,8 +93,6 @@ class MEventManager(models.Manager):
                 channel = SITE_SLUG+'_'+channel
             msg_label = format_event_class(obj=None, event_class=event_class)
             data = {"message": name, 'message_label':msg_label, 'event_class':event_class }
-            print "Channel :"+channel
-            print "Data : "+str(data)
             client.publish(channel, data)
             #print 'CLI: '+str(cli)+' channel :'+channel+' / MSG: '+emit_msg
         # save by default unless it is said not to
