@@ -36,13 +36,14 @@ Leave it if you want only the logged in users to see the messages.
   "anonymous": true
   }
 
-3. Install django-mqws
+3. Install the python requirements
 
 ::
 
+   pip install cent
    cd my_django_project_root
-   git clone https://github.com/synw/django-mqws.git
-   mv django-mqws/mqws . && rm -rf django_mqws
+   git clone https://github.com/synw/django-instant.git
+   mv django-instant/instant . && rm -rf django_instant
    
 Set the urls:
 
@@ -50,7 +51,7 @@ Set the urls:
 
 ::
 
-   url('^mq/', include('mqws.urls')),
+   url('^mq/', include('instant.urls')),
    
 4. Install the js part with npm:
 
@@ -58,14 +59,13 @@ Set the urls:
 
 ::
 
-   cd static
-   mkdir mqws && cd mqws
+   cd static/instant
    npm install centrifuge
 
 Settings
 ~~~~~~~~
 
-Add ``'mqws',`` to installed apps and configure settings.py:
+Add ``'instant',`` to installed apps and configure settings.py:
 
 ::
 
@@ -84,5 +84,5 @@ Important: if you use the log handler these settings must be placed before ``fro
 Templates
 ~~~~~~~~~
 
-Include the template ``{% include "mqws/stream.html" %}`` anywhere (nothing will be displayed it is the engine), 
-in the footer for example. Add ``{% include "mqws/messages.html" %}`` where you want the message counter to be.
+Include the template ``{% include "instant/stream.html" %}`` anywhere (nothing will be displayed it is the engine), 
+in the footer for example. Add ``{% include "instant/messages.html" %}`` where you want the message counter to be.

@@ -23,7 +23,27 @@ class LogsDBHandler(Handler,object):
             event_class = 'Dev log '+record.levelname
         else:
             event_class = 'Log '+record.levelname
-        user = record.request.user
+        try:
+            user = record.request.user
+        except:
+            user = None
+        if user is not None:
+            MEvent.objects.create(
+                                  name=name, 
+                                  event_class=event_class, 
+                                  notes=msg, 
+                                  user=user, 
+                                  request=record.request,
+                                  url=record.request.path,
+                                  )
+        else:
+            MEvent.objects.create(
+                                  name=name, 
+                                  event_class=event_class, 
+                                  notes=msg, 
+                                  request=record.request,
+                                  url=record.request.path,
+                                  )
         """ TODO ***
         if LIVE_STREAM is True and STREAM_LOGS is True:
             MEvent.objects.create(
@@ -37,15 +57,6 @@ class LogsDBHandler(Handler,object):
                                   stream = True,
                                   channel = LOGS_CHANNEL,
                                   )
-        else:
         """
-        MEvent.objects.create(
-                              name=name, 
-                              event_class=event_class, 
-                              notes=msg, 
-                              user=user, 
-                              request=record.request,
-                              url=record.request.path,
-                              )
         return
 
