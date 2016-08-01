@@ -7,13 +7,12 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
-from mqueue.utils import get_user, get_url, get_admin_url, format_event_class
+from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.conf import LIVE_STREAM
-
 if LIVE_STREAM is True:
-    from cent.core import Client
-    from mqws.conf import GLOBAL_STREAMS, CENTRIFUGO_HOST, CENTRIFUGO_PORT, SITE_SLUG, SECRET_KEY
-    
+    from instant import broadcast
+
+
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 
@@ -84,17 +83,7 @@ class MEventManager(models.Manager):
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
         if LIVE_STREAM is True and stream is True:
-            cent_url = CENTRIFUGO_HOST+":"+str(CENTRIFUGO_PORT)
-            client = Client(cent_url, SECRET_KEY, timeout=1)
-            channel = 'public'
-            if 'channel' in kwargs.keys():
-                channel = kwargs['channel']
-            if channel not in GLOBAL_STREAMS:
-                channel = SITE_SLUG+'_'+channel
-            msg_label = format_event_class(obj=None, event_class=event_class)
-            data = {"message": name, 'message_label':msg_label, 'event_class':event_class }
-            client.publish(channel, data)
-            #print 'CLI: '+str(cli)+' channel :'+channel+' / MSG: '+emit_msg
+            broadcast(name, event_class)
         # save by default unless it is said not to
         if 'commit' in kwargs.keys():
             if kwargs['commit'] is False:
