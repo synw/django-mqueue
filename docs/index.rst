@@ -43,9 +43,7 @@ and run them.
 	:maxdepth: 2
 	:caption: Real time messaging
 
-	realtime/configuration
-	realtime/usage
-	realtime/handlers
+	realtime/index
 
 
 
