@@ -39,7 +39,7 @@ EVENT_ICONS_HTML=getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 EVENT_EXTRA_HTML=getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
 
 # ===================== Websocket stream ===================================
-LIVE_STREAM = "instant" in getattr(settings, 'INSTALLED_APPS')
+LIVE_FEED = "mqueue_livefeed" in getattr(settings, 'INSTALLED_APPS')
 
 # ====================================== Logs ======================================
 DEV_LOGGING = {

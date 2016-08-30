@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
 from mqueue.models import MEvent
 from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
 from mqueue.conf import bcolors
+from mqueue.conf import LIVE_FEED
+if LIVE_FEED is True:
+    from mqueue_livefeed.conf import CHANNEL, STREAM_MODELS, SITE_NAME
+    from instant import broadcast
     
 
 def mmessage_create(sender, instance, created, **kwargs):
@@ -28,6 +30,9 @@ def mmessage_create(sender, instance, created, **kwargs):
                     admin_url = admin_url,
                     event_class = event_class,
                     )
+        if LIVE_FEED is True and STREAM_MODELS is True:
+            data = {"admin_url": admin_url, "site": SITE_NAME}
+            broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
         if settings.DEBUG:
             print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+' created'
     return
@@ -47,6 +52,9 @@ def mmessage_delete(sender, instance, **kwargs):
                 user = user,
                 event_class = event_class,
                 )
+    if LIVE_FEED is True and STREAM_MODELS is True:
+        data = {"site": SITE_NAME}
+        broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
     if settings.DEBUG:
         print bcolors.WARNING+'Event'+bcolors.ENDC+' : object '+obj_name+' deleted'
     return
@@ -76,6 +84,9 @@ def mmessage_save(sender, instance, created, **kwargs):
                 admin_url = admin_url,
                 event_class = event_class,
                 )
+    if LIVE_FEED is True and STREAM_MODELS is True:
+        data = {"admin_url": admin_url, "site": SITE_NAME}
+        broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
     if settings.DEBUG:
         print bcolors.SUCCESS+'Event'+bcolors.ENDC+' : object '+obj_name+event_str
     return

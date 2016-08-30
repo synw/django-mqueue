@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import traceback
-from django.utils import timezone
 from logging import Handler
 from django.conf import settings
-#from mqueue.conf import LIVE_STREAM
-#from mqws.conf import LOGS_CHANNEL, STREAM_LOGS
+from mqueue.conf import LIVE_FEED
+if LIVE_FEED is True:
+    from mqueue_livefeed.conf import STREAM_LOGS, CHANNEL
+    from instant import broadcast
 
 
 class LogsDBHandler(Handler,object):
@@ -44,19 +45,7 @@ class LogsDBHandler(Handler,object):
                                   request=record.request,
                                   url=record.request.path,
                                   )
-        """ TODO ***
-        if LIVE_STREAM is True and STREAM_LOGS is True:
-            MEvent.objects.create(
-                                  name=name, 
-                                  event_class=event_class, 
-                                  notes=msg, 
-                                  user=user, 
-                                  request=record.request,
-                                  url=record.request.path,
-                                  commit = False,
-                                  stream = True,
-                                  channel = LOGS_CHANNEL,
-                                  )
-        """
+        if LIVE_FEED is True and STREAM_LOGS is True:
+            broadcast(message=name, event_class=event_class, channel=CHANNEL)
         return
 
