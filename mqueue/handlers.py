@@ -5,7 +5,7 @@ from logging import Handler
 from django.conf import settings
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
-    from mqueue_livefeed.conf import STREAM_LOGS, CHANNEL
+    from mqueue_livefeed.conf import STREAM_LOGS, CHANNEL, SITE_NAME
     from instant import broadcast
 
 
@@ -46,6 +46,6 @@ class LogsDBHandler(Handler,object):
                                   url=record.request.path,
                                   )
         if LIVE_FEED is True and STREAM_LOGS is True:
-            broadcast(message=name, event_class=event_class, channel=CHANNEL)
+            broadcast(message=name, event_class=event_class, channel=CHANNEL, data={"site": SITE_NAME})
         return
 
