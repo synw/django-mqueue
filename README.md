@@ -8,9 +8,8 @@ Features:
 - Send events from code: they will be recorder into the db
 - Monitoring on models: the events (create/save/delete) will be recorder according to the choosen log level
 - Logs handler: to record the Django logs into the db
-- Experimental feature: live stream of events on websockets with 
-[Centrifugo](https://github.com/centrifugal/centrifugo/), using 
-[Django Instant](https://github.com/synw/django-instant).
+- Stream the events over websockets to a live dashboard 
+with [django-mqueue-livefeed](https://github.com/synw/django-mqueue-livefeed).
 
 Events can be linked to a model instance and a user instance.
 
