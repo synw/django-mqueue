@@ -26,3 +26,6 @@ The ``stream=True`` parameter is required to stream the event, ``commit=False`` 
 to tell mqueue not to save the event into the database. Do not set if you want 
 it recorded in the db as well.
 
+Note: if stream is True and no channel is provided the event will be pushed to the default channel set
+in django-instant.
+
