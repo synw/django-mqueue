@@ -11,7 +11,6 @@ from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
     from instant import broadcast
-    from mqueue_livefeed.conf import SITE_NAME
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -90,9 +89,6 @@ class MEventManager(models.Manager):
         if "data" in kwargs.keys():
             data = kwargs["data"]
         if stream is True:
-            if LIVE_FEED is True:
-                if not data.has_key("site"):
-                    data['site'] = SITE_NAME
             broadcast(message=name, event_class=event_class, channel=channel, data=data)
         # save by default unless it is said not to
         if 'commit' in kwargs.keys():
