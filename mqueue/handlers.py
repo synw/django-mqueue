@@ -19,7 +19,7 @@ class LogsDBHandler(Handler,object):
             ex_type = repr((record.exc_info[0]))
             ex_title =  repr(record.exc_info[1])
             ex_traceback = '\n'.join(traceback.format_tb(record.exc_info[2]))
-            msg+='\n\n'+ex_title+'\n\n'+ex_type+'\n\n'+ex_traceback
+            msg+='\n\n'+ex_title.encode('utf-8')+'\n\n'+ex_type.encode('utf-8')+'\n\n'+ex_traceback.encode('utf-8')
         if settings.DEBUG is True:
             event_class = 'Dev log '+record.levelname
         else:
