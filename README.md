@@ -5,7 +5,7 @@
 Events queue application for Django. Can be used for monitoring or loging, or to build any events-based app.
 Features:
 
-- Send events from code: they will be recorder into the db
+- Send events from code: they will be recorded into the db
 - Monitoring on models: the events (create/save/delete) will be recorder according to the choosen log level
 - Logs handler: to record the Django logs into the db
 - Stream the events over websockets to a live dashboard 
