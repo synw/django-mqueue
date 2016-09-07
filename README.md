@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Events queue application for Django: can be used for monitoring or loging, or to build any events based app.
+Events queue application for Django. Can be used for monitoring or loging, or to build any events-based app.
 Features:
 
 - Send events from code: they will be recorder into the db
