@@ -6,7 +6,7 @@ from django.conf import settings
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
     from mqueue_livefeed.conf import STREAM_LOGS, CHANNEL, EXTRA_CHANNELS, SITE_NAME
-    from instant import broadcast
+    from instant.producers import broadcast
 
 
 class LogsDBHandler(Handler,object):

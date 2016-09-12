@@ -7,7 +7,7 @@ from mqueue.conf import bcolors
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
     from mqueue_livefeed.conf import CHANNEL, EXTRA_CHANNELS, STREAM_MODELS, SITE_NAME
-    from instant import broadcast
+    from instant.producers import broadcast
     
 
 def mmessage_create(sender, instance, created, **kwargs):

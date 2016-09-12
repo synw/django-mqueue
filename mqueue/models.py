@@ -10,7 +10,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
-    from instant import broadcast
+    from instant.producers import broadcast
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
