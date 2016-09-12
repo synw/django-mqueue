@@ -6,9 +6,8 @@ Install `Django Mqueue Livefeed <https://github.com/synw/django-mqueue-livefeed/
 Autostream events and logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once Django Mqueue Livefeed installed all the registered models events and the logs will be broadcasted to a private
-channel and can be seen via a dashboard at `/events/`.
-
+Once Django Mqueue Livefeed installed all the registered models events and the logs will be broadcasted to a
+private channel reserved to the superuser. This live events dashboard lives at `/events/`.
 
 Stream events into a private channel
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
