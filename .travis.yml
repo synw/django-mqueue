@@ -9,10 +9,10 @@ env:
 
 install:
   - pip install django-fake-model
-  - pip install coveralls
+  - pip install pytest pytest-cov coveralls
 
 script:
-  coverage run --source=mqueue setup.py test
+  py.test mqueue/tests.py --cov=mqueue mqueue
 
 after_success:
   coveralls
