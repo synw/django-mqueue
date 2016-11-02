@@ -14,7 +14,7 @@ install:
 
 script:
   - coverage run --source=mqueue setup.py test
-  - caverage report
+  - coverage report
 
 after_success:
   coveralls
