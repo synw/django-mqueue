@@ -1,0 +1,8 @@
+[run]
+source = mqueue
+branch = True
+omit =
+    mqueue/migrations/*
+    mqueue/tests/*
+    mqueue/test_utils/*
+    __init__.py
