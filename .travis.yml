@@ -12,7 +12,7 @@ install:
   - pip install pytest pytest-cov coveralls
 
 script:
-  py.test mqueue/tests.py --cov=mqueue mqueue
+  py.test mqueue/tests.py --cov=mqueue
 
 after_success:
   coveralls
