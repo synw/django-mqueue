@@ -9,7 +9,6 @@ env:
   - DJANGO=1.10
 
 install:
-  - pip install -r requirements.txt
   - pip install coveralls
 
 script:
@@ -17,4 +16,3 @@ script:
 
 after_success:
   coveralls
-
