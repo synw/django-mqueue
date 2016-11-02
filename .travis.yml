@@ -5,8 +5,16 @@ python:
   - pypy
 
 env:
-  - DJANGO=1.9.8
+  - DJANGO=1.9
+  - DJANGO=1.10
+
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
 
 script:
-  python setup.py test
+  coverage run --source=mqueue setup.py test
+
+after_success:
+  coveralls
 
