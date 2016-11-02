@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import random
 from django.core.urlresolvers import reverse
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
@@ -28,33 +27,35 @@ def format_event_class(obj=None, event_class=None):
         icon = EVENT_ICONS_HTML[event_class]+'&nbsp;'
         printed_class = event_class
     else:
-        if 'created' in event_class:
+        event_class_lower = event_class.lower()
+        if 'created' in event_class_lower:
             icon = EVENT_ICONS_HTML['Object created']+'&nbsp;'
-        elif 'edited' in event_class:
+            printed_class = 'Object created'
+        elif 'edited' in event_class_lower:
             icon = EVENT_ICONS_HTML['Object edited']+'&nbsp;'
-        elif 'deleted' in event_class:
+            printed_class = 'Object edited'
+        elif 'deleted' in event_class_lower:
             icon = EVENT_ICONS_HTML['Object deleted']+'&nbsp;'
+            printed_class = 'Object deleted'
         else:
             icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
-        if 'error' in event_class.lower():
+            printed_class = 'Default'
+        if 'error' in event_class_lower:
             icon = EVENT_ICONS_HTML['Error']+'&nbsp;'
             printed_class = 'Error'
-        elif 'debug' in event_class.lower():
+        elif 'debug' in event_class_lower:
             icon = EVENT_ICONS_HTML['Debug']+'&nbsp;'
             printed_class = 'Debug'
-        elif 'warning' in event_class.lower():
+        elif 'warning' in event_class_lower:
             icon = EVENT_ICONS_HTML['Warning']+'&nbsp;'
             printed_class = 'Warning'
-        elif 'info' in event_class.lower():
+        elif 'info' in event_class_lower or 'infos' in event_class_lower:
             icon = EVENT_ICONS_HTML['Info']+'&nbsp;'
             printed_class = 'Info'
-        elif 'important' in event_class.lower():
+        elif 'important' in event_class_lower:
             icon = EVENT_ICONS_HTML['Important']+'&nbsp;'
             printed_class = 'Important'
-    if event_class in EVENT_CLASSES.keys():
-        event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+event_class+'</span>'
-    else:
-        event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+event_class+'</span>'
+    event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+event_class+'</span>'
     if event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[event_class]
     return event_html
@@ -66,18 +67,15 @@ def get_object_name(instance, user):
         obj_name=instance.__unicode__()
     except AttributeError:
         try:
-            obj_name = ' '+instance.name
+            obj_name = instance.name
         except:
             try:
-                obj_name = ' '+instance.title
+                obj_name = instance.title
             except:
                 try:
-                    obj_name = ' '+instance.slug
+                    obj_name = instance.slug
                 except:
-                    try:
-                        obj_name = ' '+str(instance.pk)
-                    except:
-                        pass
+                    obj_name = str(instance.pk)
     if obj_name:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45]+'...'
@@ -112,6 +110,3 @@ def get_url(instance):
 def get_admin_url(instance):
     admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
     return admin_url
-
-
-

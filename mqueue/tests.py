@@ -4,7 +4,8 @@ from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from mqueue.models import MEvent
-from mqueue.utils import get_event_class_str
+from mqueue.utils import get_event_class_str, get_object_name
+from mqueue.tests.factory import DummyModelUnicode
 
 
 class MqueueTest(TestCase):
@@ -37,7 +38,7 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.obj_pk, 1)
         return
     
-    def test_utils(self):
+    def test_utils_get_event_class_str(self):
         event_class = "Obj created"
         self.assertEqual(get_event_class_str(event_class), "Object created")
         event_class = "Obj edited"
@@ -46,7 +47,13 @@ class MqueueTest(TestCase):
         self.assertEqual(get_event_class_str(event_class), "Object deleted")
         event_class = None
         self.assertEqual(get_event_class_str(event_class), "Default")
-    
+        
+    def test_utils_get_object_name(self):
+        instance = DummyModelUnicode.objects.create()
+        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
+        object_name = get_object_name(instance, user)
+        self.assertEqual(object_name, "Dummy model")
+        
     
     """
     def test_managers(self):
@@ -57,7 +64,7 @@ class MqueueTest(TestCase):
         self.assertEqual(MEvent.objects.count_for_model(User), 2)
         self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
         return
-    
+
     def test_managers_with_event_class(self):
         user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
         mevent1 = MEvent.objects.create(name="event1", model=User, event_class="class1")
@@ -65,6 +72,5 @@ class MqueueTest(TestCase):
         self.assertEqual(list(MEvent.objects.events_for_model(User, event_classes=["class1"] )), [mevent1])
         self.assertEqual(MEvent.objects.count_for_model(User, event_classes=["class2"]), 1)
         self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
-        return 
+        return
     """
-
