@@ -12,7 +12,7 @@ install:
   - pip install coveralls
 
 script:
-  - python manage.py test mqueue
+  - python setup.py test mqueue
   - coverage run --source=mqueue
 
 after_success:
