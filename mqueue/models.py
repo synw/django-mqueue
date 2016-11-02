@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -148,10 +146,3 @@ class MEvent(models.Model):
         
     def __unicode__(self):
         return self.name+' - '+str(self.date_posted)
-
-
-    
-    
-        
-        
-        

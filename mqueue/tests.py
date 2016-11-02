@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from mqueue.models import MEvent
+from mqueue.utils import get_event_class_str
 
 
 class MqueueTest(TestCase):
@@ -35,9 +36,19 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.content_type, self._content_type)
         self.assertEqual(mevent.obj_pk, 1)
         return
-    """
-    nedds fixing
     
+    def test_utils(self):
+        event_class = "Obj created"
+        self.assertEqual(get_event_class_str(event_class), "Object created")
+        event_class = "Obj edited"
+        self.assertEqual(get_event_class_str(event_class), "Object edited")
+        event_class = "Obj deleted"
+        self.assertEqual(get_event_class_str(event_class), "Object deleted")
+        event_class = None
+        self.assertEqual(get_event_class_str(event_class), "Default")
+    
+    
+    """
     def test_managers(self):
         user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
         mevent1 = MEvent.objects.create(name="event1", model=User)
@@ -54,7 +65,6 @@ class MqueueTest(TestCase):
         self.assertEqual(list(MEvent.objects.events_for_model(User, event_classes=["class1"] )), [mevent1])
         self.assertEqual(MEvent.objects.count_for_model(User, event_classes=["class2"]), 1)
         self.assertEqual(list(MEvent.objects.events_for_object(user)), [mevent2])
-        return
-    """    
-
+        return 
+    """
 

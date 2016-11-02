@@ -5,14 +5,15 @@ from django.core.urlresolvers import reverse
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
 
-def get_event_class_str(event_class):
+def get_event_class_str(event_class=None):
     event_class_str = 'Default'
-    if 'created' in event_class:
-        event_class_str = 'Object created'
-    if 'deleted' in event_class:
-        event_class_str = 'Object deleted'
-    if 'edited' in event_class:
-        event_class_str = 'Object edited'
+    if event_class is not None:
+        if 'created' in event_class:
+            event_class_str = 'Object created'
+        if 'deleted' in event_class:
+            event_class_str = 'Object deleted'
+        if 'edited' in event_class:
+            event_class_str = 'Object edited'
     return event_class_str
 
 def format_event_class(obj=None, event_class=None):
