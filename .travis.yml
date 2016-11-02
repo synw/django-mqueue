@@ -8,6 +8,7 @@ env:
   - DJANGO=1.10
 
 install:
+  - pip install django-fake-model
   - pip install coveralls
 
 script:
