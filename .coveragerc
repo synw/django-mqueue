@@ -5,9 +5,9 @@ branch = True
 [report]
 omit =
     mqueue/migrations/*
-    mqueue/tests/*
+    mqueue/tests*
     mqueue/test_utils/*
-    __init__.py
+    mqueue/__init__.py
 
 # Regexes for lines to exclude from consideration
 exclude_lines =
