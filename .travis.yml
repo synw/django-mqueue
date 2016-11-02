@@ -13,8 +13,9 @@ install:
   - pip install django-fake-model coveralls
 
 script:
-  - python manage.py test
-  - coverage run --source=mqueue manage.py test
+  - pwd
+  - python setup.py test
+  - coverage run --source=mqueue setup.py test
   - coverage report
 
 after_success:
