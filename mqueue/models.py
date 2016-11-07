@@ -16,19 +16,19 @@ USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 class MEventManager(models.Manager):
     def create(self, *args, **kwargs):
-        if not 'name' in kwargs.keys():
+        if 'name' not in kwargs.keys():
             raise ValueError(u"You must provide a 'name' argument for the MEvent")
         else:
             name = kwargs['name']
         obj_pk = None
-        if 'obj_pk' in kwargs.keys() and not 'instance' in kwargs.keys():
-            obj_pk = kwargs['obj_pk'] 
+        if 'obj_pk' in kwargs.keys() and 'instance' not in kwargs.keys():
+            obj_pk = kwargs['obj_pk']
         content_type = None
-        if 'model' in kwargs.keys() and not 'instance' in kwargs.keys():
+        if 'model' in kwargs.keys() and 'instance' not in kwargs.keys():
             content_type = ContentType.objects.get_for_model(kwargs['model'])
-        #~ trying to grab an object instance in order to guess some fields
+        # trying to grab an object instance in order to guess some fields
         instance = None
-        if obj_pk and content_type and not 'instance' in kwargs.keys():
+        if obj_pk and content_type and 'instance' not in kwargs.keys():
             try:
                 instance = content_type.get_object_for_this_type(pk=obj_pk)
             except:
@@ -37,7 +37,7 @@ class MEventManager(models.Manager):
             instance = kwargs['instance']
             obj_pk = instance.pk
             content_type = ContentType.objects.get_for_model(kwargs['instance'].__class__)
-        #~ guessed stuff
+        # guessed stuff
         user = None
         if 'user' in kwargs.keys():
             user = kwargs['user']
@@ -56,15 +56,15 @@ class MEventManager(models.Manager):
         else:
             if instance:
                 admin_url = get_admin_url(instance)
-        # request 
-        save_request = False 
+        # request
+        save_request = False
         if 'request' in kwargs.keys():
             request = kwargs['request']
             formated_request = ''
             for key in request.META.keys():
-                formated_request += str(key)+' : '+str(request.META[key])+'\n'
+                formated_request += str(key) + ' : ' + str(request.META[key]) + '\n'
             save_request = True
-        #~ static stuff
+        # static stuff
         event_class = ''
         if 'event_class' in kwargs.keys():
             event_class = kwargs['event_class']
@@ -76,7 +76,7 @@ class MEventManager(models.Manager):
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         if save_request is True:
             mevent.request = formated_request
-        # redis stream
+        # broadcast options
         stream = False
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
@@ -95,7 +95,7 @@ class MEventManager(models.Manager):
         else:
             mevent.save(force_insert=True)
         return mevent
-    
+
     def events_for_model(self, model, event_classes=[]):
         content_type = ContentType.objects.get_for_model(model)
         if event_classes:
@@ -111,38 +111,36 @@ class MEventManager(models.Manager):
         else:
             qs = MEvent.objects.filter(content_type=content_type).count()
         return qs
-    
+
     def events_for_object(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
         events = MEvent.objects.filter(content_type=content_type, obj_pk=obj.pk)
         return events
-    
+
 
 class MEvent(models.Model):
-    #~ required fields
+    # required fields
     content_type = models.ForeignKey(ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
     obj_pk = models.IntegerField(blank=True, null=True, verbose_name=_(u"Object primary key"))
     name = models.CharField(max_length=120, verbose_name=_(u"Name"))
-    #~ content fields
+    # content fields
     url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Url"))
     admin_url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Admin url"))
     notes = models.TextField(blank=True)
-    #~ meta
+    # meta
     date_posted = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Date posted"))
     event_class = models.CharField(max_length=120, blank=True, verbose_name=_(u"Class"))
-    user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))   
+    user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))
     request = models.TextField(blank=True, verbose_name=_(u'Request'))
-    #~ manager
+    # manager
     objects = MEventManager()
-    
+
     class Meta:
         app_label = 'mqueue'
         verbose_name = _(u'Event')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
-        permissions = (
-                       ("view_mevent", "Can see Events"),
-                       )
-        
+        permissions = (("view_mevent", "Can see Events"),)
+
     def __unicode__(self):
-        return self.name+' - '+str(self.date_posted)
+        return self.name + ' - ' + str(self.date_posted)

@@ -15,6 +15,7 @@ def get_event_class_str(event_class=None):
             event_class_str = 'Object edited'
     return event_class_str
 
+
 def format_event_class(obj=None, event_class=None):
     event_html = ''
     if event_class is None:
@@ -24,47 +25,47 @@ def format_event_class(obj=None, event_class=None):
     printed_class = get_event_class_str(event_class)
     icon = ''
     if event_class in EVENT_ICONS_HTML.keys():
-        icon = EVENT_ICONS_HTML[event_class]+'&nbsp;'
+        icon = EVENT_ICONS_HTML[event_class] + '&nbsp;'
         printed_class = event_class
     else:
         event_class_lower = event_class.lower()
         if 'created' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Object created']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Object created'] + '&nbsp;'
             printed_class = 'Object created'
         elif 'edited' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Object edited']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Object edited'] + '&nbsp;'
             printed_class = 'Object edited'
         elif 'deleted' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Object deleted']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Object deleted'] + '&nbsp;'
             printed_class = 'Object deleted'
         else:
-            icon = EVENT_ICONS_HTML['Default']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Default'] + '&nbsp;'
             printed_class = 'Default'
         if 'error' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Error']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Error'] + '&nbsp;'
             printed_class = 'Error'
         elif 'debug' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Debug']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Debug'] + '&nbsp;'
             printed_class = 'Debug'
         elif 'warning' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Warning']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Warning'] + '&nbsp;'
             printed_class = 'Warning'
         elif 'info' in event_class_lower or 'infos' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Info']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Info'] + '&nbsp;'
             printed_class = 'Info'
         elif 'important' in event_class_lower:
-            icon = EVENT_ICONS_HTML['Important']+'&nbsp;'
+            icon = EVENT_ICONS_HTML['Important'] + '&nbsp;'
             printed_class = 'Important'
-    event_html += '<span class="'+EVENT_CLASSES[printed_class]+'">'+icon+event_class+'</span>'
+    event_html += '<span class="' + EVENT_CLASSES[printed_class] + '">' + icon + event_class + '</span>'
     if event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[event_class]
     return event_html
 
 
 def get_object_name(instance, user):
-    obj_name=''
+    obj_name = ''
     try:
-        obj_name=instance.__unicode__()
+        obj_name = instance.__unicode__()
     except AttributeError:
         try:
             obj_name = instance.name
@@ -78,11 +79,12 @@ def get_object_name(instance, user):
                     obj_name = str(instance.pk)
     if obj_name:
         if len(obj_name) >= 45:
-            obj_name = obj_name[:45]+'...'
-    obj_name = instance.__class__.__name__+' '+obj_name
+            obj_name = obj_name[:45] + '...'
+    obj_name = instance.__class__.__name__ + ' ' + obj_name
     if user:
-        obj_name += ' ('+user.username+')'
+        obj_name += ' (' + user.username + ')'
     return obj_name
+
 
 def get_user(instance):
     user = None
@@ -94,6 +96,7 @@ def get_user(instance):
         except:
             pass
     return user
+
 
 def get_url(instance):
     url = ''
@@ -107,6 +110,7 @@ def get_url(instance):
         return url
     return ''
 
+
 def get_admin_url(instance):
-    admin_url = reverse('admin:%s_%s_change' %(instance._meta.app_label,  instance._meta.model_name),  args=[instance.id] )
+    admin_url = reverse('admin:%s_%s_change' % (instance._meta.app_label, instance._meta.model_name), args=[instance.id])
     return admin_url
