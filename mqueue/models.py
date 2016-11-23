@@ -61,9 +61,12 @@ class MEventManager(models.Manager):
         if 'request' in kwargs.keys():
             request = kwargs['request']
             formated_request = ''
-            for key in request.META.keys():
-                formated_request += str(key) + ' : ' + str(request.META[key]) + '\n'
-            save_request = True
+            try:
+                for key in request.META.keys():
+                    formated_request += str(key) + ' : ' + str(request.META[key]) + '\n'
+                save_request = True
+            except:
+                pass
         # static stuff
         event_class = ''
         if 'event_class' in kwargs.keys():

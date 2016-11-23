@@ -30,6 +30,11 @@ class LogsDBHandler(Handler, object):
             user = record.request.user
         except:
             user = None
+        rec = getattr(record, "path", None)
+        if rec is not None:
+            url = record.request.path
+        else:
+            url = ""
         if user is not None:
             MEvent.objects.create(
                 name=name,
@@ -37,7 +42,7 @@ class LogsDBHandler(Handler, object):
                 notes=msg,
                 user=user,
                 request=record.request,
-                url=record.request.path,
+                url=url,
             )
         else:
             MEvent.objects.create(
@@ -45,7 +50,7 @@ class LogsDBHandler(Handler, object):
                 event_class=event_class,
                 notes=msg,
                 request=record.request,
-                url=record.request.path,
+                url=url,
             )
         if LIVE_FEED is True and STREAM_LOGS is True:
             broadcast(message=name, event_class=event_class, channel=CHANNEL, data={"site": SITE_NAME})
