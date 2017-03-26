@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
-    from instant.producers import broadcast
+    from instant.producers import publish
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -79,7 +79,7 @@ class MEventManager(models.Manager):
         mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
         if save_request is True:
             mevent.request = formated_request
-        # broadcast options
+        # publish options
         stream = False
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
@@ -90,7 +90,7 @@ class MEventManager(models.Manager):
         if "data" in kwargs.keys():
             data = kwargs["data"]
         if stream is True:
-            broadcast(message=name, event_class=event_class, channel=channel, data=data)
+            publish(message=name, event_class=event_class, channel=channel, data=data)
         # save by default unless it is said not to
         if 'commit' in kwargs.keys():
             if kwargs['commit'] is False:

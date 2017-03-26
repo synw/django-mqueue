@@ -7,7 +7,7 @@ from mqueue.conf import bcolors
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
     from mqueue_livefeed.conf import CHANNEL, EXTRA_CHANNELS, STREAM_MODELS, SITE_NAME
-    from instant.producers import broadcast
+    from instant.producers import publish
 
 
 def mmessage_create(sender, instance, created, **kwargs):
@@ -31,10 +31,10 @@ def mmessage_create(sender, instance, created, **kwargs):
         )
         if LIVE_FEED is True and STREAM_MODELS is True:
             data = {"admin_url": admin_url, "site": SITE_NAME}
-            broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
+            publish(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
             if len(EXTRA_CHANNELS) > 0:
                 for channel in EXTRA_CHANNELS:
-                    broadcast(message=obj_name, event_class=event_class, channel=channel, data=data)
+                    publish(message=obj_name, event_class=event_class, channel=channel, data=data)
 
         if settings.DEBUG:
             print bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' created'
@@ -57,10 +57,10 @@ def mmessage_delete(sender, instance, **kwargs):
     )
     if LIVE_FEED is True and STREAM_MODELS is True:
         data = {"site": SITE_NAME}
-        broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
+        publish(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
         if len(EXTRA_CHANNELS) > 0:
             for channel in EXTRA_CHANNELS:
-                broadcast(message=obj_name, event_class=event_class, channel=channel, data=data)
+                publish(message=obj_name, event_class=event_class, channel=channel, data=data)
     if settings.DEBUG:
         print bcolors.WARNING + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' deleted'
     return
@@ -92,10 +92,10 @@ def mmessage_save(sender, instance, created, **kwargs):
     )
     if LIVE_FEED is True and STREAM_MODELS is True:
         data = {"admin_url": admin_url, "site": SITE_NAME}
-        broadcast(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
+        publish(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
         if len(EXTRA_CHANNELS) > 0:
             for channel in EXTRA_CHANNELS:
-                broadcast(message=obj_name, event_class=event_class, channel=channel, data=data)
+                publish(message=obj_name, event_class=event_class, channel=channel, data=data)
     if settings.DEBUG:
         print bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + event_str
     return
