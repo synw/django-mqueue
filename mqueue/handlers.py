@@ -6,7 +6,7 @@ from django.conf import settings
 from mqueue.conf import LIVE_FEED
 if LIVE_FEED is True:
     from mqueue_livefeed.conf import STREAM_LOGS, CHANNEL, EXTRA_CHANNELS, SITE_NAME
-    from instant.producers import broadcast
+    from instant.producers import publish
 
 
 class LogsDBHandler(Handler,object):
@@ -19,13 +19,10 @@ class LogsDBHandler(Handler,object):
             ex_type = repr((record.exc_info[0]))
             ex_title =  repr(record.exc_info[1])
             ex_traceback = '\n'.join(traceback.format_tb(record.exc_info[2]))
-            msg+='\n\n'+ex_title.decode().encode('utf-8')+'\n\n'
-            msg += ex_type.decode().encode('utf-8')
-            msg += '\n\n'+ex_traceback.decode().encode('utf-8')
-        if settings.DEBUG is True:
-            event_class = 'Dev log '+record.levelname
-        else:
-            event_class = 'Log '+record.levelname
+            msg+='\n\n'+ex_title+'\n\n'
+            msg += ex_type
+            msg += '\n\n'+ex_traceback
+        event_class = 'Log '+record.levelname
         try:
             user = record.request.user
         except:
@@ -53,9 +50,9 @@ class LogsDBHandler(Handler,object):
                                   url=path,
                                   )
         if LIVE_FEED is True and STREAM_LOGS is True:
-            broadcast(message=name, event_class=event_class, channel=CHANNEL, data={"site": SITE_NAME})
+            publish(message=name, event_class=event_class, channel=CHANNEL, data={"site": SITE_NAME})
             if len(EXTRA_CHANNELS) > 0:
                 for channel in EXTRA_CHANNELS:
-                    broadcast(message=name, event_class=event_class, channel=channel, data={"site": SITE_NAME})
+                    publish(message=name, event_class=event_class, channel=channel, data={"site": SITE_NAME})
         return
 
