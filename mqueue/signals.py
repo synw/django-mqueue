@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+from __future__ import print_function
 from django.conf import settings
 from mqueue.models import MEvent
 from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
@@ -37,7 +36,7 @@ def mmessage_create(sender, instance, created, **kwargs):
                     publish(message=obj_name, event_class=event_class, channel=channel, data=data)
 
         if settings.DEBUG:
-            print bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' created'
+            print (bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' created')
     return
 
 
@@ -62,7 +61,7 @@ def mmessage_delete(sender, instance, **kwargs):
             for channel in EXTRA_CHANNELS:
                 publish(message=obj_name, event_class=event_class, channel=channel, data=data)
     if settings.DEBUG:
-        print bcolors.WARNING + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' deleted'
+        print(bcolors.WARNING + 'Event' + bcolors.ENDC + ' : object ' + obj_name + ' deleted')
     return
 
 
@@ -97,5 +96,5 @@ def mmessage_save(sender, instance, created, **kwargs):
             for channel in EXTRA_CHANNELS:
                 publish(message=obj_name, event_class=event_class, channel=channel, data=data)
     if settings.DEBUG:
-        print bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + event_str
+        print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' : object ' + obj_name + event_str)
     return
