@@ -3,6 +3,8 @@
 from django.conf import settings
 
 
+WATCH = getattr(settings, 'MQUEUE_WATCH', [])
+
 # ===================== Events formats ===================================
 EVENT_CLASSES = {
     # 'Event class label': 'css class to apply',
