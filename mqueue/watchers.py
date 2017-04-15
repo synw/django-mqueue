@@ -55,10 +55,8 @@ def login_failed(sender, credentials, **kwargs):
     return
 
 def init_watchers(w):
-    print("WATCHERS:", w)
     for w in WATCH:
         if w == "login":
-            print("LOGIN")
             user_logged_in.connect(login_action)
         elif w == "logout":
             user_logged_out.connect(logout_action)
