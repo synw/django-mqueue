@@ -28,5 +28,4 @@ class MqueueConfig(AppConfig):
             mqueue_tracker.register(model, level, stream)
         from mqueue.watchers import init_watchers
         from mqueue.conf import WATCH
-        print(WATCH)
         init_watchers(WATCH)
