@@ -18,6 +18,7 @@ and run them.
 	usage/create_event
 	usage/registered_models
 	usage/retrieve_events
+	usage/watchers
 
 .. logs
 
