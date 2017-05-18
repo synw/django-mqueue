@@ -16,10 +16,10 @@ setup(
   keywords = ['django', 'logging', 'monitoring'], 
   classifiers = [
         'Development Status :: 4 - Beta',
-        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
     ],
   zip_safe=False
 )
