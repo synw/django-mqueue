@@ -9,19 +9,19 @@ To enable it add this to ``settings.py``
 
 ::
 
-   from mqueue.conf import LOGGING
+   from mqueue.logging import LOGGING
    
 This will enable logging on ERROR level when ``DEBUG`` is ``False``. To log on WARNING level 
 (which also handles the the 404 errors and friends) do this:
 
 ::
 
-   from mqueue.conf import LOGGING_WARNING as LOGGING
+   from mqueue.logging import LOGGING_WARNING as LOGGING
    
 To enable logging in dev mode, when ``DEBUG`` is ``True`` or ``False`` (useful to debug some ajax for example):
 
 ::
 
-   from mqueue.conf import DEV_LOGGING as LOGGING
+   from mqueue.logging import DEV_LOGGING as LOGGING
    
    
