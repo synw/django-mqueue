@@ -5,6 +5,8 @@ from django.conf import settings
 
 WATCH = getattr(settings, 'MQUEUE_WATCH', [])
 
+HOOKS = getattr(settings, "MQUEUE_HOOKS", [])
+
 # ===================== Events formats ===================================
 EVENT_CLASSES = {
     # 'Event class label': 'css class to apply',

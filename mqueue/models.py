@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
-from mqueue.conf import LIVE_FEED
+from mqueue.hooks import dispatch
+from mqueue.conf import LIVE_FEED, bcolors
 if LIVE_FEED is True:
     from instant.producers import publish
 
@@ -97,6 +98,9 @@ class MEventManager(models.Manager):
                 return mevent
         else:
             mevent.save(force_insert=True)
+        dispatch(mevent)
+        if settings.DEBUG:
+            print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' ['+mevent.event_class+'] : '+name)
         return mevent
 
     def events_for_model(self, model, event_classes=[]):
