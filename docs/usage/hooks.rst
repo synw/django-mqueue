@@ -39,9 +39,19 @@ Create the database in postgresql and migrate it with a management command:
 Custom hook
 -----------
 
-Declare your hook and config in settings as above.
+Create a file : ``mymodule.mqueue_hook.py``
 
-Create a `Save` function in your hook that takes and event object as parameter. Example:
+Declare your hook and config in settings as above:
+
+::
+
+   MQUEUE_HOOKS = {
+    "myhook": {
+        "path": "mymodule.mqueue_hook.py",
+    }
+   }
+
+Create a ``Save`` function in your hook that takes and event object as parameter. Example:
 
 ::
 
