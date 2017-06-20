@@ -25,7 +25,7 @@ css classes to display in the admin. The default values are (check ``mqueue/stat
 Note: if the ``event_class`` field value is not in
 MQUEUE\_EVENT\_CLASSES, the display will fallback to 'Default'.
 
-.. figure:: /img/events_list.png
+.. figure:: /_static/events_list.png
    :alt: Event classes
 
 To use your own event classes set a ``MQUEUE_EVENT_CLASSES`` setting.

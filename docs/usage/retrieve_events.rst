@@ -1,5 +1,5 @@
 Retrieve events
-=============
+===============
 
 Events for a model:
 

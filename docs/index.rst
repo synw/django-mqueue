@@ -19,6 +19,7 @@ and run them.
 	usage/registered_models
 	usage/watchers
 	usage/retrieve_events
+	usage/hooks
 
 .. logs
 
