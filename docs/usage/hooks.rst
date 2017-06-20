@@ -1,7 +1,7 @@
 Hooks
 =====
 
-*New in 7.1* (inspired by `Logrus <https://github.com/sirupsen/logrus>`_)
+*New in 0.7.1* (inspired by `Logrus <https://github.com/sirupsen/logrus>`_)
 
 Optional hooks can be used to perform extra actions on events.
 
