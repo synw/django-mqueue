@@ -8,8 +8,8 @@ Optional hooks can be used to perform extra actions on events.
 Available hooks
 ---------------
 
-**Postgresql**: a Go program that records the events in a postgresql database
-**Influxdb**: a Go program that records the events in an influxdb database
+- **Postgresql**: a Go program that records the events in a postgresql database
+- **Influxdb**: a Go program that records the events in an influxdb database
 
 Usage
 -----
