@@ -8,7 +8,8 @@ Optional hooks can be used to perform extra actions on events.
 Available hooks
 ---------------
 
-**Postgresql**: a Go program that records the events in postgresql database
+**Postgresql**: a Go program that records the events in a postgresql database
+**Influxdb**: a Go program that records the events in an influxdb database
 
 Usage
 -----
@@ -35,6 +36,8 @@ Create the database in postgresql and migrate it with a management command:
 ::
 
    python3 manage.py mqueue_migrate_pg
+   
+Note: for the Go based hooks you might need to make the binary (``mqueue/hooks/<hookname>/run``) executable with chmod
    
 Custom hook
 -----------
