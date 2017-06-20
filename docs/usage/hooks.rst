@@ -48,12 +48,13 @@ Declare your hook and config in settings as above:
    MQUEUE_HOOKS = {
     "myhook": {
         "path": "mymodule.mqueue_hook.py",
+        "myparam": "myvalue",
     }
    }
 
-Create a ``Save`` function in your hook that takes and event object as parameter. Example:
+Create a ``Save`` function in your hook that takes and event object as parametera and the hook config. Example:
 
 ::
 
-   def Save(event):
-    print(event)
+   def Save(event, hook):
+       print(event, hook["myparam"])
