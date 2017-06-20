@@ -2,8 +2,9 @@ import importlib
 from mqueue.conf import HOOKS
 
 def dispatch(event):
-    for hook in HOOKS:
-        path = "mqueue.hooks."+hook
+    for name in HOOKS:
+        hook = HOOKS[name]
+        path = hook["path"]
         module = importlib.import_module(path)
         func = getattr(module, "Save")
-        func(event)
+        func(event, hook)
