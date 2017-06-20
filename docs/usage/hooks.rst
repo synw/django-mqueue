@@ -41,7 +41,7 @@ Custom hook
 
 Create a file : ``mymodule.mqueue_hook.py``
 
-Declare your hook and config in settings as above:
+Declare your hook and config in settings:
 
 ::
 
@@ -52,7 +52,7 @@ Declare your hook and config in settings as above:
     }
    }
 
-Create a ``Save`` function in your hook that takes and event object as parametera and the hook config. Example:
+Create a ``Save`` function in your hook that takes and event object as parameter and the hook config. Example:
 
 ::
 
