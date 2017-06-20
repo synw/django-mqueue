@@ -7,6 +7,8 @@ WATCH = getattr(settings, 'MQUEUE_WATCH', [])
 
 HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
 
+DOMAIN = getattr(settings, "DOMAIN", "default")
+
 # ===================== Events formats ===================================
 EVENT_CLASSES = {
     # 'Event class label': 'css class to apply',

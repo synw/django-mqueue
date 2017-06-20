@@ -1,4 +1,5 @@
 import os
+from mqueue.conf import DOMAIN
 from mqueue.hooks import postgresql
 
 
@@ -11,6 +12,7 @@ def Save(event, conf):
     params.append('-n="'+event.name+'"')
     params.append('-c="'+event.event_class+'"')
     params.append('-ct="'+str(event.content_type)+'"')
+    params.append('-dm="'+DOMAIN+'"')
     obj_pk = 0
     if event.obj_pk is not None:
         obj_pk = event.obj_pk
