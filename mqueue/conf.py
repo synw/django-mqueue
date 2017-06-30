@@ -5,6 +5,8 @@ from django.conf import settings
 
 WATCH = getattr(settings, 'MQUEUE_WATCH', [])
 
+NOSAVE = getattr(settings, 'MQUEUE_NOSAVE', [])
+
 #HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
 HOOKS = {
     "influxdb": {

@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.hooks import dispatch
-from mqueue.conf import LIVE_FEED, bcolors
+from mqueue.conf import LIVE_FEED, bcolors, NOSAVE
 if LIVE_FEED is True:
     from instant.producers import publish
 
@@ -93,11 +93,15 @@ class MEventManager(models.Manager):
         if stream is True:
             publish(message=name, event_class=event_class, channel=channel, data=data)
         # save by default unless it is said not to
-        if 'commit' in kwargs.keys():
-            if kwargs['commit'] is False:
-                return mevent
-        else:
-            mevent.save(force_insert=True)
+        modelname = ""
+        if instance is not None:
+            modelname = instance.__class__.__name__
+        if modelname not in NOSAVE:
+            if 'commit' in kwargs.keys():
+                if kwargs['commit'] is False:
+                    return mevent
+            else:
+                mevent.save(force_insert=True)
         dispatch(mevent)
         if settings.DEBUG:
             print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' ['+mevent.event_class+'] : '+name)
