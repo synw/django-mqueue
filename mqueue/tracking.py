@@ -6,12 +6,13 @@ from mqueue.signals import mmessage_save, mmessage_delete, mmessage_create
 
 class MTracker(object):
 
-    def register(self, model, monitoring_level=1, stream=False):
-        if monitoring_level == 1:
+    def register(self, model, monitoring_level):
+        if "c" in monitoring_level:
             post_save.connect(mmessage_create, sender=model)
-        if monitoring_level == 2:
+        if "u" in monitoring_level:
             post_save.connect(mmessage_save, sender=model)
-        post_delete.connect(mmessage_delete, sender=model)
+        if "d" in monitoring_level:
+            post_delete.connect(mmessage_delete, sender=model)
         return
 
 mqueue_tracker = MTracker()

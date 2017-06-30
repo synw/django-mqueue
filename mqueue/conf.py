@@ -5,9 +5,19 @@ from django.conf import settings
 
 WATCH = getattr(settings, 'MQUEUE_WATCH', [])
 
-HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
+#HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
+HOOKS = {
+    "influxdb": {
+        "path": "mqueue.hooks.influxdb",
+        "addr": "http://192.168.1.10:8086",
+        "user": "admin",
+        "password": "admin",
+        "database": "events"
+    }
+}
 
-DOMAIN = getattr(settings, "DOMAIN", "default")
+#DOMAIN = getattr(settings, "SITE_SLUG", "default")
+DOMAIN = "econso"
 
 # ===================== Events formats ===================================
 EVENT_CLASSES = {
