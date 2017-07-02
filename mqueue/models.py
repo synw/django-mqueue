@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import collections
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -7,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.hooks import dispatch
+from jsonfield import JSONField
 from mqueue.conf import LIVE_FEED, bcolors, NOSAVE
 if LIVE_FEED is True:
     from instant.producers import publish
@@ -77,10 +79,27 @@ class MEventManager(models.Manager):
             notes = kwargs['notes']
         if isinstance(user, AnonymousUser):
             user = None
-        mevent = MEvent(name=name, content_type=content_type, obj_pk=obj_pk, user=user, url=url, admin_url=admin_url, notes=notes, event_class=event_class)
+        bucket = ""
+        if 'bucket' in kwargs.keys():
+            bucket = kwargs["bucket"]
+        data = {}
+        if "data" in kwargs.keys():
+            data = kwargs["data"]
+        mevent = MEvent(
+            name=name, 
+            content_type=content_type, 
+            obj_pk=obj_pk, 
+            user=user, 
+            url=url, 
+            admin_url=admin_url, 
+            notes=notes, 
+            event_class=event_class,
+            bucket=bucket,
+            data=data
+            )
         if save_request is True:
             mevent.request = formated_request
-        # publish options
+        # stream
         stream = False
         if 'stream' in kwargs.keys():
             stream = kwargs['stream']
@@ -88,23 +107,24 @@ class MEventManager(models.Manager):
         if 'channel' in kwargs.keys():
             channel = kwargs['channel']
         data = {}
-        if "data" in kwargs.keys():
-            data = kwargs["data"]
+        
         if stream is True:
             publish(message=name, event_class=event_class, channel=channel, data=data)
+        # proceed hooks
+        dispatch(mevent)
+        # print info
+        if settings.DEBUG:
+            print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' ['+mevent.event_class+'] : '+name)
         # save by default unless it is said not to
         modelname = ""
         if instance is not None:
             modelname = instance.__class__.__name__
-        if modelname not in NOSAVE:
-            if 'commit' in kwargs.keys():
-                if kwargs['commit'] is False:
-                    return mevent
-            else:
-                mevent.save(force_insert=True)
-        dispatch(mevent)
-        if settings.DEBUG:
-            print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' ['+mevent.event_class+'] : '+name)
+        if modelname in NOSAVE:
+            return mevent
+        if 'commit' in kwargs.keys():
+            if kwargs['commit'] is False:
+                return mevent
+        mevent.save(force_insert=True)
         return mevent
 
     def events_for_model(self, model, event_classes=[]):
@@ -143,6 +163,8 @@ class MEvent(models.Model):
     event_class = models.CharField(max_length=120, blank=True, verbose_name=_(u"Class"))
     user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))
     request = models.TextField(blank=True, verbose_name=_(u'Request'))
+    bucket = models.CharField(max_length=60, blank=True, verbose_name=_(u"Bucket"))
+    data = JSONField(blank=True, load_kwargs={'object_pairs_hook': collections.OrderedDict}, verbose_name=_(u"Data"))
     # manager
     objects = MEventManager()
 

@@ -30,6 +30,8 @@ Event creation
       notes = 'Object X was saved!',
       event_class = 'Info',
       request = request,
+      bucket = "bucket_name",
+      data = {"foo": "bar"}
       )
 
 The only required field is ``name``
