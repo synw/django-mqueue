@@ -10,9 +10,10 @@ Available hooks
 
 - **Postgresql**: a Go program that records the events in a postgresql database
 - **Influxdb**: a Go program that records the events in an influxdb database
+- **Redis**: record the events in Redis
 
-Usage
------
+Postgresql
+----------
 
 In ``settings.py``
 
@@ -36,6 +37,33 @@ Create the database in postgresql and migrate it with a management command:
 ::
 
    python3 manage.py mqueue_migrate_pg
+   
+Influxdb
+--------
+
+::
+   "influxdb": {
+        "path": "mqueue.hooks.influxdb",
+        "addr": "localhost:8086",
+        "user": "admin",
+        "password": "admin",
+        "database": "events"
+    }
+
+Create the database in Influxdb
+
+Redis
+-----
+
+::
+   "redis": {
+        "path": "mqueue.hooks.redis",
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+    }
+    
+
    
 Note: for the Go based hooks you might need to make the binary (``mqueue/hooks/<hookname>/run``) executable with chmod
    

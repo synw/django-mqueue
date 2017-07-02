@@ -7,19 +7,9 @@ WATCH = getattr(settings, 'MQUEUE_WATCH', [])
 
 NOSAVE = getattr(settings, 'MQUEUE_NOSAVE', [])
 
-#HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
-HOOKS = {
-    "influxdb": {
-        "path": "mqueue.hooks.influxdb",
-        "addr": "http://192.168.1.10:8086",
-        "user": "admin",
-        "password": "admin",
-        "database": "events"
-    }
-}
+HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
 
-#DOMAIN = getattr(settings, "SITE_SLUG", "default")
-DOMAIN = "econso"
+DOMAIN = getattr(settings, "SITE_SLUG", "default")
 
 # ===================== Events formats ===================================
 EVENT_CLASSES = {

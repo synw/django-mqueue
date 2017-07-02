@@ -3,7 +3,7 @@ from mqueue.conf import DOMAIN
 from mqueue.hooks import postgresql
 
 
-def Save(event, conf):
+def save(event, conf):
     params = ["-a="+conf["addr"]]
     params.append('-du="'+conf["user"]+'"')
     params.append('-p="'+conf["password"]+'"')

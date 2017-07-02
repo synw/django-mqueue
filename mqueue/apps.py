@@ -21,6 +21,7 @@ class MqueueConfig(AppConfig):
             module = importlib.import_module(path)
             model = getattr(module, modname)
             mqueue_tracker.register(model, level)
+        # watchers
         from mqueue.watchers import init_watchers
         from mqueue.conf import WATCH
         init_watchers(WATCH)
