@@ -13,13 +13,11 @@ In ``settings.py``:
 ::
 
    MQUEUE_AUTOREGISTER = (
-   	#('app.module.model', registration level: 1=create+delete, 2=1+save),
-   	('django.contrib.auth.models.User', 1),
-   	('pages.models.Page', 2),
-   	('contact.models.Message', 1),
+   	('django.contrib.auth.models.User', ["c", "d", "u"]),
+   	('emailmodule.models.Email', ["c", "d"])
    	)
 
-The registered models will be monitored according to the chosen monitoring level.
+The registered models will be monitored according to the chosen monitoring level: `c`: create, `d`: delete, `u`: upgrade
 
 Manualy register a model
 ^^^^^^^^^^^^^^^^^^^^^^^^
