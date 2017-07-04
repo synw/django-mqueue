@@ -10,5 +10,6 @@ event_num = int(time.time())
 
 def save(event, conf):
     name = DOMAIN+"_event"+str(event_num)
-    data = serializer.Pack(event)
+    event.request = event.request.replace("\n", "//")
+    data = serializer.Pack(event)  
     R.set(name, data)

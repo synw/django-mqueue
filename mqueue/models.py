@@ -106,8 +106,6 @@ class MEventManager(models.Manager):
         channel = None
         if 'channel' in kwargs.keys():
             channel = kwargs['channel']
-        data = {}
-        
         if stream is True:
             publish(message=name, event_class=event_class, channel=channel, data=data)
         # proceed hooks

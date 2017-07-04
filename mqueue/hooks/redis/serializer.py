@@ -1,5 +1,3 @@
-from hitsmon import conf
-
 def Pack(event):
     sep = "#!#"
     data = ["name:;"+event.name]
@@ -16,7 +14,7 @@ def Pack(event):
     if event.admin_url:
         data.append("admin_url:;"+event.admin_url)
     if event.notes:
-        data.append("notes:;"+event.notes)
+        data.append("notes:;"+str(event.notes))
     if event.request:
         data.append("request:;"+event.request)
     if event.bucket:
