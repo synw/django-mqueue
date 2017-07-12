@@ -2,10 +2,7 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out, user_lo
 from django.contrib.auth.models import User
 from mqueue.models import MEvent
 from mqueue.utils import get_url, get_admin_url, get_object_name
-from mqueue.conf import WATCH, LIVE_FEED
-if LIVE_FEED is True:
-    from mqueue_livefeed.conf import CHANNEL, EXTRA_CHANNELS, STREAM_MODELS, SITE_NAME
-    from instant.producers import publish
+from mqueue.conf import WATCH
 
 
 def send_msg(objclass, instance, event_str):
@@ -23,12 +20,6 @@ def send_msg(objclass, instance, event_str):
         admin_url=admin_url,
         event_class=event_class,
     )
-    if LIVE_FEED is True and STREAM_MODELS is True:
-        data = {"admin_url": admin_url, "site": SITE_NAME}
-        publish(message=obj_name, event_class=event_class, channel=CHANNEL, data=data)
-        if len(EXTRA_CHANNELS) > 0:
-            for channel in EXTRA_CHANNELS:
-                publish(message=obj_name, event_class=event_class, channel=channel, data=data)
     return
 
 def logout_action(sender, user, **kwargs):
@@ -46,12 +37,6 @@ def login_failed(sender, credentials, **kwargs):
         event_class=event_class,
         notes = credentials
     )
-    if LIVE_FEED is True and STREAM_MODELS is True:
-        data = {"site": SITE_NAME, "username": credentials["username"]}
-        publish(message=name, event_class=event_class, channel=CHANNEL, data=data)
-        if len(EXTRA_CHANNELS) > 0:
-            for channel in EXTRA_CHANNELS:
-                publish(message=name, event_class=event_class, channel=channel, data=data)
     return
 
 def init_watchers(w):

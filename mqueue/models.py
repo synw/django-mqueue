@@ -9,9 +9,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.hooks import dispatch
 from jsonfield import JSONField
-from mqueue.conf import LIVE_FEED, bcolors, NOSAVE
-if LIVE_FEED is True:
-    from instant.producers import publish
+from mqueue.conf import bcolors, NOSAVE
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -99,15 +97,6 @@ class MEventManager(models.Manager):
             )
         if save_request is True:
             mevent.request = formated_request
-        # stream
-        stream = False
-        if 'stream' in kwargs.keys():
-            stream = kwargs['stream']
-        channel = None
-        if 'channel' in kwargs.keys():
-            channel = kwargs['channel']
-        if stream is True:
-            publish(message=name, event_class=event_class, channel=channel, data=data)
         # proceed hooks
         dispatch(mevent)
         # print info

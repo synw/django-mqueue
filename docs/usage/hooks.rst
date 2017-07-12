@@ -5,9 +5,10 @@ Hooks
 
 Optional hooks can be used to perform extra actions on events. Available hooks:
 
-- **Postgresql**: a Go program that records the events in a postgresql database
-- **Influxdb**: a Go program that records the events in an influxdb database
-- **Redis**: record the events in Redis
+- **Postgresql**: record the events in a postgresql database (go)
+- **Influxdb**: record the events in an influxdb database (go)
+- **Redis**: record the events in Redis (python)
+- **Centrifugo**: push events as messages in Centrifugo (python)
 
 Postgresql
 ----------
@@ -61,7 +62,18 @@ Redis
         "port": 6379,
         "db": 0,
     }
-    
+
+Centrifugo
+----------
+
+Install [Django Instant](https://github.com/synw/django-instant)
+
+::
+
+   "centrifugo": {
+        "path": "mqueue.hooks.centrifugo",
+        "channel": "$events"
+    }  
 
    
 Note: for the Go based hooks you might need to make the binary (``mqueue/hooks/<hookname>/run``) executable with chmod
@@ -69,7 +81,7 @@ Note: for the Go based hooks you might need to make the binary (``mqueue/hooks/<
 Custom hook
 -----------
 
-Create a file : ``mymodule.mqueue_hook.py``
+Create a file : ``mymodule/mqueue_hook.py``
 
 Declare your hook and config in settings:
 
@@ -77,7 +89,7 @@ Declare your hook and config in settings:
 
    MQUEUE_HOOKS = {
     "myhook": {
-        "path": "mymodule.mqueue_hook.py",
+        "path": "mymodule.mqueue_hook",
         "myparam": "myvalue",
     }
    }
