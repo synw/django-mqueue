@@ -82,9 +82,9 @@ Declare your hook and config in settings:
     }
    }
 
-Create a ``Save`` function in your hook that takes and event object as parameter and the hook config. Example:
+Create a ``save`` function in your hook that takes and event object as parameter and the hook config. Example:
 
 ::
 
-   def Save(event, hook):
-       print(event, hook["myparam"])
+   def save(event, conf):
+       print(event, conf["myparam"])
