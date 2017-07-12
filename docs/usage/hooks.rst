@@ -66,7 +66,7 @@ Redis
 Centrifugo
 ----------
 
-Install [Django Instant](https://github.com/synw/django-instant)
+Install `Django Instant <https://github.com/synw/django-instant>`_
 
 ::
 
