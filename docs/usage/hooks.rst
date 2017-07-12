@@ -3,10 +3,7 @@ Hooks
 
 *New in 0.7.1* (inspired by `Logrus <https://github.com/sirupsen/logrus>`_)
 
-Optional hooks can be used to perform extra actions on events.
-
-Available hooks
----------------
+Optional hooks can be used to perform extra actions on events. Available hooks:
 
 - **Postgresql**: a Go program that records the events in a postgresql database
 - **Influxdb**: a Go program that records the events in an influxdb database
@@ -42,6 +39,7 @@ Influxdb
 --------
 
 ::
+
    "influxdb": {
         "path": "mqueue.hooks.influxdb",
         "addr": "localhost:8086",
@@ -56,6 +54,7 @@ Redis
 -----
 
 ::
+
    "redis": {
         "path": "mqueue.hooks.redis",
         "host": "localhost",
