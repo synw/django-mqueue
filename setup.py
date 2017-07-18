@@ -21,5 +21,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.5',
     ],
+  install_requires=[
+        'jsonfield',
+    ],
   zip_safe=False
 )
