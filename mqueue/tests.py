@@ -46,7 +46,8 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.name, "M event")
         self.assertEqual(mevent.obj_pk, 1)
         self.assertEqual(mevent.notes, "Notes")
-        self.assertEqual(mevent.__unicode__(), unicode(mevent.name + ' - ' + str(mevent.date_posted)))
+        self.assertEqual(mevent.__unicode__(), unicode(
+            mevent.name + ' - ' + str(mevent.date_posted)))
         return
 
     def test_create_mevent_empty(self):
@@ -55,7 +56,8 @@ class MqueueTest(TestCase):
 
     def test_mevent_creation_with_instance(self):
         self._content_type = ContentType.objects.get_for_model(User)
-        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
+        user = User.objects.create_user(
+            'myuser', 'myemail@test.com', 'super_password')
         mevent = MEvent.objects.create(name='M Event', instance=user)
         self.assertTrue(isinstance(mevent, MEvent))
         self.assertEqual(mevent.content_type, self._content_type)
@@ -79,31 +81,37 @@ class MqueueTest(TestCase):
     def test_utils_get_object_name(self):
         # test unicode method
         instance, created = MEvent.objects.get_or_create(name="Event name")
-        user = User.objects.create_user('myuser', 'myemail@test.com', 'super_password')
+        user = User.objects.create_user(
+            'myuser', 'myemail@test.com', 'super_password')
         object_name = get_object_name(instance, user)
-        res = instance.__class__.__name__ + ' ' + instance.__unicode__()[:45] + '...' + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' ' + \
+            instance.__unicode__()[:45] + '...' + ' (' + user.username + ')'
         self.assertEqual(object_name, res)
         # test name
         FakeModel.objects.create(name='123')
         instance = FakeModel.objects.get(name='123')
-        res = instance.__class__.__name__ + ' ' + instance.name + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' ' + \
+            instance.name + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
         # test title
         FakeModelTitle.objects.create(title='123')
         instance = FakeModelTitle.objects.get(title='123')
-        res = instance.__class__.__name__ + ' ' + instance.title + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' ' + \
+            instance.title + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
         # test slug
         FakeModelSlug.objects.create(slug='123')
         instance = FakeModelSlug.objects.get(slug='123')
-        res = instance.__class__.__name__ + ' ' + instance.slug + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' ' + \
+            instance.slug + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
         # test pk
         instance, created = FakeModelEmpty.objects.get_or_create()
-        res = instance.__class__.__name__ + ' ' + str(instance.pk) + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' ' + \
+            str(instance.pk) + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
 
@@ -121,82 +129,115 @@ class MqueueTest(TestCase):
 
     def test_utils_format_event_class(self):
         # test with obj
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class="Default")
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class="Default")
         event_class_formated = format_event_class(instance)
         icon = EVENT_ICONS_HTML[instance.event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[instance.event_class] + '">' + icon + instance.event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[instance.event_class] + '">' + \
+            icon + instance.event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         # test with event_class
         event_class = "Default"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         icon = EVENT_ICONS_HTML[event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[event_class] + '">' + icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Myobj created"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Object created'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Myobj edited"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Object edited'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Myobj deleted"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Object deleted'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Random event class"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Default'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Some error event"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Error'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Some debug event"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Debug'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Some warning event"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Warning'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Some info event"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Info'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         event_class = "Some important event"
-        instance, created = MEvent.objects.get_or_create(name="Event name", event_class=event_class)
+        instance, created = MEvent.objects.get_or_create(
+            name="Event name", event_class=event_class)
         event_class_formated = format_event_class(event_class=event_class)
         res_event_class = 'Important'
         icon = EVENT_ICONS_HTML[res_event_class] + '&nbsp;'
-        html = '<span class="' + EVENT_CLASSES[res_event_class] + '">' + icon + event_class + '</span>'
+        html = '<span class="' + \
+            EVENT_CLASSES[res_event_class] + '">' + \
+            icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
         # extra html
+
 
 """
 def test_managers(self):

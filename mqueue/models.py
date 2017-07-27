@@ -18,7 +18,8 @@ USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 class MEventManager(models.Manager):
     def create(self, *args, **kwargs):
         if 'name' not in kwargs.keys():
-            raise ValueError(u"You must provide a 'name' argument for the MEvent")
+            raise ValueError(
+                u"You must provide a 'name' argument for the MEvent")
         else:
             name = kwargs['name']
         obj_pk = None
@@ -37,7 +38,8 @@ class MEventManager(models.Manager):
         if 'instance' in kwargs.keys():
             instance = kwargs['instance']
             obj_pk = instance.pk
-            content_type = ContentType.objects.get_for_model(kwargs['instance'].__class__)
+            content_type = ContentType.objects.get_for_model(
+                kwargs['instance'].__class__)
         # guessed stuff
         user = None
         if 'user' in kwargs.keys():
@@ -64,7 +66,8 @@ class MEventManager(models.Manager):
             formated_request = ''
             try:
                 for key in request.META.keys():
-                    formated_request += str(key) + ' : ' + str(request.META[key]) + '\n'
+                    formated_request += str(key) + ' : ' + \
+                        str(request.META[key]) + '\n'
                 save_request = True
             except:
                 pass
@@ -84,24 +87,25 @@ class MEventManager(models.Manager):
         if "data" in kwargs.keys():
             data = kwargs["data"]
         mevent = MEvent(
-            name=name, 
-            content_type=content_type, 
-            obj_pk=obj_pk, 
-            user=user, 
-            url=url, 
-            admin_url=admin_url, 
-            notes=notes, 
+            name=name,
+            content_type=content_type,
+            obj_pk=obj_pk,
+            user=user,
+            url=url,
+            admin_url=admin_url,
+            notes=notes,
             event_class=event_class,
             bucket=bucket,
             data=data
-            )
+        )
         if save_request is True:
             mevent.request = formated_request
         # proceed hooks
         dispatch(mevent)
         # print info
         if settings.DEBUG:
-            print(bcolors.SUCCESS + 'Event' + bcolors.ENDC + ' ['+mevent.event_class+'] : '+name)
+            print(bcolors.SUCCESS + 'Event' + bcolors.ENDC +
+                  ' [' + mevent.event_class + '] : ' + name)
         # save by default unless it is said not to
         modelname = ""
         if instance is not None:
@@ -117,7 +121,8 @@ class MEventManager(models.Manager):
     def events_for_model(self, model, event_classes=[]):
         content_type = ContentType.objects.get_for_model(model)
         if event_classes:
-            qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes)
+            qs = MEvent.objects.filter(
+                content_type=content_type, event_class__in=event_classes)
         else:
             qs = MEvent.objects.filter(content_type=content_type)
         return qs
@@ -125,33 +130,43 @@ class MEventManager(models.Manager):
     def count_for_model(self, model, event_classes=[]):
         content_type = ContentType.objects.get_for_model(model)
         if event_classes:
-            qs = MEvent.objects.filter(content_type=content_type, event_class__in=event_classes).count()
+            qs = MEvent.objects.filter(
+                content_type=content_type, event_class__in=event_classes).count()
         else:
             qs = MEvent.objects.filter(content_type=content_type).count()
         return qs
 
     def events_for_object(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        events = MEvent.objects.filter(content_type=content_type, obj_pk=obj.pk)
+        events = MEvent.objects.filter(
+            content_type=content_type, obj_pk=obj.pk)
         return events
 
 
 class MEvent(models.Model):
     # required fields
-    content_type = models.ForeignKey(ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
-    obj_pk = models.IntegerField(blank=True, null=True, verbose_name=_(u"Object primary key"))
+    content_type = models.ForeignKey(
+        ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
+    obj_pk = models.IntegerField(
+        blank=True, null=True, verbose_name=_(u"Object primary key"))
     name = models.CharField(max_length=120, verbose_name=_(u"Name"))
     # content fields
     url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Url"))
-    admin_url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Admin url"))
+    admin_url = models.CharField(
+        max_length=255, blank=True, verbose_name=_(u"Admin url"))
     notes = models.TextField(blank=True)
     # meta
-    date_posted = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Date posted"))
-    event_class = models.CharField(max_length=120, blank=True, verbose_name=_(u"Class"))
-    user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+', on_delete=models.SET_NULL, verbose_name=_(u'User'))
+    date_posted = models.DateTimeField(
+        auto_now_add=True, verbose_name=_(u"Date posted"))
+    event_class = models.CharField(
+        max_length=120, blank=True, verbose_name=_(u"Class"))
+    user = models.ForeignKey(USER_MODEL, null=True, blank=True, related_name='+',
+                             on_delete=models.SET_NULL, verbose_name=_(u'User'))
     request = models.TextField(blank=True, verbose_name=_(u'Request'))
-    bucket = models.CharField(max_length=60, blank=True, verbose_name=_(u"Bucket"))
-    data = JSONField(blank=True, load_kwargs={'object_pairs_hook': collections.OrderedDict}, verbose_name=_(u"Data"))
+    bucket = models.CharField(
+        max_length=60, blank=True, verbose_name=_(u"Bucket"))
+    data = JSONField(blank=True, load_kwargs={
+                     'object_pairs_hook': collections.OrderedDict}, verbose_name=_(u"Data"))
     # manager
     objects = MEventManager()
 

@@ -42,13 +42,16 @@ EVENT_ICONS_HTML = {
     'Object deleted': '<i class="fa fa-remove"></i>',
 }
 
-EVENT_ICONS_HTML = getattr(settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
+EVENT_ICONS_HTML = getattr(
+    settings, 'MQUEUE_EVENT_ICONS_HTML', EVENT_ICONS_HTML)
 
 EVENT_EXTRA_HTML = getattr(settings, 'MQUEUE_EVENT_EXTRA_HTML', {})
 
 # ===================== Websocket stream ===================================
 
 # terminal output colors
+
+
 class bcolors:
     HEADER = '\033[95m'
     PRIMARY = '\033[94m'

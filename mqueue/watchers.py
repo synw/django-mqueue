@@ -9,7 +9,7 @@ def send_msg(objclass, instance, event_str):
     obj_name = get_object_name(instance, instance)
     # try to get the admin url
     admin_url = get_admin_url(instance)
-    event_class = instance.__class__.__name__ +" "+event_str
+    event_class = instance.__class__.__name__ + " " + event_str
     # create event
     MEvent.objects.create(
         model=instance.__class__,
@@ -22,11 +22,14 @@ def send_msg(objclass, instance, event_str):
     )
     return
 
+
 def logout_action(sender, user, **kwargs):
-    send_msg(sender, user, "logout") 
-    
+    send_msg(sender, user, "logout")
+
+
 def login_action(sender, user, **kwargs):
     send_msg(sender, user, "login")
+
 
 def login_failed(sender, credentials, **kwargs):
     # create event
@@ -35,9 +38,10 @@ def login_failed(sender, credentials, **kwargs):
     MEvent.objects.create(
         name=name,
         event_class=event_class,
-        notes = credentials
+        notes=credentials
     )
     return
+
 
 def init_watchers(w):
     for w in WATCH:
@@ -48,4 +52,3 @@ def init_watchers(w):
         elif w == "login_failed":
             user_login_failed.connect(login_failed)
     return
-    

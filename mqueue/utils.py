@@ -56,7 +56,8 @@ def format_event_class(obj=None, event_class=None):
         elif 'important' in event_class_lower:
             icon = EVENT_ICONS_HTML['Important'] + '&nbsp;'
             printed_class = 'Important'
-    event_html += '<span class="' + EVENT_CLASSES[printed_class] + '">' + icon + event_class + '</span>'
+    event_html += '<span class="' + \
+        EVENT_CLASSES[printed_class] + '">' + icon + event_class + '</span>'
     if event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[event_class]
     return event_html
@@ -100,7 +101,8 @@ def get_user(instance):
 
 def get_url(instance):
     url = ''
-    get_event_object_url = getattr(instance.__class__, 'get_event_object_url', None)
+    get_event_object_url = getattr(
+        instance.__class__, 'get_event_object_url', None)
     if callable(get_event_object_url):
         url = instance.get_event_object_url()
         return url
@@ -112,5 +114,6 @@ def get_url(instance):
 
 
 def get_admin_url(instance):
-    admin_url = reverse('admin:%s_%s_change' % (instance._meta.app_label, instance._meta.model_name), args=[instance.id])
+    admin_url = reverse('admin:%s_%s_change' % (
+        instance._meta.app_label, instance._meta.model_name), args=[instance.id])
     return admin_url

@@ -15,4 +15,5 @@ class MTracker(object):
             post_delete.connect(mmessage_delete, sender=model)
         return
 
+
 mqueue_tracker = MTracker()

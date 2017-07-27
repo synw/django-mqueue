@@ -18,7 +18,8 @@ def link_to_object_admin(obj):
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_posted'
     readonly_fields = ['date_posted', 'request']
-    list_display = [format_event_class, 'name', 'date_posted', 'bucket', 'user', link_to_object, link_to_object_admin]
+    list_display = [format_event_class, 'name', 'date_posted',
+                    'bucket', 'user', link_to_object, link_to_object_admin]
     list_filter = (
         'event_class',
         ('content_type', admin.RelatedOnlyFieldListFilter),
