@@ -2,12 +2,11 @@
 
 [![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 
-Events queue application for Django. Can be used for monitoring or loging, or to build any events-based app.
-Features:
+Events queue application for Django. Features:
 
 - **Models monitoring**: every model can be registered to autogenerate events on create/update/delete actions
 - **Logs handler**: the logs will be saved in the database as events or exported
-- **Export events**: save events to other databases or to send them over websockets.
+- **Export events**: save events to other databases or send them over websockets.
 Supported databases: Postgresql, Influxdb, Redis
 - **Query events** - *New in 0.9 (now in master)*: a Graphql api to retrieve events
 
