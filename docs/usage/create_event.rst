@@ -31,13 +31,17 @@ Event creation
       event_class = 'Info',
       request = request,
       bucket = "bucket_name",
-      data = {"foo": "bar"}
+      data = {"foo": "bar"},
+      scope = "users"
       )
 
 The only required field is ``name``
 
 The ``instance`` parameter will not be recorded: it is only used for
 auto guessing some fields. 
+
+The ``scope`` parameter is used by the Api to query the database. Possible values are: public, users, staff 
+and superuser (default). It controls who can view an event in the Api.
 
 Note this method will return the mevent instance just created. There is an option for not to save it immediately:
 

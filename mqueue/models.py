@@ -13,6 +13,12 @@ from mqueue.conf import bcolors, NOSAVE
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
+SCOPE = (
+    ('superuser', _('Superuser')),
+    ('staff', _('Staff')),
+    ('users', _('Users')),
+    ('public', _('Public')),
+)
 
 
 class MEventManager(models.Manager):
@@ -86,6 +92,22 @@ class MEventManager(models.Manager):
         data = {}
         if "data" in kwargs.keys():
             data = kwargs["data"]
+        # scope
+        scope = "superuser"
+        if "scope" in kwargs.keys():
+            scope = kwargs["scope"]
+            # test if it is an allowed scope
+            isok = False
+            for s in SCOPE:
+                if s[0] == scope:
+                    isok = True
+                    break
+            if isok is False:
+                msg = "Unable to create event: wrong scope provided: \
+                choices are: superuser, staff, users, public"
+                MEvent.objects.create(name=msg, event_class="Error")
+                return None
+        # create te event
         mevent = MEvent(
             name=name,
             content_type=content_type,
@@ -96,7 +118,8 @@ class MEventManager(models.Manager):
             notes=notes,
             event_class=event_class,
             bucket=bucket,
-            data=data
+            data=data,
+            scope=scope,
         )
         if save_request is True:
             mevent.request = formated_request
@@ -168,6 +191,8 @@ class MEvent(models.Model):
     data = JSONField(blank=True, load_kwargs={
                      'object_pairs_hook': collections.OrderedDict}, verbose_name=_(u"Data"))
     # manager
+    scope = models.CharField(max_length=18, choices=SCOPE,
+                             default=SCOPE[0][0], verbose_name=_(u"Scope"))
     objects = MEventManager()
 
     class Meta:

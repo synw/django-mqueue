@@ -35,9 +35,13 @@ and run them.
 	:maxdepth: 2
 	:caption: Settings
 
-	settings/event_classes
-	settings/event_icons
-	settings/event_extra_html
+	settings/graphical_settings
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Graphql Api
+
+	api/api
 
 
 

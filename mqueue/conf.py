@@ -11,6 +11,8 @@ HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
 
 DOMAIN = getattr(settings, "SITE_SLUG", "default")
 
+API_MAX_EVENTS = getattr(settings, "MQUEUE_API_MAX_EVENTS", 100)
+
 # ===================== Events formats ===================================
 EVENT_CLASSES = {
     # 'Event class label': 'css class to apply',

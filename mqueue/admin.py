@@ -24,6 +24,7 @@ class MEventAdmin(admin.ModelAdmin):
         'event_class',
         ('content_type', admin.RelatedOnlyFieldListFilter),
         ('user', admin.RelatedOnlyFieldListFilter),
+        'scope',
     )
     search_fields = ['name', 'user__username', 'event_class', 'bucket']
     link_to_object.allow_tags = True
