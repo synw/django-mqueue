@@ -25,6 +25,24 @@ Install with ``pip install django-graphql-utils django-filters``
       
    # optional: limit number of events to be retrieved in one query (default 100):
    MQUEUE_API_MAX_EVENTS = 50
+   
+Urls:
+
+::
+
+   from django.conf import settings
+   from graphene_django.views import GraphQLView
+   from graphql_utils.views import TGraphQLView
+   
+   urlpatterns = [
+    # ...
+    url(r'^graphql', TGraphQLView.as_view()),
+   ]
+   
+   if settings.DEBUG:
+      urlpatterns += [url(r'^graphiql', GraphQLView.as_view(graphiql=True)), ]
+
+Note: the ``/graphql`` endpoint is protected by a Django csrf token
 
 Event scope
 ~~~~~~~~~~~
