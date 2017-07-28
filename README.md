@@ -5,10 +5,17 @@
 Events queue application for Django. Can be used for monitoring or loging, or to build any events-based app.
 Features:
 
-- Send events from code: they will be recorded into the db
-- Monitoring on models: the events (create/update/delete) will be recorded according to the choosen log level
-- Logs handler: to record the Django logs into the db
-- Hooks: save the event to another database, push it to websockets or use a custom action
+- **Models monitoring**: every model can be registered to autogenerate events on create/update/delete actions
+- **Logs handler**: the logs will be saved in the database as events or exported
+- **Export events**: save events to other databases or to send them over websockets.
+Supported databases: Postgresql, Influxdb, Redis
+- **Query events** - *New in 0.9 (now in master)*: a Graphql api to retrieve events
+
+Example:
+
+   ```pyhton
+   MEvent.objects.create(name="Test event", event_class="test", data={"k":"v"})
+   ```
 
 Events can be linked to a model instance and a user instance.
 
