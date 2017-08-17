@@ -1,19 +1,33 @@
-import redis
+# -*- coding: utf-8 -*-
+
+import json
 import time
-from mqueue.conf import DOMAIN
-from mqueue.hooks.redis import serializer
-from mqueue.conf import HOOKS
-
-conf = HOOKS["redis"]
-R = redis.StrictRedis(host=conf["host"], port=conf["port"], db=conf["db"])
-event_num = int(time.time())
+import redis
+from watchtower.conf import SITE_SLUG, VERBOSITY, DBS
+from watchtower.serializer import decodeHitRow, decodeEventRow
 
 
-def save(event, conf):
-    global event_num
-    global R
-    name = DOMAIN + "_event" + str(event_num)
-    event.request = event.request.replace("\n", "//")
-    data = serializer.Pack(event)
-    R.set(name, data)
-    event_num += 1
+def getHits(r):
+    global SITE_SLUG
+    global VERBOSITY
+    prefix = SITE_SLUG + "_hit*"
+    hits = []
+    for key in r.scan_iter(prefix):
+        val = r.get(key)
+        r.delete(key)
+        hit = decodeHitRow(val)
+        hits.append(hit)
+    return hits
+
+
+def getEvents(r):
+    global SITE_SLUG
+    global VERBOSITY
+    prefix = SITE_SLUG + "_event*"
+    events = []
+    for key in r.scan_iter(prefix):
+        val = r.get(key)
+        r.delete(key)
+        event = decodeEventRow(val)
+        events.append(event)
+    return events
