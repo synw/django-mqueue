@@ -6,9 +6,8 @@ Events queue application for Django. Features:
 
 - **Models monitoring**: every model can be registered to autogenerate events on create/update/delete actions
 - **Logs handler**: the logs will be saved in the database as events or exported
-- **Export events**: save events to other databases or send them over websockets.
-Supported databases: Postgresql, Influxdb, Redis
-- **Query events** - *New in 0.9*: a Graphql api to retrieve events
+- **Export events**: save events to Postgresql, Influxdb, Redis or send them over websockets.
+- **Query events** from the frontend - *New in 0.9*: a Graphql api to retrieve events
 
 Example:
 
