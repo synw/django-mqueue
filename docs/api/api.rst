@@ -14,7 +14,7 @@ Install with ``pip install django-graphql-utils django-filters``
 
 ::
 
-   INSTALLED_APPS += ("graphene_django", "graphql_utils",)
+   INSTALLED_APPS += ("graphene_django", "graphql_utils", "django_filters",)
 
    GRAPHENE = {
       'SCHEMA': 'mqueue.schema.schema'
