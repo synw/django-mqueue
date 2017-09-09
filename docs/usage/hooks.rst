@@ -8,7 +8,7 @@ Optional hooks can be used to perform extra actions on events. Available hooks:
 - **Postgresql**: record the events in a postgresql database (go)
 - **Influxdb**: record the events in an influxdb database (go)
 - **Redis**: record the events in Redis (python)
-- **Centrifugo**: push events as messages in Centrifugo (python)
+- **Centrifugo**: push events as messages in the Centrifugo websockets server (python)
 
 Postgresql
 ----------
@@ -66,7 +66,7 @@ Redis
 Centrifugo
 ----------
 
-Install `Django Instant <https://github.com/synw/django-instant>`_
+Install `Django Instant <https://github.com/synw/django-instant>`_ to manage the websockets
 
 ::
 

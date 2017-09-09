@@ -1,7 +1,7 @@
 Record events
 =============
 
-You can plug mqueue into your app by creating a mevent whenever you
+You can plug mqueue into your app by creating an event whenever you
 need. It can be in the save method of a model, a form\_valid method of a
 view or in a signal for example.
 
@@ -40,10 +40,10 @@ The only required field is ``name``
 The ``instance`` parameter will not be recorded: it is only used for
 auto guessing some fields. 
 
-The ``scope`` parameter is used by the Api to query the database. Possible values are: public, users, staff 
-and superuser (default). It controls who can view an event in the Api.
+The ``scope`` parameter is used by the Api to query the database. Possible values are: ``public``, ``users``, ``staff ``
+and ``superuser`` (default). It controls who can view an event in the Api.
 
-Note this method will return the mevent instance just created. There is an option for not to save it immediately:
+Note this method will return the event instance just created. There is an option for not to save it immediately:
 
 ::
 

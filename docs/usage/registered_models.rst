@@ -17,7 +17,13 @@ In ``settings.py``:
    	('emailmodule.models.Email', ["c", "d"])
    	)
 
-The registered models will be monitored according to the chosen monitoring level: `c`: create, `d`: delete, `u`: upgrade
+The registered models will be monitored according to the chosen monitoring level: 
+
+``c``: create
+
+``d``: delete
+
+``u``: upgrade
 
 Manualy register a model
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -39,13 +45,11 @@ In any installed app ``apps.py`` :
            mqueue_tracker.register(TheModel)
 
 
-By default this will set the model to monitoring level 1 (records create
-and delete). Set it to 2 if you want to record also every save on the
-model:
+By default this will records create and delete events. To change it set a parameter:
 
 ::
 
-   mqueue_tracker.register(TheModel, 2)
+   mqueue_tracker.register(TheModel, ["c", "u", "d"])
 
 
 
