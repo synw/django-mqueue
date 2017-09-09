@@ -43,7 +43,7 @@ Influxdb
 
    "influxdb": {
         "path": "mqueue.hooks.influxdb",
-        "addr": "localhost:8086",
+        "addr": "http://localhost:8086",
         "user": "admin",
         "password": "admin",
         "database": "events"
