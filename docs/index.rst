@@ -6,7 +6,18 @@
 Django Mqueue's documentation
 =============================
 
-To install: ``pip install django-mqueue``, then add ``'mqueue',`` to INSTALLED_APPS. Run the migrations.
+To install: ``pip install django-mqueue``
+
+Add to INSTALLED_APPS: 
+
+.. highlight:: python
+
+::
+
+   "django_extensions",
+   "mqueue",
+
+Run the migrations.
 
 .. usage
 
