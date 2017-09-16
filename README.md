@@ -29,4 +29,4 @@ Note: to run the tests you will need [django-fake-model](https://github.com/erm0
 
 Dashboard with [django-chartflo](https://github.com/synw/django-chartflo):
 
-![Events dashboard](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_dashboard.png)
+![Events dashboard](https://github.com/synw/django-mqueue/blob/dashboard/docs/_static/events_dashboard.png)
