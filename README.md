@@ -21,4 +21,12 @@ Check the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
 ![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_list.png)
 
+### Admin interface
+
 Note: to run the tests you will need [django-fake-model](https://github.com/erm0l0v/django-fake-model)
+
+### Events dashboard
+
+Dashboard with [django-chartflo](https://github.com/synw/django-chartflo):
+
+![Event dashboard](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_dashboard.png)
