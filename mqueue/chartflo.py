@@ -33,7 +33,7 @@ def gen_multiline(events, errors, warnings, slug="events_multi", name=""):
     global GENERATOR
     dataset = encode(events, errors, warnings)
     chart = ChartController()
-    x_options = {"labelAngle": -45.0, "axisWidth": 10.0}
+    x_options = {"labelAngle": -45.0, "axisWidth": 20.0}
     x = ("date", "date:T", x_options)
     y = ("event_class", "count(event_class):Q")
     q = Data(values=dataset)
