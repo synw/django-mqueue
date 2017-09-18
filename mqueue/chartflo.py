@@ -33,7 +33,8 @@ def gen_multiline(events, errors, warnings, slug="events_multi", name=""):
     global GENERATOR
     dataset = encode(events, errors, warnings)
     chart = ChartController()
-    x = ("date", "date:T")
+    x_options = {"labelAngle": -45.0, "axisWidth": 10.0}
+    x = ("date", "date:T", x_options)
     y = ("event_class", "count(event_class):Q")
     q = Data(values=dataset)
     chart.generate_series(
@@ -74,16 +75,18 @@ def run(events):
                  generator=GENERATOR, modelnames="MEvent")
     # Last logins chart
     chart = ChartController()
-    x = ("date_posted", "date_posted:T")
+    x_options = {"labelAngle": 0.0, "axisWidth": 10.0}
+    x = ("date_posted", "date_posted:T", x_options)
     y = ("name", "count(name):Q")
     q = events
-    chart.generate(
+    chart.generate_series(
         "events_timeline", "", "line", q, x, y, 870, 180,
-        time_unit="yearmonthdatehoursminutes", verbose=True,
+        time_unit="yearmonthdate", verbose=True,
         generator=GENERATOR, modelnames="MEvent"
     )
     # event class
-    x = ("event_class", "event_class:N")
+    x_options = {"labelAngle": -45.0, "axisWidth": 10.0}
+    x = ("event_class", "event_class:N", x_options)
     y = ("name", "name:Q")
     dataset = {}
     for event in events:
