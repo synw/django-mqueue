@@ -29,7 +29,8 @@ def encode(events, errors, warnings):
     return dataset
 
 
-def gen_multiline(events, errors, warnings, slug="events_multi", name=""):
+def gen_multiline(events, errors, warnings, slug,
+                  name="", time_unit="yearmonthdatehoursminutes"):
     global GENERATOR
     dataset = encode(events, errors, warnings)
     chart = ChartController()
@@ -39,7 +40,7 @@ def gen_multiline(events, errors, warnings, slug="events_multi", name=""):
     q = Data(values=dataset)
     chart.generate_series(
         slug, name, "circle", q, x, y, 870, 180,
-        time_unit="yearmonthdatehoursminutes", color="event_class:N",
+        time_unit=time_unit, color="event_class:N",
         size="count(event_class):Q", verbose=True,
         generator=GENERATOR, modelnames="MEvent"
     )
@@ -100,10 +101,19 @@ def run(events):
         generator=GENERATOR, modelnames="MEvent"
     )
     # generate all events chart
-    gen_multiline(events, errors, warnings)
-    date = timezone.now() - timedelta(days=1)
-    events = events.filter(date_posted__gte=date)
-    errors = errors.filter(date_posted__gte=date)
-    warnings = warnings.filter(date_posted__gte=date)
-    gen_multiline(events, errors, warnings,
+    gen_multiline(events, errors, warnings, time_unit="yearmonthdatehours",
+                  slug="events_multi", name="All events")
+    # last day
+    dated = timezone.now() - timedelta(days=1)
+    eventsd = events.filter(date_posted__gte=dated)
+    errorsd = errors.filter(date_posted__gte=dated)
+    warningsd = warnings.filter(date_posted__gte=dated)
+    gen_multiline(eventsd, errorsd, warningsd,
                   slug="events_last_day", name="Last 24h events")
+    # last week
+    datew = timezone.now() - timedelta(days=7)
+    eventsw = events.filter(date_posted__gte=datew)
+    errorsw = errors.filter(date_posted__gte=datew)
+    warningsw = warnings.filter(date_posted__gte=datew)
+    gen_multiline(eventsw, errorsw, warningsw,
+                  slug="events_last_week", name="Last week events")
