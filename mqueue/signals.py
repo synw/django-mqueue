@@ -4,8 +4,7 @@ from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
 
 
 def mmessage_create(sender, instance, created, **kwargs):
-    if created:
-        print("CREATED", sender, instance, kwargs)
+    if created is True:
         # try to get the user
         user = get_user(instance)
         # try to get the object name

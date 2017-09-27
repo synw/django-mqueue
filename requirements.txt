@@ -1,3 +1,2 @@
-django_extensions
 redis
 influxdb

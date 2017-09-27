@@ -7,7 +7,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
 from mqueue.utils import get_user, get_url, get_admin_url
 from mqueue.hooks import dispatch
-from django_extensions.db.fields.json import JSONField
 from mqueue.conf import bcolors, NOSAVE
 
 
@@ -187,7 +186,8 @@ class MEvent(models.Model):
     request = models.TextField(blank=True, verbose_name=_(u'Request'))
     bucket = models.CharField(
         max_length=60, blank=True, verbose_name=_(u"Bucket"))
-    data = JSONField(blank=True, verbose_name=_(u"Data"))
+    data = models.CharField(max_length=120, blank=True,
+                            verbose_name=_(u"Data"))
     # manager
     scope = models.CharField(max_length=18, choices=SCOPE,
                              default=SCOPE[0][0], verbose_name=_(u"Scope"))

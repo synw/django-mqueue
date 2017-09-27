@@ -14,7 +14,6 @@ Add to INSTALLED_APPS:
 
 ::
 
-   "django_extensions",
    "mqueue",
 
 Run the migrations.
