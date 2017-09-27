@@ -186,8 +186,7 @@ class MEvent(models.Model):
     request = models.TextField(blank=True, verbose_name=_(u'Request'))
     bucket = models.CharField(
         max_length=60, blank=True, verbose_name=_(u"Bucket"))
-    data = models.CharField(max_length=120, blank=True,
-                            verbose_name=_(u"Data"))
+    data = models.TextField(blank=True, verbose_name=_(u"Data"))
     # manager
     scope = models.CharField(max_length=18, choices=SCOPE,
                              default=SCOPE[0][0], verbose_name=_(u"Scope"))
