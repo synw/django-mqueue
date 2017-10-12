@@ -38,7 +38,7 @@ def gen_multiline(events, errors, warnings, slug,
     x = ("date", "date:T", x_options)
     y = ("event_class", "count(event_class):Q")
     q = Data(values=dataset)
-    chart.generate_series(
+    chart.generate(
         slug, name, "circle", q, x, y, 870, 180,
         time_unit=time_unit, color="event_class:N",
         size="count(event_class):Q", verbose=True,
@@ -80,7 +80,7 @@ def run(events):
     x = ("date_posted", "date_posted:T", x_options)
     y = ("name", "count(name):Q")
     q = events
-    chart.generate_series(
+    chart.generate(
         "events_timeline", "", "line", q, x, y, 870, 180,
         time_unit="yearmonthdate", verbose=True,
         generator=GENERATOR, modelnames="MEvent"
