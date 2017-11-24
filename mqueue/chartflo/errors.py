@@ -1,5 +1,4 @@
 from __future__ import print_function
-from dataswim import ds
 from mqueue.models import MEvent
 from chartflo.charts import chart, number
 
