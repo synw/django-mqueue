@@ -25,11 +25,11 @@ def gen_errors(errors, warnings):
                 "Date": chart.serialize_date(el.date_posted)}
         dataset.append(data)
     df = chart.convert_dataset(dataset, x, y)
-    ds.set(df)
+    # ds.set(df)
     # resample data by one minute
-    ds.rsum("1Min", dateindex="Date", num_col="Num", index_col="Date")
-    c = chart.draw(ds.df, x, y, "circle", opts=opts)
-    chart.stack("errors_warnings", "Errors and warnings by hours", c)
+    #ds.rsum("1Min", dateindex="Date", num_col="Num", index_col="Date")
+    c = chart.draw(df, x, y, "circle", opts=opts)
+    chart.stack("errors_warnings", "Errors and warnings", c)
 
 
 def gen_nums(events):
