@@ -24,11 +24,7 @@ def gen_errors(errors, warnings):
         data = {"Event class": "Warning", "Num": 1,
                 "Date": chart.serialize_date(el.date_posted)}
         dataset.append(data)
-    df = chart.convert_dataset(dataset, x, y)
-    # ds.set(df)
-    # resample data by one minute
-    #ds.rsum("1Min", dateindex="Date", num_col="Num", index_col="Date")
-    c = chart.draw(df, x, y, "circle", opts=opts)
+    c = chart.draw(dataset, x, y, "circle", opts=opts)
     chart.stack("errors_warnings", "Errors and warnings", c)
 
 
@@ -45,6 +41,14 @@ def gen_nums(events):
     number.generate("warnings", "Warnings", wa, verbose=True,
                     generator="mqueue", modelnames="MEvent", dashboard="mqueue",
                     icon="warning", color="orange")
+    logins = events.filter(event_class__icontains='login').count()
+    number.generate("logins", "Logins", logins, verbose=True,
+                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
+                    icon="user", color="blue")
+    edits = events.filter(event_class__icontains='edit').count()
+    number.generate("edits", "Edits", edits, verbose=True,
+                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
+                    icon="save", color="blue")
 
 
 def run(e=None):
