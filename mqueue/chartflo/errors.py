@@ -26,7 +26,8 @@ def gen_errors(errors, warnings):
         dataset.append(data)
     df = chart.convert_dataset(dataset, x, y)
     ds.set(df)
-    #ds.rsum("1H", dateindex="Date", num_col="Num", index_col="Date")
+    # resample data by one minute
+    ds.rsum("1Min", dateindex="Date", num_col="Num", index_col="Date")
     c = chart.draw(ds.df, x, y, "circle", opts=opts)
     chart.stack("errors_warnings", "Errors and warnings by hours", c)
 
