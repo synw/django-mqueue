@@ -1,16 +1,20 @@
-from altair import Data, Scale
+from __future__ import print_function
+from dataswim import ds
 from mqueue.models import MEvent
-from chartflo.factory import ChartController
-
-GENERATOR = "mqueue.errors"
+from chartflo.charts import chart, number
 
 
-def gen_errors(errors, warnings, slug,
-               name="", time_unit="yearmonthdatehours",):
-    chart = ChartController()
+def gen_errors(errors, warnings):
     x_options = {"labelAngle": -45.0}
     x = ("Date", "Date:T", x_options)
     y = ("Num", "sum(Num):Q")
+    chart.engine = "altair"
+    opts = {}
+    opts["size"] = "sum(Num):Q"
+    opts["time_unit"] = "yearmonthdatehours"
+    opts["width"] = 1040
+    opts["height"] = 250
+    opts["color"] = "Event class"
     dataset = []
     for el in errors.order_by("date_posted"):
         data = {"Event class": "Error", "Num": 1,
@@ -20,20 +24,33 @@ def gen_errors(errors, warnings, slug,
         data = {"Event class": "Warning", "Num": 1,
                 "Date": chart.serialize_date(el.date_posted)}
         dataset.append(data)
-    q = Data(values=dataset)
-    scale = Scale(bandSize=500)
-    chart.generate(
-        slug, name, "circle", q, x, y, 1200, 180,
-        time_unit=time_unit, color="Event class:N",
-        verbose=True, size="sum(Num):Q",
-        generator=GENERATOR, modelnames="MEvent",
-        scale=scale
-    )
+    df = chart.convert_dataset(dataset, x, y)
+    ds.set(df)
+    #ds.rsum("1H", dateindex="Date", num_col="Num", index_col="Date")
+    c = chart.draw(ds.df, x, y, "circle", opts=opts)
+    chart.stack("errors_warnings", "Errors and warnings by hours", c)
+
+
+def gen_nums(events):
+    val = events.count()
+    number.generate("events", "Events", val, verbose=True,
+                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
+                    icon="flash")
+    errs = events.filter(event_class__icontains='ERROR').count()
+    number.generate("errors", "Errors", errs, verbose=True,
+                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
+                    icon="bug", color="red")
+    wa = events.filter(event_class__icontains='WARNING').count()
+    number.generate("warnings", "Warnings", wa, verbose=True,
+                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
+                    icon="warning", color="orange")
 
 
 def run(e=None):
-    global GENERATOR
+    print("Generating charts for events")
     events = MEvent.objects.all()
     errors = events.filter(event_class__icontains="error")
     warnings = events.filter(event_class__icontains="warning")
-    gen_errors(errors, warnings, "events_errors")
+    gen_errors(errors, warnings)
+    gen_nums(events)
+    chart.export("dashboards/mqueue/charts")
