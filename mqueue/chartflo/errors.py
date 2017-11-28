@@ -1,13 +1,14 @@
 from __future__ import print_function
+from dataswim import ds
 from mqueue.models import MEvent
-from chartflo.charts import chart, number
+from chartflo.charts import number, chart
 
 
 def gen_errors(errors, warnings):
     x_options = {"labelAngle": -45.0}
     x = ("Date", "Date:T", x_options)
     y = ("Num", "sum(Num):Q")
-    chart.engine = "altair"
+    ds.engine = "altair"
     opts = {}
     opts["size"] = "sum(Num):Q"
     opts["time_unit"] = "yearmonthdatehours"
@@ -15,16 +16,19 @@ def gen_errors(errors, warnings):
     opts["height"] = 250
     opts["color"] = "Event class"
     dataset = []
+    # ds.date("date_posted")
     for el in errors.order_by("date_posted"):
         data = {"Event class": "Error", "Num": 1,
-                "Date": chart.serialize_date(el.date_posted)}
+                "Date": ds.format_date_(el.date_posted)}
         dataset.append(data)
     for el in warnings.order_by("date_posted"):
         data = {"Event class": "Warning", "Num": 1,
-                "Date": chart.serialize_date(el.date_posted)}
+                "Date": ds.format_date_(el.date_posted)}
         dataset.append(data)
-    c = chart.draw(dataset, x, y, "circle", opts=opts)
-    chart.stack("errors_warnings", "Errors and warnings", c)
+    ds.df = chart.convert_dataset(dataset, "Event class", "Date")
+    ds.opts(opts)
+    c = ds.chart_(x, y, "circle")
+    ds.stack("errors_warnings", "Errors and warnings", c)
 
 
 def gen_nums(events):
@@ -55,6 +59,6 @@ def run(e=None):
     events = MEvent.objects.all()
     errors = events.filter(event_class__icontains="error")
     warnings = events.filter(event_class__icontains="warning")
-    gen_errors(errors, warnings)
     gen_nums(events)
-    chart.export("dashboards/mqueue/charts")
+    # gen_errs()
+    gen_errors(errors, warnings)
