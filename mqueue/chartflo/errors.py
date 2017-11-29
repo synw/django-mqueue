@@ -1,7 +1,8 @@
 from __future__ import print_function
 from dataswim import ds
 from mqueue.models import MEvent
-from chartflo.charts import number, chart
+from chartflo.serializers import convert_dataset
+from chartflo.widgets import number
 
 
 def gen_errors(errors, warnings):
@@ -10,7 +11,7 @@ def gen_errors(errors, warnings):
     y = ("Num", "sum(Num):Q")
     ds.engine = "altair"
     opts = {}
-    opts["size"] = "sum(Num):Q"
+    #opts["size"] = "sum(Num):Q"
     opts["time_unit"] = "yearmonthdatehours"
     opts["width"] = 1040
     opts["height"] = 250
@@ -25,33 +26,46 @@ def gen_errors(errors, warnings):
         data = {"Event class": "Warning", "Num": 1,
                 "Date": ds.format_date_(el.date_posted)}
         dataset.append(data)
-    ds.df = chart.convert_dataset(dataset, "Event class", "Date")
+    ds.df = convert_dataset(dataset, "Event class", "Date")
     ds.opts(opts)
-    c = ds.chart_(x, y, "circle")
+    c = ds.chart_(x, y, "point")
     ds.stack("errors_warnings", "Errors and warnings", c)
+
+
+def gen_small():
+    ds.load_csv(ds.datapath + "/events.csv")
+    ds = ds.contains_("event_class", "Log")
+    x_opts = dict(labelAngle=360)
+    x = ("Date", "date_posted:T", x_opts)
+    y = ("Events", "sum(num):Q")
+    ds.opts(dict(color="event_class:N",
+                 time_unit="yearmonthdate", height=200, width=640))
+    ds.chart(x, y)
+    c = ds.point_()
+    ds.stack("errors_small", "Errors and warnings", c)
 
 
 def gen_nums(events):
     val = events.count()
-    number.generate("events", "Events", val, verbose=True,
-                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
-                    icon="flash")
+    number.simple("events", val, "Events", dashboard="mqueue", icon="flash")
     errs = events.filter(event_class__icontains='ERROR').count()
-    number.generate("errors", "Errors", errs, verbose=True,
-                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
-                    icon="bug", color="red")
+    number.simple("errors", errs, "Error", dashboard="mqueue",
+                  icon="bug", color="red")
     wa = events.filter(event_class__icontains='WARNING').count()
-    number.generate("warnings", "Warnings", wa, verbose=True,
-                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
-                    icon="warning", color="orange")
+    number.simple("warnings", wa, "Warnings", dashboard="mqueue",
+                  icon="warning", color="orange")
     logins = events.filter(event_class__icontains='login').count()
-    number.generate("logins", "Logins", logins, verbose=True,
-                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
-                    icon="user", color="blue")
+    number.simple("logins", logins, "Logins",
+                  dashboard="mqueue", icon="user", color="blue")
     edits = events.filter(event_class__icontains='edit').count()
-    number.generate("edits", "Edits", edits, verbose=True,
-                    generator="mqueue", modelnames="MEvent", dashboard="mqueue",
-                    icon="save", color="blue")
+    number.simple("edits", edits, "Edits",
+                  dashboard="mqueue", icon="save", color="blue")
+    e404 = events.filter(name__icontains='Not found').count()
+    number.simple("err404", e404, "404",
+                  dashboard="mqueue", icon="random", color="blue")
+    e500 = events.filter(name__icontains='Internal server error').count()
+    number.simple("err500", e500, "500",
+                  dashboard="mqueue", icon="ambulance", color="blue")
 
 
 def run(e=None):
@@ -62,3 +76,4 @@ def run(e=None):
     gen_nums(events)
     # gen_errs()
     gen_errors(errors, warnings)
+    # gen_small()

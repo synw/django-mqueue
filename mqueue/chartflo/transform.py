@@ -1,10 +1,5 @@
 from dataswim import ds
-from django.conf import settings
-from django.utils._os import safe_join
 from mqueue.models import MEvent
-
-
-datapath = safe_join(settings.BASE_DIR, "data")
 
 
 def add_type(val):
@@ -23,6 +18,30 @@ def add_type(val):
         return "Other"
 
 
+def last_weeks():
+    """
+    Returns datapoints for the last 5 weeks
+    """
+    ds.load_csv(ds.datapath + "/events_typed.csv")
+    ds.sort("date_posted")
+    ds.dateindex("date_posted")
+    ds.add("num", 1)
+    w = ds.range_(weeks=5)
+    s = w.split_("type")
+    errs = ds.concat_(s["Error"].df, s["Warning"].df)
+    errs.backup()
+    edits = ds.concat_(s["Edit"].df, s["Create"].df)
+    errs.rsum("1W")
+    errs.fill_nan(0, "num")
+    errs.to_int("num")
+    errs_s = list(errs.df["num"])
+    edits.rsum("1W")
+    edits.fill_nan(0, "num")
+    edits.to_int("num")
+    edits_s = list(edits.df["num"])
+    return errs_s, edits_s
+
+
 def run(events=None):
     """
     Transform data to get extra info columns
@@ -35,4 +54,4 @@ def run(events=None):
     ds.add("num", 1)
     ds.copy_col("event_class", "type")
     ds.apply(add_type, ["type"])
-    ds.to_csv(datapath + "/events.csv")
+    ds.to_csv(ds.datapath + "/events_typed.csv")
