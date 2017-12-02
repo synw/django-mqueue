@@ -1,15 +1,34 @@
+{% load mbase %}
 <ul class="sidebar-menu" data-widget="tree">
 	<li class="header">Event classes</li>
 	<li class="treeview">
-		<a href="#" onclick="loadDashboard('errors', 'mqueue')">Errors and warnings</a>
+		<a href="#" onclick="loadDashboard('errors', 'mqueue')"><i class="fa fa-warning"></i> 
+		<span>Errors
+		{% include "dashboards/mqueue/sparklines/errors.html" %}
+		</span></a>
 	</li>
 	<li class="treeview">
-		<a href="#" onclick="loadDashboard('edits', 'mqueue')">Edits</a>
+		<a href="#" onclick="loadDashboard('edits', 'mqueue')"><i class="fa fa-save"></i> 
+		<span>Edits
+		{% include "dashboards/mqueue/sparklines/edits.html" %}
+		</span></a>
+	</li>
+	{% if "alapage"|is_installed is True %}
+	<li class="treeview">
+		<a href="#" onclick="loadDashboard('pages', 'mqueue')"><i class="fa fa-file-code-o"></i> 
+		<span>Pages
+		{% include "dashboards/mqueue/sparklines/pages.html" %}
+		</span></a>
+	</li>
+	{% endif %}
+	<li class="treeview">
+		<a href="#" onclick="loadDashboard('logins', 'mqueue')"><i class="fa fa-user"></i> 
+		<span>
+		Logins
+         </span></a>
 	</li>
 	<li class="treeview">
-		<a href="#" onclick="loadDashboard('logins', 'mqueue')">Logins</a>
-	</li>
-	<li class="treeview">
-		<a href="#" onclick="loadDashboard('registrations', 'mqueue')">Registrations</a>
+		<a href="#" onclick="loadDashboard('registrations', 'mqueue')"><i class="fa fa-group"></i> 
+		<span>Registrations</span></a>
 	</li>
 </ul>
