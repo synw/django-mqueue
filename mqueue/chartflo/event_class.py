@@ -14,6 +14,6 @@ def run(events=None):
     ds.opts(dict(color="Event class:N", height=400))
     ds.chart(x, y)
     c = ds.bar_()
-    ds.stack("event_classes", "Events classes", c)
+    ds.stack("event_classes", c, "Events classes")
     #path = settings.BASE_DIR + "/templates/dashboards/mqueue/charts"
     # ds.to_files(path)

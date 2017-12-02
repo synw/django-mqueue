@@ -11,4 +11,4 @@ def run(events=None):
                  height=250, width=1040, shape="type:N", size="sum(num):Q"))
     ds.chart(x, y)
     c = ds.point_()
-    ds.stack("events_timeline", "Timeline", c)
+    ds.stack("events_timeline", c, "Timeline")

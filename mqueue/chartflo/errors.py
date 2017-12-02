@@ -3,6 +3,7 @@ from dataswim import ds
 from mqueue.models import MEvent
 from chartflo.serializers import convert_dataset
 from chartflo.widgets import number
+from .transform import last_weeks
 
 
 def gen_errors(errors, warnings):
@@ -29,7 +30,7 @@ def gen_errors(errors, warnings):
     ds.df = convert_dataset(dataset, "Event class", "Date")
     ds.opts(opts)
     c = ds.chart_(x, y, "point")
-    ds.stack("errors_warnings", "Errors and warnings", c)
+    ds.stack("errors_warnings", c, "Errors and warnings")
 
 
 def gen_small():
@@ -42,15 +43,17 @@ def gen_small():
                  time_unit="yearmonthdate", height=200, width=640))
     ds.chart(x, y)
     c = ds.point_()
-    ds.stack("errors_small", "Errors and warnings", c)
+    ds.stack("errors_small", c, "Errors and warnings")
 
 
 def gen_nums(events):
     val = events.count()
+    errs_sl, edits_sl, _ = last_weeks()
+    opts = {"color": "red"}
     number.simple("events", val, "Events", dashboard="mqueue", icon="flash")
     errs = events.filter(event_class__icontains='ERROR').count()
     number.simple("errors", errs, "Error", dashboard="mqueue",
-                  icon="bug", color="red")
+                  icon="bug", color="red", sparkline=errs_sl, sparkline_options=opts)
     wa = events.filter(event_class__icontains='WARNING').count()
     number.simple("warnings", wa, "Warnings", dashboard="mqueue",
                   icon="warning", color="orange")
@@ -58,7 +61,7 @@ def gen_nums(events):
     number.simple("logins", logins, "Logins",
                   dashboard="mqueue", icon="user", color="blue")
     edits = events.filter(event_class__icontains='edit').count()
-    number.simple("edits", edits, "Edits",
+    number.simple("edits", edits, "Edits", sparkline=edits_sl,
                   dashboard="mqueue", icon="save", color="blue")
     e404 = events.filter(name__icontains='Not found').count()
     number.simple("err404", e404, "404",
