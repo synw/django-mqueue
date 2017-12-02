@@ -1,6 +1,24 @@
 <div class="row">
-	<div class="col-xs-12"><h1>Index</h1>
-		<div>{% include "dashboards/mqueue/numbers/events.html" %}</div>
-		<div>{% include "dashboards/mqueue/home.html" %}</div>
+	<div class="col-xs-12">
+		{% include "dashboards/mqueue/numbers/events.html" %}
+		{% include "dashboards/mqueue/numbers/errors.html" %}
+		{% include "dashboards/mqueue/numbers/warnings.html" %}
+		{% include "dashboards/mqueue/numbers/logins.html" %}
+		{% include "dashboards/mqueue/numbers/edits.html" %}
 	</div>
 </div>
+<div class="row">
+	<div class="col-xs-12">
+		<div>{% include "dashboards/mqueue/charts/event_classes.html" %}</div>
+		<div>{% include "dashboards/mqueue/charts/events_timeline.html" %}</div>
+		<div>{% include "dashboards/mqueue/charts/errors_warnings.html" %}</div>
+	</div>
+</div>
+<script>
+$(document).ready(function () {
+	$(".sparkline-embeded").each(function () {
+	  var $this = $(this);
+	  $this.sparkline('html', $this.data());
+	});
+});
+</script>

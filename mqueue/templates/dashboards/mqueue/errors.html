@@ -2,10 +2,20 @@
 	<div class="col-xs-12">
 		<span class="box">{% include "dashboards/mqueue/numbers/errors.html" %}</span>
 		<span class="box">{% include "dashboards/mqueue/numbers/warnings.html" %}</span>
+		<span class="box">{% include "dashboards/mqueue/numbers/err500.html" %}</span>
+		<span class="box">{% include "dashboards/mqueue/numbers/err404.html" %}</span>
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-12"><h1>XXX</h1>
-		{% include "dashboards/mqueue/errors_warnings.html" %}
+	<div class="col-xs-12">
+		<div>{% include "dashboards/mqueue/charts/errors_warnings.html" %}</div>
 	</div>
 </div>
+<script>
+$(document).ready(function () {
+	$(".sparkline-embeded").each(function () {
+	  var $this = $(this);
+	  $this.sparkline('html', $this.data());
+	});
+});
+</script>
