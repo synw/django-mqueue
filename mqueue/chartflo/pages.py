@@ -34,5 +34,4 @@ def run(events=None):
     ds.opts(dict(size="num:Q"))
     c = ds.point_()
     ds.stack("pages", c)
-    path = settings.BASE_DIR + "/templates/dashboards/mqueue/charts"
-    ds.to_files(path)
+    ds.to_files()

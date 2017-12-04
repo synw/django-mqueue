@@ -6,16 +6,20 @@ from chartflo.widgets import number
 from .transform import last_weeks
 
 
+def gen_chartjs(errors, warnings):
+    pass
+
+
 def gen_errors(errors, warnings):
     x_options = {"labelAngle": -45.0}
     x = ("Date", "Date:T", x_options)
     y = ("Num", "sum(Num):Q")
     ds.engine = "altair"
     opts = {}
-    #opts["size"] = "sum(Num):Q"
+    # opts["size"] = "sum(Num):Q"
     opts["time_unit"] = "yearmonthdatehours"
     opts["width"] = 1040
-    opts["height"] = 250
+    opts["height"] = 200
     opts["color"] = "Event class"
     dataset = []
     # ds.date("date_posted")
@@ -30,7 +34,7 @@ def gen_errors(errors, warnings):
     ds.df = convert_dataset(dataset, "Event class", "Date")
     ds.opts(opts)
     c = ds.chart_(x, y, "point")
-    ds.stack("errors_warnings", c, "Errors and warnings")
+    ds.stack("errors_warnings", c)
 
 
 def gen_small():

@@ -11,8 +11,7 @@ from .sparklines import run as sp
 def run(events=None):
     ds.datapath = safe_join(settings.BASE_DIR, "data")
     transform()
-    path = safe_join(settings.BASE_DIR, "data")
-    ds.load_csv(path + "/events.csv")
+    ds.load_csv(ds.datapath + "/events.csv")
     ds.date("date_posted")
     ds.backup()
     errors()
@@ -20,5 +19,6 @@ def run(events=None):
     timeline()
     ec()
     sp()
-    path = settings.BASE_DIR + "/templates/dashboards/mqueue/charts"
+    # path = settings.BASE_DIR + "/templates/dashboards/mqueue/charts"
+    path = "templates/dashboards/mqueue/charts"
     ds.to_files(path)
