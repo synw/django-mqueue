@@ -24,7 +24,7 @@ def last_weeks():
     """
     Returns datapoints for the last 5 weeks
     """
-    ds.load_csv(ds.datapath + "/events_typed.csv")
+    ds.load_csv(ds.datapath + "/events.csv")
     ds.sort("date_posted")
     ds.dateindex("date_posted")
     ds.add("num", 1)
@@ -60,6 +60,14 @@ def relations():
     ds.to_csv(ds.datapath + "/events.csv")
 
 
+def errs_warnings():
+    sp = ds.split_("type")
+    err = sp["Error"]
+    wa = sp["Warning"]
+    ds2 = ds.concat_(err.df, wa.df)
+    ds2.to_csv(ds.datapath + "/errors_warnings.csv")
+
+
 def run(events=None):
     """
     Transform data to get extra info columns
@@ -72,5 +80,6 @@ def run(events=None):
     ds.add("num", 1)
     ds.copy_col("event_class", "type")
     ds.apply(add_type, ["type"])
-    ds.to_csv(ds.datapath + "/events_typed.csv")
+    #ds.to_csv(ds.datapath + "/events_typed.csv")
     relations()
+    errs_warnings()

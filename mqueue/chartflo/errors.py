@@ -2,12 +2,19 @@ from __future__ import print_function
 from dataswim import ds
 from mqueue.models import MEvent
 from chartflo.serializers import convert_dataset
-from chartflo.widgets import number
+from chartflo.widgets import number, datatable
 from .transform import last_weeks
 
 
 def gen_chartjs(errors, warnings):
     pass
+
+
+def gen_datatable():
+    ds2 = ds.load_csv_(ds.datapath + "/errors_warnings.csv")
+    ds2.drop("request", "notes", "scope", "bucket",
+             "data", "content_type_id", "obj_pk", "num", "user_id")
+    datatable.create("errors_warnings", ds2.df, "mqueue")
 
 
 def gen_errors(errors, warnings):
@@ -81,6 +88,5 @@ def run(e=None):
     errors = events.filter(event_class__icontains="error")
     warnings = events.filter(event_class__icontains="warning")
     gen_nums(events)
-    # gen_errs()
     gen_errors(errors, warnings)
-    # gen_small()
+    gen_datatable()
