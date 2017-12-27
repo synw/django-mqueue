@@ -1,6 +1,7 @@
 # Django Mqueue
 
-[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
+[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue) 
+(fails due to an [issue](https://github.com/synw/django-mqueue/issues/4) running tests in Travis: help wanted!)
 
 Events queue application for Django. Features:
 
