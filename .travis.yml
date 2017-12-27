@@ -2,9 +2,14 @@ language: python
 
 python:
   - 2.7
+  - 3.6
 
 env:
-  - DJANGO=1.11
+  global:
+    - PYTHONPATH="/home/travis/build/synw/django-mqueue"
+    - DJANGO_SETTINGS_MODULE="travis_settings"
+  matrix:
+    - DJANGO=1.11.8
 
 install:
   - pip install django-fake-model coveralls
