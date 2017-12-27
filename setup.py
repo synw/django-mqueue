@@ -22,9 +22,10 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     install_requires=[
-        'django-extensions',
+        'django<2',
         'redis',
-        'influxdb'
+        'influxdb',
+        'django-fake-model',
     ],
     zip_safe=False
 )
