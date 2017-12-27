@@ -36,7 +36,8 @@ class MqueueTest(TestCase):
 
     def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
         self._content_type = ContentType.objects.get_for_model(User)
-        return MEvent.objects.create(name=name, url=url, obj_pk=obj_pk, notes=notes, model=User, content_type=self._content_type)
+        return MEvent.objects.create(name=name, url=url, obj_pk=obj_pk, notes=notes,
+                                     model=User, content_type=self._content_type)
 
     def test_mevent_creation(self):
         mevent = self.create_mevent()
@@ -46,8 +47,8 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.name, "M event")
         self.assertEqual(mevent.obj_pk, 1)
         self.assertEqual(mevent.notes, "Notes")
-        self.assertEqual(mevent.__unicode__(), unicode(
-            mevent.name + ' - ' + str(mevent.date_posted)))
+        self.assertEqual(mevent.__unicode__(), mevent.name +
+                         ' - ' + str(mevent.date_posted))
         return
 
     def test_create_mevent_empty(self):
