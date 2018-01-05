@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 
-
-import redis
 import time
 from mqueue.conf import DOMAIN
 from mqueue.hooks.redis import serializer
 from mqueue.conf import HOOKS
 
-conf = HOOKS["redis"]
-R = redis.StrictRedis(host=conf["host"], port=conf["port"], db=conf["db"])
-EVENT_NUM = int(time.time())
+
+try:
+    import redis
+
+    conf = HOOKS["redis"]
+    R = redis.StrictRedis(host=conf["host"], port=conf["port"], db=conf["db"])
+    EVENT_NUM = int(time.time())
+except Exception:
+    pass
 
 
 def save(event, conf):
@@ -19,6 +23,4 @@ def save(event, conf):
     event.request = event.request.replace("\n", "//")
     data = serializer.Pack(event)
     R.set(name, data)
-
-
-EVENT_NUM += 1
+    EVENT_NUM += 1

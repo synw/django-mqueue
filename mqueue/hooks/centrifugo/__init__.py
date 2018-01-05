@@ -1,6 +1,9 @@
 from django.conf import settings
-from instant.producers import publish
 from mqueue.conf import DOMAIN
+try:
+    from instant.producers import publish
+except ImportError:
+    pass
 
 
 def save(event, conf):
@@ -24,10 +27,10 @@ def save(event, conf):
     data["admin_url"] = admin_url
     data["bucket"] = bucket
     err = publish(
-        message=event.name, 
+        message=event.name,
         event_class=event.event_class,
-        channel = conf["channel"], 
-        data = data
+        channel=conf["channel"],
+        data=data
     )
     if err is not None:
         if settings.DEBUG:

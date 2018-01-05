@@ -25,6 +25,7 @@ setup(
         'django<2',
         'redis',
         'influxdb',
+        'django-fake-model',
     ],
     zip_safe=False
 )

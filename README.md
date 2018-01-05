@@ -21,5 +21,3 @@ Events can be linked to a model instance and a user instance.
 Check the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
 ![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_list.png)
-
-Note: to run the tests you will need [django-fake-model](https://github.com/erm0l0v/django-fake-model)
