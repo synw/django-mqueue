@@ -50,6 +50,16 @@ By default this will records create and delete events. To change it set a parame
 ::
 
    mqueue_tracker.register(TheModel, ["c", "u", "d"])
+   
+   
+Settings
+^^^^^^^^
+
+To disable events recording in the database for some models:
+
+::
+
+   MQUEUE_NOSAVE = ["Model1", "Model2"]
 
 
 
