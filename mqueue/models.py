@@ -30,14 +30,16 @@ class MEventManager(models.Manager):
         if 'obj_pk' in kwargs.keys() and 'instance' not in kwargs.keys():
             obj_pk = kwargs['obj_pk']
         content_type = None
+        model = None
         if 'model' in kwargs.keys() and 'instance' not in kwargs.keys():
-            content_type = ContentType.objects.get_for_model(kwargs['model'])
+            model = kwargs['model']
+            content_type = ContentType.objects.get_for_model(model)
         # trying to grab an object instance in order to guess some fields
         instance = None
         if obj_pk and content_type and 'instance' not in kwargs.keys():
             try:
                 instance = content_type.get_object_for_this_type(pk=obj_pk)
-            except:
+            except Exception:
                 pass
         if 'instance' in kwargs.keys():
             instance = kwargs['instance']
@@ -73,7 +75,7 @@ class MEventManager(models.Manager):
                     formated_request += str(key) + ' : ' + \
                         str(request.META[key]) + '\n'
                 save_request = True
-            except:
+            except Exception:
                 pass
         # static stuff
         event_class = ''
@@ -128,11 +130,14 @@ class MEventManager(models.Manager):
             print(bcolors.SUCCESS + 'Event' + bcolors.ENDC +
                   ' [' + mevent.event_class + '] : ' + name)
         # save by default unless it is said not to
-        modelname = ""
+        modelname = None
         if instance is not None:
             modelname = instance.__class__.__name__
-        if modelname in NOSAVE:
-            return mevent
+        if model is not None:
+            modelname = model.__name__
+        if modelname is not None:
+            if modelname in NOSAVE:
+                return mevent
         if 'commit' in kwargs.keys():
             if kwargs['commit'] is False:
                 return mevent
