@@ -1,6 +1,7 @@
 from django.conf import settings
 from mqueue.conf import DOMAIN
 try:
+    from instant.conf import SITE_SLUG
     from instant.producers import publish
 except ImportError:
     pass
@@ -26,11 +27,15 @@ def save(event, conf):
     data["url"] = url
     data["admin_url"] = admin_url
     data["bucket"] = bucket
+    site = SITE_SLUG
+    if "site" in event.data:
+        site = event.data["site"]
     err = publish(
         message=event.name,
         event_class=event.event_class,
         channel=conf["channel"],
-        data=data
+        data=data,
+        site=site,
     )
     if err is not None:
         if settings.DEBUG:
