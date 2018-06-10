@@ -2,37 +2,18 @@
 
 from django.db import models
 from django.test import TestCase
+from django.test.client import RequestFactory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
-#from django_fake_model import models as f
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
 
 
-"""class MFakeModel(f.FakeModel):
-    name = models.CharField(max_length=100)
-
-    def get_absolute_url(self):
-        return "http://absoluteurl"
-
-
-class MFakeModelTitle(f.FakeModel):
-    title = models.CharField(max_length=100)
-
-    def get_event_object_url(self):
-        return "http://eventurl"
-
-
-class MFakeModelSlug(f.FakeModel):
-    slug = models.SlugField()
-
-
-class MFakeModelEmpty(f.FakeModel):
-    pass"""
-
-
 class MqueueTest(TestCase):
+
+    def setUp(self):
+        self.factory = RequestFactory()
 
     def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
         self._content_type = ContentType.objects.get_for_model(User)
@@ -55,15 +36,39 @@ class MqueueTest(TestCase):
         self.assertRaises(ValueError, MEvent.objects.create, 'name')
         return
 
-    def test_mevent_creation_with_instance(self):
+    def test_mevent_creation_with_user(self):
         self._content_type = ContentType.objects.get_for_model(User)
         user = User.objects.create_user(
             'myuser', 'myemail@test.com', 'super_password')
-        mevent = MEvent.objects.create(name='M Event', instance=user)
+        mevent = MEvent.objects.create(
+            name='M Event', instance=user, user=user)
         self.assertTrue(isinstance(mevent, MEvent))
         self.assertEqual(mevent.content_type, self._content_type)
         self.assertEqual(mevent.obj_pk, 1)
+        self.assertEqual(mevent.user, user)
         return
+
+    def test_event_creation_more(self):
+        request = self.factory.get('/')
+        mevent = MEvent.objects.create(
+            name='123',
+            scope="superuser",
+            bucket="sup",
+            request=request,
+            data={"k": "v"},
+            admin_url="http://admin",
+        )
+        self.assertTrue(isinstance(mevent, MEvent))
+        self.assertEqual(mevent.name, "123")
+        self.assertEqual(mevent.scope, "superuser")
+        self.assertEqual(mevent.bucket, "sup")
+        self.assertEqual(mevent.admin_url, "http://admin")
+        formated_request = ""
+        for key in request.META.keys():
+            formated_request += str(key) + ' : ' + \
+                str(request.META[key]) + '\n'
+        self.assertEqual(mevent.request, formated_request)
+        self.assertEqual(mevent.data, {"k": "v"})
 
     def test_utils_get_event_class_str(self):
         event_class = "Obj created"
@@ -75,56 +80,30 @@ class MqueueTest(TestCase):
         event_class = None
         self.assertEqual(get_event_class_str(event_class), "Default")
 
-    """@FakeModel.fake_me
-    @FakeModelTitle.fake_me
-    @FakeModelSlug.fake_me
-    @FakeModelEmpty.fake_me
     def test_utils_get_object_name(self):
         # test unicode method
         instance, created = MEvent.objects.get_or_create(name="Event name")
         user = User.objects.create_user(
             'myuser', 'myemail@test.com', 'super_password')
         object_name = get_object_name(instance, user)
-        res = instance.__class__.__name__ + ' ' + \
-            instance.__unicode__()[:45] + '...' + ' (' + user.username + ')'
+        res = instance.__class__.__name__ + ' - ' + \
+            str(instance.date_posted) + ' (' + user.username + ')'
         self.assertEqual(object_name, res)
         # test name
-        MFakeModel.objects.create(name='123')
-        instance = MFakeModel.objects.get(name='123')
-        res = instance.__class__.__name__ + ' ' + \
-            instance.name + ' (' + user.username + ')'
+        MEvent.objects.create(name='123')
+        instance = MEvent.objects.get(name='123')
+        res = instance.__class__.__name__ + ' - ' + \
+            str(instance.date_posted) + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
-        # test title
-        MFakeModelTitle.objects.create(title='123')
-        instance = MFakeModelTitle.objects.get(title='123')
-        res = instance.__class__.__name__ + ' ' + \
-            instance.title + ' (' + user.username + ')'
-        object_name = get_object_name(instance, user)
-        self.assertEqual(object_name, res)
-        # test slug
-        MFakeModelSlug.objects.create(slug='123')
-        instance = MFakeModelSlug.objects.get(slug='123')
-        res = instance.__class__.__name__ + ' ' + \
-            instance.slug + ' (' + user.username + ')'
-        object_name = get_object_name(instance, user)
-        self.assertEqual(object_name, res)
-        # test pk
-        instance, created = MFakeModelEmpty.objects.get_or_create()
-        res = instance.__class__.__name__ + ' ' + \
-            str(instance.pk) + ' (' + user.username + ')'
-        object_name = get_object_name(instance, user)
-        self.assertEqual(object_name, res)"""
 
-    """@FakeModel.fake_me
-    @FakeModelTitle.fake_me
-    def test_utils_get_url(self):
+    """def test_utils_get_url(self):
         # test from absolute url
-        instance, created = MFakeModel.objects.get_or_create(name='123')
+        instance, created = MEvent.objects.get_or_create(name='123')
         url = get_url(instance)
         self.assertEqual(url, "http://absoluteurl")
         # test from custom method
-        instance, created = MFakeModelTitle.objects.get_or_create(title='123')
+        instance, created = MEvent.objects.get_or_create(title='123')
         url = get_url(instance)
         self.assertEqual(url, "http://eventurl")"""
 
