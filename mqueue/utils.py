@@ -70,18 +70,18 @@ def get_object_name(instance, user):
     except AttributeError:
         try:
             obj_name = instance.name
-        except:
+        except Exception:
             try:
                 obj_name = instance.title
-            except:
+            except Exception:
                 try:
                     obj_name = instance.slug
-                except:
+                except Exception:
                     obj_name = str(instance.pk)
     if obj_name:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45] + '...'
-    obj_name = instance.__class__.__name__ + ' ' + obj_name
+    obj_name = instance.__class__.__name__ + ' - ' + str(instance.date_posted)
     if user:
         obj_name += ' (' + user.username + ')'
     return obj_name
@@ -91,10 +91,10 @@ def get_user(instance):
     user = None
     try:
         user = instance.user
-    except:
+    except Exception:
         try:
             user = instance.editor
-        except:
+        except Exception:
             pass
     return user
 

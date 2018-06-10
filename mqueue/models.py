@@ -205,4 +205,7 @@ class MEvent(models.Model):
         permissions = (("view_mevent", "Can see Events"),)
 
     def __unicode__(self):
-        return self.name + ' - ' + str(self.date_posted)
+        name = self.name
+        if len(name) >= 45:
+            name = name[:45] + '...'
+        return name + ' - ' + str(self.date_posted)
