@@ -21,11 +21,3 @@ Events can be linked to a model instance and a user instance.
 Check the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
 ![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_list.png)
-
-Multi-sites events dahsboard
-----------------------------
-
-A dashboard that receives events via websockets from multiple sites is available; check 
-[django-mqueue-livefeed](https://github.com/synw/django-mqueue-livefeed)
-
-![Lvefeed screenshot](https://raw.githubusercontent.com/synw/django-mqueue-livefeed/master/docs/img/screenshot.png)
