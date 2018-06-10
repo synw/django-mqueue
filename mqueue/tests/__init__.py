@@ -8,12 +8,15 @@ from django.contrib.auth.models import User
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
+from mqueue.hooks.redis.serializer import Pack
+from mqueue.hooks import redis
 
 
 class MqueueTest(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
+        self.maxDiff = None
 
     def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
         self._content_type = ContentType.objects.get_for_model(User)
@@ -216,7 +219,42 @@ class MqueueTest(TestCase):
             EVENT_CLASSES[res_event_class] + '">' + \
             icon + event_class + '</span>'
         self.assertEqual(event_class_formated, html)
-        # extra html
+
+    """
+    Test hooks
+    """
+
+    def test_redis_serializer(self):
+        request = self.factory.get('/')
+        ct = ContentType.objects.get_for_model(User)
+        user = User.objects.create_user(
+            'myuser', 'myemail@test.com', 'super_password')
+        mevent = MEvent.objects.create(
+            name='Event', user=user, content_type=ct,
+            event_class="test", data={"k": "v"}, url="http://event",
+            admin_url="http://admin", bucket="test", request=request,
+            notes="xx", instance=user)
+        data = Pack(mevent)
+        ser = ["name:;" + mevent.name]
+        ser.append("event_class:;" + mevent.event_class)
+        ser.append("content_type:;" + str(mevent.content_type))
+        ser.append("obj_pk:;" + str(mevent.pk))
+        ser.append("user:;" + str(mevent.user))
+        ser.append("url:;" + mevent.url)
+        ser.append("admin_url:;" + mevent.admin_url)
+        ser.append("notes:;" + mevent.notes)
+        ser.append("request:;" + mevent.request)
+        ser.append("bucket:;" + mevent.bucket)
+        ser.append("data:;" + str(mevent.data))
+        sep = "#!#"
+        res = str.join(sep, ser)
+        self.assertEqual(data, res)
+
+    def test_redis_serializer_min(self):
+        mevent = MEvent.objects.create(name='Event')
+        res = "name:;" + mevent.name
+        data = Pack(mevent)
+        self.assertEqual(data, res)
 
 
 """
