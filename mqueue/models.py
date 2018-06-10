@@ -66,15 +66,13 @@ class MEventManager(models.Manager):
             if instance:
                 admin_url = get_admin_url(instance)
         # request
-        save_request = False
+        formated_request = ''
         if 'request' in kwargs.keys():
             request = kwargs['request']
-            formated_request = ''
             try:
                 for key in request.META.keys():
                     formated_request += str(key) + ' : ' + \
                         str(request.META[key]) + '\n'
-                save_request = True
             except Exception:
                 pass
         # static stuff
@@ -120,9 +118,8 @@ class MEventManager(models.Manager):
             bucket=bucket,
             data=data,
             scope=scope,
+            request=formated_request,
         )
-        if save_request is True:
-            mevent.request = formated_request
         # proceed hooks
         dispatch(mevent)
         # print info
@@ -205,7 +202,4 @@ class MEvent(models.Model):
         permissions = (("view_mevent", "Can see Events"),)
 
     def __unicode__(self):
-        name = self.name
-        if len(name) >= 45:
-            name = name[:45] + '...'
-        return name + ' - ' + str(self.date_posted)
+        return self.name + ' - ' + str(self.date_posted)
