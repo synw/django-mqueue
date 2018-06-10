@@ -1,7 +1,6 @@
 # Django Mqueue
 
-[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue) 
-
+[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
 [![Coverage Status](https://coveralls.io/repos/github/synw/django-mqueue/badge.svg?branch=master)](https://coveralls.io/github/synw/django-mqueue?branch=master)
 
 Events queue application for Django. Features:
