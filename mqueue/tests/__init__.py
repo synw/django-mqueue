@@ -5,11 +5,13 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
+from django.contrib import admin
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
 from mqueue.hooks.redis.serializer import Pack
 from mqueue.hooks import redis
+from mqueue.admin import link_to_object, link_to_object_admin, MEventAdmin
 
 
 class MqueueTest(TestCase):
@@ -85,7 +87,7 @@ class MqueueTest(TestCase):
 
     def test_utils_get_object_name(self):
         # test unicode method
-        instance, created = MEvent.objects.get_or_create(name="Event name")
+        instance, _ = MEvent.objects.get_or_create(name="Event name")
         user = User.objects.create_user(
             'myuser', 'myemail@test.com', 'super_password')
         object_name = get_object_name(instance, user)
@@ -99,6 +101,24 @@ class MqueueTest(TestCase):
             str(instance.date_posted) + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
+
+    def test_admin(self):
+        instance, _ = MEvent.objects.get_or_create(name="Event name",
+                                                   url="http://url",
+                                                   admin_url="http://admin_url")
+        res = link_to_object(instance)
+        link = '<a href="http://url" target="_blank">http://url</a>'
+        self.assertEqual(link, res)
+        res = link_to_object_admin(instance)
+        link = '<a href="http://admin_url" target="_blank">http://admin_url</a>'
+        self.assertEqual(link, res)
+        request = self.factory.get('/')
+
+        class TestAdminSite(admin.AdminSite):
+            pass
+        adm = MEventAdmin(MEvent, TestAdminSite)
+        res = adm.get_readonly_fields(request)
+        self.assertEqual(res, ('notes', 'request'))
 
     """def test_utils_get_url(self):
         # test from absolute url
