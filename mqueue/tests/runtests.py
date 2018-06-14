@@ -47,6 +47,7 @@ settings.configure(
     DATABASES={
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'test_db',
         }
     },
     LANGUAGE_CODE='en-us',
@@ -59,7 +60,11 @@ settings.configure(
     PASSWORD_HASHERS=(
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ),
-    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/')
+    FIXTURE_DIRS=glob.glob(BASE_DIR + '/' + '*/fixtures/'),
+
+    MQUEUE_AUTOREGISTER=(
+        ('django.contrib.auth.models.User', ["c", "d", "u"]),
+    ),
 
 )
 

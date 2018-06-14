@@ -6,24 +6,34 @@ from django.test.client import RequestFactory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.contrib import admin
+#from django.apps import AppConfig
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
 from mqueue.hooks.redis.serializer import Pack
 from mqueue.hooks import redis
+from mqueue import logging
+from mqueue.apps import MqueueConfig
 from mqueue.admin import link_to_object, link_to_object_admin, MEventAdmin
 
 
 class MqueueTest(TestCase):
+    user = None
 
     def setUp(self):
         self.factory = RequestFactory()
         self.maxDiff = None
+        self.user = User.objects.create_user(
+            'myuser', 'myemail@test.com', 'super_password')
 
     def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
         self._content_type = ContentType.objects.get_for_model(User)
         return MEvent.objects.create(name=name, url=url, obj_pk=obj_pk, notes=notes,
                                      model=User, content_type=self._content_type)
+
+    def reset(self):
+        for event in MEvent.objects.all():
+            event.delete()
 
     def test_mevent_creation(self):
         mevent = self.create_mevent()
@@ -35,23 +45,21 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.notes, "Notes")
         self.assertEqual(mevent.__unicode__(), mevent.name +
                          ' - ' + str(mevent.date_posted))
-        return
 
     def test_create_mevent_empty(self):
         self.assertRaises(ValueError, MEvent.objects.create, 'name')
-        return
 
     def test_mevent_creation_with_user(self):
         self._content_type = ContentType.objects.get_for_model(User)
-        user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+        self.reset()
+        user = self.user
         mevent = MEvent.objects.create(
             name='M Event', instance=user, user=user)
         self.assertTrue(isinstance(mevent, MEvent))
         self.assertEqual(mevent.content_type, self._content_type)
         self.assertEqual(mevent.obj_pk, 1)
         self.assertEqual(mevent.user, user)
-        return
+        self.reset()
 
     def test_event_creation_more(self):
         request = self.factory.get('/')
@@ -86,10 +94,10 @@ class MqueueTest(TestCase):
         self.assertEqual(get_event_class_str(event_class), "Default")
 
     def test_utils_get_object_name(self):
+        self.reset()
         # test unicode method
         instance, _ = MEvent.objects.get_or_create(name="Event name")
-        user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+        user = self.user
         object_name = get_object_name(instance, user)
         res = instance.__class__.__name__ + ' - ' + \
             str(instance.date_posted) + ' (' + user.username + ')'
@@ -101,6 +109,7 @@ class MqueueTest(TestCase):
             str(instance.date_posted) + ' (' + user.username + ')'
         object_name = get_object_name(instance, user)
         self.assertEqual(object_name, res)
+        self.reset()
 
     def test_admin(self):
         instance, _ = MEvent.objects.get_or_create(name="Event name",
@@ -116,9 +125,15 @@ class MqueueTest(TestCase):
 
         class TestAdminSite(admin.AdminSite):
             pass
+
         adm = MEventAdmin(MEvent, TestAdminSite)
         res = adm.get_readonly_fields(request)
         self.assertEqual(res, ('notes', 'request'))
+
+    def test_apps(self):
+        pass
+        #app = MqueueConfig("mqueue", mqueue)
+        # app.ready()
 
     """def test_utils_get_url(self):
         # test from absolute url
@@ -247,8 +262,7 @@ class MqueueTest(TestCase):
     def test_redis_serializer(self):
         request = self.factory.get('/')
         ct = ContentType.objects.get_for_model(User)
-        user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+        user = self.user
         mevent = MEvent.objects.create(
             name='Event', user=user, content_type=ct,
             event_class="test", data={"k": "v"}, url="http://event",
@@ -258,7 +272,7 @@ class MqueueTest(TestCase):
         ser = ["name:;" + mevent.name]
         ser.append("event_class:;" + mevent.event_class)
         ser.append("content_type:;" + str(mevent.content_type))
-        ser.append("obj_pk:;" + str(mevent.pk))
+        ser.append("obj_pk:;" + str(mevent.obj_pk))
         ser.append("user:;" + str(mevent.user))
         ser.append("url:;" + mevent.url)
         ser.append("admin_url:;" + mevent.admin_url)
@@ -281,8 +295,8 @@ class MqueueTest(TestCase):
     """
 
     def test_managers(self):
-        user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+        self.reset()
+        user = self.user
         mevent1 = MEvent.objects.create(name="event1", model=User)
         mevent2 = MEvent.objects.create(name="event2", instance=user)
         self.assertEqual(
@@ -297,8 +311,8 @@ class MqueueTest(TestCase):
         return
 
     def test_managers_with_event_class(self):
-        user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+        self.reset()
+        user = self.user
         mevent1 = MEvent.objects.create(
             name="event1", model=User, event_class="class1")
         mevent2 = MEvent.objects.create(
