@@ -81,7 +81,11 @@ def get_object_name(instance, user):
     if obj_name:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45] + '...'
-    obj_name = instance.__class__.__name__ + ' - ' + str(instance.date_posted)
+    if hasattr(instance, "date_posted"):
+        obj_name = instance.__class__.__name__ + \
+            ' - ' + str(instance.date_posted)
+    elif hasattr(instance, "created"):
+        obj_name = instance.__class__.__name__ + ' - ' + str(instance.created)
     if user:
         obj_name += ' (' + user.username + ')'
     return obj_name
