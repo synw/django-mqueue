@@ -22,11 +22,10 @@ class MqueueConfig(AppConfig):
                 module = importlib.import_module(path)
                 model = getattr(module, modname)
                 mqueue_tracker.register(model, level)
-            except ImportError:
-                from mqueue.models import MEvent
+            except ImportError as e:
                 msg = "ERROR from Django Mqueue : can not import model " + modpath
-                MEvent.objects.create(
-                    name=msg, event_class="Error")
+                print(msg)
+                raise(e)
 
         # watchers
         from mqueue.watchers import init_watchers
