@@ -25,7 +25,6 @@ setup(
         'django<2',
         'redis',
         'influxdb',
-        'django-fake-model',
         'graphene',
     ],
     zip_safe=False
