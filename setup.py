@@ -25,7 +25,8 @@ setup(
         'django<2',
         'redis',
         'influxdb',
-        'graphene',
+        'django-graphql-utils',
+        "graphene-django<2.0",
     ],
     zip_safe=False
 )

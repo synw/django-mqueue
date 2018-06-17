@@ -16,6 +16,9 @@ sys.path.append(os.path.abspath(os.path.join(BASE_DIR, '..')))
 CUSTOM_INSTALLED_APPS = (
     'mqueue',
     'django.contrib.admin',
+    "graphene_django",
+    "graphql_utils",
+    "django_filters",
 )
 
 ALWAYS_INSTALLED_APPS = (
@@ -73,6 +76,10 @@ settings.configure(
             "port": 6379,
             "db": 0,
         },
+    },
+
+    GRAPHENE={
+        'SCHEMA': 'mqueue.schema.schema'
     },
 
 )
