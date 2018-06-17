@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from django.db import models
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -10,9 +11,10 @@ from django.apps import apps
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
+from mqueue import hooks
 from mqueue.hooks.redis.serializer import Pack
 from mqueue.hooks import redis
-from mqueue import logging
+#from mqueue import logging as log
 from mqueue.apps import MqueueConfig
 from mqueue.admin import link_to_object, link_to_object_admin, MEventAdmin
 
@@ -110,6 +112,14 @@ class MqueueTest(TestCase):
         with self.settings(MQUEUE_AUTOREGISTER=req):
             apps.get_app_config('mqueue')
             self.assertRaises(ImportError)
+
+    """
+    Logging
+    """
+
+    """def test_logging(self):
+        logger = logging.getLogger('django_test')
+        logger.warning('test_log')"""
 
     """
     Utils
@@ -270,6 +280,10 @@ class MqueueTest(TestCase):
     Hooks
     """
 
+    def test_init_hooks(self):
+        mevent = self.create_mevent()
+        hooks.dispatch(mevent)
+
     def test_redis_serializer(self):
         request = self.factory.get('/')
         ct = ContentType.objects.get_for_model(User)
@@ -280,6 +294,7 @@ class MqueueTest(TestCase):
             admin_url="http://admin", bucket="test", request=request,
             notes="xx", instance=user)
         data = Pack(mevent)
+        mevent.request = mevent.request.replace("\n", "//")
         ser = ["name:;" + mevent.name]
         ser.append("event_class:;" + mevent.event_class)
         ser.append("content_type:;" + str(mevent.content_type))

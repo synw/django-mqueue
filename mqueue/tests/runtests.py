@@ -66,6 +66,15 @@ settings.configure(
         ('django.contrib.auth.models.User', ["c", "d", "u"]),
     ),
 
+    MQUEUE_HOOKS={
+        "redis": {
+            "path": "mqueue.hooks.redis",
+            "host": "localhost",
+            "port": 6379,
+            "db": 0,
+        },
+    },
+
 )
 
 django.setup()
