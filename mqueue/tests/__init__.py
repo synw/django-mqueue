@@ -5,6 +5,7 @@ from .apps import MqueueTestApps
 from .utils import MqueueTestUtils
 from .hooks.redis import MqueueTestRedisHook
 from .watchers import MqueueTestWatchers
+from .signals import MqueueTestSignals
 #from .graphql_api import MqueueTestGraphqlApi
 
 
