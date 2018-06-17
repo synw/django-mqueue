@@ -6,7 +6,7 @@ from django.test.client import RequestFactory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.contrib import admin
-#from django.apps import AppConfig
+from django.apps import apps
 from mqueue.models import MEvent
 from mqueue.utils import get_event_class_str, get_object_name, get_url, format_event_class
 from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML
@@ -83,6 +83,38 @@ class MqueueTest(TestCase):
         self.assertEqual(mevent.request, formated_request)
         self.assertEqual(mevent.data, {"k": "v"})
 
+    def test_admin(self):
+        instance, _ = MEvent.objects.get_or_create(name="Event name",
+                                                   url="http://url",
+                                                   admin_url="http://admin_url")
+        res = link_to_object(instance)
+        link = '<a href="http://url" target="_blank">http://url</a>'
+        self.assertEqual(link, res)
+        res = link_to_object_admin(instance)
+        link = '<a href="http://admin_url" target="_blank">http://admin_url</a>'
+        self.assertEqual(link, res)
+        request = self.factory.get('/')
+
+        class TestAdminSite(admin.AdminSite):
+            pass
+
+        adm = MEventAdmin(MEvent, TestAdminSite)
+        res = adm.get_readonly_fields(request)
+        self.assertEqual(res, ('notes', 'request'))
+
+    def test_apps(self):
+        apps.get_app_config('mqueue')
+
+    def test_apps_import_error(self):
+        req = (('wrong.model.path', ["c", "d", "u"]),)
+        with self.settings(MQUEUE_AUTOREGISTER=req):
+            apps.get_app_config('mqueue')
+            self.assertRaises(ImportError)
+
+    """
+    Utils
+    """
+
     def test_utils_get_event_class_str(self):
         event_class = "Obj created"
         self.assertEqual(get_event_class_str(event_class), "Object created")
@@ -111,27 +143,6 @@ class MqueueTest(TestCase):
         self.assertEqual(object_name, res)
         self.reset()
 
-    def test_admin(self):
-        instance, _ = MEvent.objects.get_or_create(name="Event name",
-                                                   url="http://url",
-                                                   admin_url="http://admin_url")
-        res = link_to_object(instance)
-        link = '<a href="http://url" target="_blank">http://url</a>'
-        self.assertEqual(link, res)
-        res = link_to_object_admin(instance)
-        link = '<a href="http://admin_url" target="_blank">http://admin_url</a>'
-        self.assertEqual(link, res)
-        request = self.factory.get('/')
-
-        class TestAdminSite(admin.AdminSite):
-            pass
-
-        adm = MEventAdmin(MEvent, TestAdminSite)
-        res = adm.get_readonly_fields(request)
-        self.assertEqual(res, ('notes', 'request'))
-
-    def test_apps(self):
-        pass
         #app = MqueueConfig("mqueue", mqueue)
         # app.ready()
 
