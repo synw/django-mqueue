@@ -10,7 +10,7 @@ class MqueueConfig(AppConfig):
     def ready(self):
         # models registration from settings
         from django.conf import settings
-        from mqueue.tracking import mqueue_tracker
+        from .tracking import mqueue_tracker
         registered_models = getattr(settings, 'MQUEUE_AUTOREGISTER', [])
         for modtup in registered_models:
             modpath = modtup[0]
@@ -28,6 +28,6 @@ class MqueueConfig(AppConfig):
                 raise(e)
 
         # watchers
-        from mqueue.watchers import init_watchers
-        from mqueue.conf import WATCH
+        from .watchers import init_watchers
+        from .conf import WATCH
         init_watchers(WATCH)

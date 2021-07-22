@@ -1,20 +1,18 @@
 Graphql Api
 ===========
 
-*New in 0.9*
-
 It is possible to query for public events, users events and staff events.
 
 Settings
 ~~~~~~~~
 
-Install with ``pip install django-graphql-utils django-filters``
+Install with ``pip install graphene-django django-filter``
 
  .. highlight:: python
 
 ::
 
-   INSTALLED_APPS += ("graphene_django", "graphql_utils", "django_filters",)
+   INSTALLED_APPS += ("graphene_django", "django_filters",)
 
    GRAPHENE = {
       'SCHEMA': 'mqueue.schema.schema'
@@ -31,18 +29,16 @@ Urls:
 ::
 
    from django.conf import settings
+   from django.views.decorators.csrf import csrf_exempt
    from graphene_django.views import GraphQLView
-   from graphql_utils.views import TGraphQLView
    
    urlpatterns = [
     # ...
-    url(r'^graphql', TGraphQLView.as_view()),
+    path('graphql', GraphQLView.as_view()),
    ]
    
    if settings.DEBUG:
-      urlpatterns += [url(r'^graphiql', GraphQLView.as_view(graphiql=True)), ]
-
-Note: the ``/graphql`` endpoint is protected by a Django csrf token
+      urlpatterns += [path('graphiql', csrf_exempt(GraphQLView.as_view(graphiql=True)))]
 
 Event scope
 ~~~~~~~~~~~
@@ -62,6 +58,8 @@ Possible scope values are: ``public``, ``users``, ``staff``, ``superuser`` (defa
 Queries
 ~~~~~~~
 
+Go to ``http://localhost:8000/graphiql/`` to test the queries
+
 Available queries are:
 
 ``publicEvents``, ``usersEvents``, ``staffEvents``, ``allEvents`` (for the superuser)
@@ -77,7 +75,7 @@ Example: public events:
          edges {
             node {
                name
-               event_class
+               eventClass
             }
          }
       }

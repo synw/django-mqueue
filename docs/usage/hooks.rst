@@ -1,55 +1,11 @@
 Hooks
 =====
 
-*New in 0.7.1* (inspired by `Logrus <https://github.com/sirupsen/logrus>`_)
+Optional hooks can be used to perform extra actions on events (inspired by `Logrus <https://github.com/sirupsen/logrus>`_). 
+Available hooks:
 
-Optional hooks can be used to perform extra actions on events. Available hooks:
-
-- **Postgresql**: record the events in a postgresql database (go)
-- **Influxdb**: record the events in an influxdb database (go)
 - **Redis**: record the events in Redis (python)
 - **Centrifugo**: push events as messages in the Centrifugo websockets server (python)
-
-Postgresql
-----------
-
-In ``settings.py``
-
-.. highlight:: python
-
-::
-
-   MQUEUE_HOOKS = {
-    "postgresql": {
-        "path": "mqueue.hooks.postgresql",
-        "addr": "localhost",
-        "user": "user",
-        "password": "pwd",
-        "database": "mydomain_events",
-        "table": "events"
-    }
-   }
-
-Create the database in postgresql and migrate it with a management command:
-
-::
-
-   python3 manage.py mqueue_migrate_pg
-   
-Influxdb
---------
-
-::
-
-   "influxdb": {
-        "path": "mqueue.hooks.influxdb",
-        "addr": "http://localhost:8086",
-        "user": "admin",
-        "password": "admin",
-        "database": "events"
-    }
-
-Create the database in Influxdb
 
 Redis
 -----

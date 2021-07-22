@@ -2,12 +2,13 @@
 
 from django.db import models
 from django.conf import settings
+from django.db.models.deletion import SET_NULL
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, AnonymousUser
-from mqueue.utils import get_user, get_url, get_admin_url
-from mqueue.hooks import dispatch
-from mqueue.conf import bcolors, NOSAVE
+from .utils import get_user, get_url, get_admin_url
+from .hooks import dispatch
+from .conf import bcolors, NOSAVE
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -169,7 +170,8 @@ class MEventManager(models.Manager):
 class MEvent(models.Model):
     # required fields
     content_type = models.ForeignKey(
-        ContentType, null=True, blank=True, verbose_name=_(u"Content type"))
+        ContentType, null=True, blank=True, verbose_name=_(u"Content type"),
+        on_delete=SET_NULL)
     obj_pk = models.IntegerField(
         blank=True, null=True, verbose_name=_(u"Object primary key"))
     name = models.CharField(max_length=120, verbose_name=_(u"Name"))
@@ -199,7 +201,7 @@ class MEvent(models.Model):
         verbose_name = _(u'Event')
         verbose_name_plural = _(u'Events')
         ordering = ['-date_posted']
-        permissions = (("view_mevent", "Can see Events"),)
+        # permissions = (("view_mevent", "Can see Events"),)
 
     def __unicode__(self):
         return self.name + ' - ' + str(self.date_posted)

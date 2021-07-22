@@ -1,6 +1,5 @@
-from __future__ import print_function
-from mqueue.models import MEvent
-from mqueue.utils import get_user, get_url, get_admin_url, get_object_name
+from .models import MEvent
+from .utils import get_user, get_url, get_admin_url, get_object_name
 
 
 def mmessage_create(sender, instance, created, **kwargs):

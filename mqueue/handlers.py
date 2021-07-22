@@ -7,7 +7,7 @@ from logging import Handler
 class LogsDBHandler(Handler, object):
 
     def emit(self, record):
-        from mqueue.models import MEvent
+        from .models import MEvent
         msg = record.getMessage()
         name = msg[:120]
         if record.exc_info:

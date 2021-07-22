@@ -1,8 +1,8 @@
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from django.contrib.auth.models import User
-from mqueue.models import MEvent
-from mqueue.utils import get_url, get_admin_url, get_object_name
-from mqueue.conf import WATCH
+from .models import MEvent
+from .utils import get_url, get_admin_url, get_object_name
+from .conf import WATCH
 
 
 def send_msg(objclass, instance, event_str):

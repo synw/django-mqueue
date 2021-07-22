@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from django.core.urlresolvers import reverse
-from mqueue.conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
+from django.urls import reverse
+from .conf import EVENT_CLASSES, EVENT_ICONS_HTML, EVENT_EXTRA_HTML
 
 
 def get_event_class_str(event_class=None):

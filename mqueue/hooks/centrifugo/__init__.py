@@ -1,5 +1,5 @@
 from django.conf import settings
-from mqueue.conf import DOMAIN
+from ...conf import DOMAIN
 try:
     from instant.conf import SITE_SLUG
     from instant.producers import publish

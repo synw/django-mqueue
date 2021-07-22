@@ -2,24 +2,29 @@
 
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
-from mqueue.models import MEvent
-from mqueue.utils import format_event_class
+from django.utils.html import format_html
+from .models import MEvent
+from .utils import format_event_class
 
 
 def link_to_object(obj):
-    return '<a href="' + obj.url + '" target="_blank">' + obj.url + '</a>'
+    return format_html('<a href="' + obj.url + '" target="_blank">' + obj.url + '</a>')
 
 
 def link_to_object_admin(obj):
-    return '<a href="' + obj.admin_url + '" target="_blank">' + obj.admin_url + '</a>'
+    return format_html('<a href="' + obj.admin_url + '" target="_blank">' + obj.admin_url + '</a>')
+
+
+def event(obj):
+    return format_html(format_event_class(obj))
 
 
 @admin.register(MEvent)
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_posted'
     readonly_fields = ['date_posted', 'request']
-    list_display = [format_event_class, 'name', 'date_posted',
-                    'bucket', 'user', link_to_object, link_to_object_admin]
+    list_display = [event, 'name', 'date_posted',
+                    'bucket', 'user', link_to_object, link_to_object_admin, 'scope']
     list_filter = (
         'event_class',
         ('content_type', admin.RelatedOnlyFieldListFilter),
@@ -38,6 +43,11 @@ class MEventAdmin(admin.ModelAdmin):
         'user',
         'content_type',
     )
+
+    class Media:
+        css = {
+        'all': ('mqueue/mqueue.css',)
+         }
 
     def get_readonly_fields(self, request, obj=None):
         super(MEventAdmin, self).get_readonly_fields(request, obj)

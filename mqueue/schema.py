@@ -4,8 +4,8 @@ from graphene_django.types import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.debug import DjangoDebug
 from django.conf import settings
-from mqueue.models import MEvent
-from mqueue.conf import API_MAX_EVENTS
+from .models import MEvent
+from .conf import API_MAX_EVENTS
 
 
 class EventNode(DjangoObjectType):
@@ -15,7 +15,8 @@ class EventNode(DjangoObjectType):
         filter_fields = {
             'name': ['exact', 'icontains', 'istartswith'],
             'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith']
+            'date_posted': ['exact', 'icontains', 'istartswith'],
+            'bucket': ['exact', 'icontains', 'istartswith']
         }
         interfaces = (relay.Node, )
 
@@ -28,7 +29,8 @@ class StaffEventNode(DjangoObjectType):
         filter_fields = {
             'name': ['exact', 'icontains', 'istartswith'],
             'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith']
+            'date_posted': ['exact', 'icontains', 'istartswith'],
+            'bucket': ['exact', 'icontains', 'istartswith']
         }
         interfaces = (relay.Node, )
 
@@ -42,7 +44,8 @@ class SuperuserEventNode(DjangoObjectType):
         filter_fields = {
             'name': ['exact', 'icontains', 'istartswith'],
             'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith']
+            'date_posted': ['exact', 'icontains', 'istartswith'],
+            'bucket': ['exact', 'icontains', 'istartswith']
         }
         interfaces = (relay.Node, )
 
@@ -53,21 +56,21 @@ class EQuery(graphene.AbstractType):
     staff_events = DjangoFilterConnectionField(StaffEventNode)
     all_events = DjangoFilterConnectionField(SuperuserEventNode)
 
-    def resolve_public_events(self, args, context, info):
-        return MEvent.objects.filter(scope="public")[:API_MAX_EVENTS]
+    def resolve_public_events(root, info, **kwargs):
+        return MEvent.objects.filter(scope="public")
 
-    def resolve_users_events(self, args, context, info):
-        if context.user.is_authenticated:
-            return MEvent.objects.filter(scope="users")[:API_MAX_EVENTS]
+    def resolve_users_events(root, info, **kwargs):
+        if info.context.user.is_authenticated:
+            return MEvent.objects.filter(scope="users")
         return MEvent.objects.none()
 
-    def resolve_staff_events(self, args, context, info):
-        if context.user.is_staff:
-            return MEvent.objects.filter(scope="staff")[:API_MAX_EVENTS]
+    def resolve_staff_events(root, info, **kwargs):
+        if info.context.user.is_staff:
+            return MEvent.objects.filter(scope="staff")
         return MEvent.objects.none()
 
-    def resolve_all_events(self, args, context, info):
-        if context.user.is_superuser:
+    def resolve_all_events(root, info, **kwargs):
+        if info.context.user.is_superuser:
             return MEvent.objects.all()
         return MEvent.objects.none()
 

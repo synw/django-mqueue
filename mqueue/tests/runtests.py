@@ -17,7 +17,6 @@ CUSTOM_INSTALLED_APPS = (
     'mqueue',
     'django.contrib.admin',
     "graphene_django",
-    "graphql_utils",
     "django_filters",
 )
 

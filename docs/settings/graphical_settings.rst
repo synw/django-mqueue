@@ -5,7 +5,7 @@ Event classes
 ~~~~~~~~~~~~~
 
 You can define your custom set of event classes and the corresponding
-css classes to display in the admin. The default values are (check ``mqueue/static/mqueue.css``):
+css classes to display in the admin. The default values are (check ``mqueue/static/mqueue/mqueue.css``):
 
 .. highlight:: python
 

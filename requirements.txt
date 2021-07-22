@@ -1,5 +1,0 @@
-django_extensions
-redis
-influxdb
-django-fake-model
-graphene
