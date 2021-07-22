@@ -1,14 +1,11 @@
 # Django Mqueue
 
-[![Build Status](https://travis-ci.org/synw/django-mqueue.svg?branch=master)](https://travis-ci.org/synw/django-mqueue)
-[![Coverage Status](https://coveralls.io/repos/github/synw/django-mqueue/badge.svg?branch=master)](https://coveralls.io/github/synw/django-mqueue?branch=master)
-
 Events queue application for Django. Features:
 
 - **Monitor models**: models can be registered to autogenerate events on create/update/delete actions
+- **Query events** from the frontend: a Graphql api is available to retrieve events
+- **Export events**: save events to Redis or send them over websockets
 - **Handle logs**: the logs will be saved in the database as events or exported
-- **Export events**: save events to Postgresql, Influxdb, Redis or send them over websockets.
-- **Query events** from the frontend - *New in 0.9*: a Graphql api to retrieve events
 
 Example:
 
