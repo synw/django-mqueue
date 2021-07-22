@@ -19,14 +19,7 @@ setup(
         'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.5',
-    ],
-    install_requires=[
-        'django<2',
-        'redis',
-        'influxdb',
-        'django-graphql-utils',
-        "graphene-django<2.0",
+        'Programming Language :: Python :: 3.8',
     ],
     zip_safe=False
 )
