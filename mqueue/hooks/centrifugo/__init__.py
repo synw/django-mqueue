@@ -31,12 +31,13 @@ def save(event, conf):
     if "site" in event.data:
         site = event.data["site"]
     err = publish(
-        message=event.name,
+        conf["channel"],
+        event.name,
         event_class=event.event_class,
-        channel=conf["channel"],
         data=data,
         site=site,
     )
     if err is not None:
         if settings.DEBUG:
             print("Error in Centrifugo mqueue hook:", err)
+        raise Exception(err)
