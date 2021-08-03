@@ -46,8 +46,9 @@ class MEventAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-        'all': ('mqueue/mqueue.css',)
-         }
+            'all': ('mqueue/mqueue.css',
+                    'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css')
+        }
 
     def get_readonly_fields(self, request, obj=None):
         super(MEventAdmin, self).get_readonly_fields(request, obj)
