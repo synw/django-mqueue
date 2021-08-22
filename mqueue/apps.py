@@ -11,23 +11,26 @@ class MqueueConfig(AppConfig):
         # models registration from settings
         from django.conf import settings
         from .tracking import mqueue_tracker
-        registered_models = getattr(settings, 'MQUEUE_AUTOREGISTER', [])
+
+        registered_models = getattr(settings, "MQUEUE_AUTOREGISTER", [])
         for modtup in registered_models:
             modpath = modtup[0]
             level = modtup[1]
-            modsplit = modpath.split('.')
-            path = '.'.join(modsplit[:-1])
-            modname = '.'.join(modsplit[-1:])
+            modsplit = modpath.split(".")
+            path = ".".join(modsplit[:-1])
+            modname = ".".join(modsplit[-1:])
             try:
                 module = importlib.import_module(path)
                 model = getattr(module, modname)
                 mqueue_tracker.register(model, level)
             except ImportError as e:
-                msg = "ERROR from Django Mqueue : can not import model " + modpath
+                msg = "ERROR from Django Mqueue : can not import model "
+                msg += modpath
                 print(msg)
-                raise(e)
+                raise (e)
 
         # watchers
         from .watchers import init_watchers
         from .conf import WATCH
+
         init_watchers(WATCH)

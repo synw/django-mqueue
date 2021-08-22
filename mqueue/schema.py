@@ -5,7 +5,8 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.debug import DjangoDebug
 from django.conf import settings
 from .models import MEvent
-from .conf import API_MAX_EVENTS
+
+# from .conf import API_MAX_EVENTS
 
 
 class EventNode(DjangoObjectType):
@@ -13,41 +14,56 @@ class EventNode(DjangoObjectType):
         model = MEvent
         only_fields = ("name", "event_class", "url", "date_posted", "data")
         filter_fields = {
-            'name': ['exact', 'icontains', 'istartswith'],
-            'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith'],
-            'bucket': ['exact', 'icontains', 'istartswith']
+            "name": ["exact", "icontains", "istartswith"],
+            "event_class": ["exact", "icontains", "istartswith"],
+            "date_posted": ["exact", "icontains", "istartswith"],
+            "bucket": ["exact", "icontains", "istartswith"],
         }
-        interfaces = (relay.Node, )
+        interfaces = (relay.Node,)
 
 
 class StaffEventNode(DjangoObjectType):
     class Meta:
         model = MEvent
-        only_fields = ("name", "event_class", "url",
-                       "date_posted", "data", "admin_url")
+        only_fields = (
+            "name",
+            "event_class",
+            "url",
+            "date_posted",
+            "data",
+            "admin_url",
+        )
         filter_fields = {
-            'name': ['exact', 'icontains', 'istartswith'],
-            'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith'],
-            'bucket': ['exact', 'icontains', 'istartswith']
+            "name": ["exact", "icontains", "istartswith"],
+            "event_class": ["exact", "icontains", "istartswith"],
+            "date_posted": ["exact", "icontains", "istartswith"],
+            "bucket": ["exact", "icontains", "istartswith"],
         }
-        interfaces = (relay.Node, )
+        interfaces = (relay.Node,)
 
 
 class SuperuserEventNode(DjangoObjectType):
     class Meta:
         model = MEvent
-        only_fields = ("name", "event_class", "url",
-                       "date_posted", "data", "admin_url", "request", "notes",
-                       "bucket", "obj_pk")
+        only_fields = (
+            "name",
+            "event_class",
+            "url",
+            "date_posted",
+            "data",
+            "admin_url",
+            "request",
+            "notes",
+            "bucket",
+            "obj_pk",
+        )
         filter_fields = {
-            'name': ['exact', 'icontains', 'istartswith'],
-            'event_class': ['exact', 'icontains', 'istartswith'],
-            'date_posted': ['exact', 'icontains', 'istartswith'],
-            'bucket': ['exact', 'icontains', 'istartswith']
+            "name": ["exact", "icontains", "istartswith"],
+            "event_class": ["exact", "icontains", "istartswith"],
+            "date_posted": ["exact", "icontains", "istartswith"],
+            "bucket": ["exact", "icontains", "istartswith"],
         }
-        interfaces = (relay.Node, )
+        interfaces = (relay.Node,)
 
 
 class EQuery(graphene.AbstractType):
@@ -77,7 +93,7 @@ class EQuery(graphene.AbstractType):
 
 class Query(EQuery, graphene.ObjectType):
     if settings.DEBUG is True:
-        debug = graphene.Field(DjangoDebug, name='__debug')
+        debug = graphene.Field(DjangoDebug, name="__debug")
     else:
         pass
 

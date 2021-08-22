@@ -5,19 +5,19 @@ from logging import Handler
 
 
 class LogsDBHandler(Handler, object):
-
     def emit(self, record):
         from .models import MEvent
+
         msg = record.getMessage()
         name = msg[:120]
         if record.exc_info:
             ex_type = repr((record.exc_info[0]))
             ex_title = repr(record.exc_info[1])
-            ex_traceback = '\n'.join(traceback.format_tb(record.exc_info[2]))
-            msg += '\n\n' + ex_title + '\n\n'
+            ex_traceback = "\n".join(traceback.format_tb(record.exc_info[2]))
+            msg += "\n\n" + ex_title + "\n\n"
             msg += ex_type
-            msg += '\n\n' + ex_traceback
-        event_class = 'Log ' + record.levelname
+            msg += "\n\n" + ex_traceback
+        event_class = "Log " + record.levelname
         try:
             user = record.request.user
         except:
