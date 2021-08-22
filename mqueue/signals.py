@@ -10,9 +10,10 @@ def mmessage_create(sender, instance, created, **kwargs):
         obj_name = get_object_name(instance, user)
         # try to get the admin url
         admin_url = get_admin_url(instance)
-        event_class = instance.__class__.__name__ + ' created'
+        event_class = instance.__class__.__name__ + " created"
+        has_event_method = getattr(instance, "event", None)
         # create event
-        MEvent.objects.create(
+        evt = MEvent.objects.create(
             model=instance.__class__,
             name=obj_name,
             obj_pk=instance.pk,
@@ -20,7 +21,11 @@ def mmessage_create(sender, instance, created, **kwargs):
             url=get_url(instance),
             admin_url=admin_url,
             event_class=event_class,
+            commit=not has_event_method,
         )
+        if has_event_method:
+            evt = instance.event(evt, "create")
+            evt.save()
     return
 
 
@@ -29,35 +34,39 @@ def mmessage_delete(sender, instance, **kwargs):
     user = get_user(instance)
     # try to get the object name
     obj_name = get_object_name(instance, user)
-    event_class = instance.__class__.__name__ + ' deleted'
+    event_class = instance.__class__.__name__ + " deleted"
+    has_event_method = getattr(instance, "event", None)
     # create event
-    MEvent.objects.create(
+    evt = MEvent.objects.create(
         model=instance.__class__,
         name=obj_name,
         obj_pk=instance.pk,
         user=user,
         event_class=event_class,
+        commit=not has_event_method,
     )
+    if has_event_method:
+        evt = instance.event(evt, "delete")
+        evt.save()
     return
 
 
-def mmessage_save(sender, instance, created, **kwargs):
+def mmessage_update(sender, instance, created, **kwargs):
     if created is False:
         # try to get the user
         user = get_user(instance)
-        if 'name' not in kwargs.keys():
+        if "name" not in kwargs.keys():
             # try to get the object name
             obj_name = get_object_name(instance, user)
         else:
-            obj_name = kwargs('name')
+            obj_name = kwargs("name")
         # try to get the admin url
         admin_url = get_admin_url(instance)
-        event_str = ' edited'
-        if created:
-            event_str = ' created'
+        event_str = " edited"
+        has_event_method = getattr(instance, "event", None)
         event_class = instance.__class__.__name__ + event_str
         # create event
-        MEvent.objects.create(
+        evt = MEvent.objects.create(
             model=instance.__class__,
             name=obj_name,
             obj_pk=instance.pk,
@@ -65,5 +74,9 @@ def mmessage_save(sender, instance, created, **kwargs):
             url=get_url(instance),
             admin_url=admin_url,
             event_class=event_class,
+            commit=not has_event_method,
         )
+        if has_event_method:
+            evt = instance.event(evt, "update")
+            evt.save()
     return
