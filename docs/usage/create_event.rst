@@ -32,7 +32,8 @@ Event creation
       request = request,
       bucket = "bucket_name",
       data = {"foo": "bar"},
-      scope = "users"
+      scope = "users",
+      groups = [group1] # a list of django group objects
       )
 
 The only required field is ``name``

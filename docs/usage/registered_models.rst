@@ -61,5 +61,31 @@ To disable events recording in the database for some models:
 
    MQUEUE_NOSAVE = ["Model1", "Model2"]
 
+Model callbacks
+^^^^^^^^^^^^^^^
+
+It is possible to attach a callback on a model to add information to the auto saved
+events. Define an ``events`` model method like this:
+
+::
+
+   from django.db import models
+   from mqueue.models import MEvent
+
+   class MyModel(models.Model):
+      # ...
+
+      def event(self, evt: MEvent, op: str) -> MEvent:
+         """
+         Post create/save/delete event callback
+         """
+         # possible values for op: "create", "update", "delete"
+         # usage:
+         # if op in ["create", "update"]:
+         evt.bucket = "something"
+         return evt
+
+This callback will be automatically applied before auto saving events
+
 
 
