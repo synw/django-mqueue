@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db.models.deletion import SET_NULL
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import Group, User, AnonymousUser
 from .utils import get_user, get_url, get_admin_url
 from .hooks import dispatch
 from .conf import bcolors, NOSAVE
@@ -22,28 +22,29 @@ SCOPE = (
 
 class MEventManager(models.Manager):
     def create(self, *args, **kwargs):
-        if "name" not in kwargs.keys():
+        keys = kwargs.keys()
+        if "name" not in keys:
             raise ValueError(
                 u"You must provide a 'name' argument for the MEvent"
             )
         else:
             name = kwargs["name"]
         obj_pk = None
-        if "obj_pk" in kwargs.keys() and "instance" not in kwargs.keys():
+        if "obj_pk" in keys and "instance" not in keys:
             obj_pk = kwargs["obj_pk"]
         content_type = None
         model = None
-        if "model" in kwargs.keys() and "instance" not in kwargs.keys():
+        if "model" in keys and "instance" not in keys:
             model = kwargs["model"]
             content_type = ContentType.objects.get_for_model(model)
         # trying to grab an object instance in order to guess some fields
         instance = None
-        if obj_pk and content_type and "instance" not in kwargs.keys():
+        if obj_pk and content_type and "instance" not in keys:
             try:
                 instance = content_type.get_object_for_this_type(pk=obj_pk)
             except Exception:
                 pass
-        if "instance" in kwargs.keys():
+        if "instance" in keys:
             instance = kwargs["instance"]
             obj_pk = instance.pk
             content_type = ContentType.objects.get_for_model(
@@ -51,26 +52,26 @@ class MEventManager(models.Manager):
             )
         # guessed stuff
         user = None
-        if "user" in kwargs.keys():
+        if "user" in keys:
             user = kwargs["user"]
         else:
             if instance:
                 user = get_user(instance)
         url = ""
-        if "url" in kwargs.keys():
+        if "url" in keys:
             url = kwargs["url"]
         else:
             if instance:
                 url = get_url(instance)
         admin_url = ""
-        if "admin_url" in kwargs.keys():
+        if "admin_url" in keys:
             admin_url = kwargs["admin_url"]
         else:
             if instance:
                 admin_url = get_admin_url(instance)
         # request
         formated_request = ""
-        if "request" in kwargs.keys():
+        if "request" in keys:
             request = kwargs["request"]
             try:
                 for key in request.META.keys():
@@ -81,22 +82,22 @@ class MEventManager(models.Manager):
                 pass
         # static stuff
         event_class = ""
-        if "event_class" in kwargs.keys():
+        if "event_class" in keys:
             event_class = kwargs["event_class"]
         notes = ""
-        if "notes" in kwargs.keys():
+        if "notes" in keys:
             notes = kwargs["notes"]
         if isinstance(user, AnonymousUser):
             user = None
         bucket = ""
-        if "bucket" in kwargs.keys():
+        if "bucket" in keys:
             bucket = kwargs["bucket"]
         data = {}
-        if "data" in kwargs.keys():
+        if "data" in keys:
             data = kwargs["data"]
         # scope
         scope = "superuser"
-        if "scope" in kwargs.keys():
+        if "scope" in keys:
             scope = kwargs["scope"]
             # test if it is an allowed scope
             isok = False
@@ -109,7 +110,7 @@ class MEventManager(models.Manager):
                 choices are: superuser, staff, users, public"
                 MEvent.objects.create(name=msg, event_class="Error")
                 return None
-        # create te event
+        # create the event
         mevent = MEvent(
             name=name,
             content_type=content_type,
@@ -137,7 +138,7 @@ class MEventManager(models.Manager):
                 + "] : "
                 + name
             )
-        # save by default unless it is said not to
+        # add extra info from instance
         modelname = None
         if instance is not None:
             modelname = instance.__class__.__name__
@@ -146,10 +147,17 @@ class MEventManager(models.Manager):
         if modelname is not None:
             if modelname in NOSAVE:
                 return mevent
-        if "commit" in kwargs.keys():
+        # save by default unless it is said not to
+        if "commit" in keys:
             if kwargs["commit"] is False:
                 return mevent
         mevent.save(force_insert=True)
+        # groups
+        groups = None
+        if "groups" in keys:
+            groups = kwargs["groups"]
+            mevent.groups.add(*groups)
+            mevent.save()
         return mevent
 
     def events_for_model(self, model, event_classes=[]):
@@ -213,6 +221,11 @@ class MEvent(models.Model):
         related_name="+",
         on_delete=models.SET_NULL,
         verbose_name=_(u"User"),
+    )
+    groups = models.ManyToManyField(
+        Group,
+        blank=True,
+        verbose_name=_(u"Groups"),
     )
     request = models.TextField(blank=True, verbose_name=_(u"Request"))
     bucket = models.CharField(
