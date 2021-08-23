@@ -1,5 +1,4 @@
-from django.test import TestCase
-from ..base import MqueueBaseTest
+"""from mqueue.tests.base import MqueueBaseTest
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from mqueue.models import MEvent
@@ -8,20 +7,27 @@ from mqueue.hooks.redis.serializer import Pack
 
 
 class MqueueTestRedisHook(MqueueBaseTest):
-
     def test_init_hooks(self):
         mevent = self.create_mevent()
         hooks.dispatch(mevent)
 
     def test_redis_serializer(self):
-        request = self.factory.get('/')
+        request = self.factory.get("/")
         ct = ContentType.objects.get_for_model(User)
         user = self.user
         mevent = MEvent.objects.create(
-            name='Event', user=user, content_type=ct,
-            event_class="test", data={"k": "v"}, url="http://event",
-            admin_url="http://admin", bucket="test", request=request,
-            notes="xx", instance=user)
+            name="Event",
+            user=user,
+            content_type=ct,
+            event_class="test",
+            data={"k": "v"},
+            url="http://event",
+            admin_url="http://admin",
+            bucket="test",
+            request=request,
+            notes="xx",
+            instance=user,
+        )
         data = Pack(mevent)
         mevent.request = mevent.request.replace("\n", "//")
         ser = ["name:;" + mevent.name]
@@ -40,7 +46,8 @@ class MqueueTestRedisHook(MqueueBaseTest):
         self.assertEqual(data, res)
 
     def test_redis_serializer_min(self):
-        mevent = MEvent.objects.create(name='Event')
+        mevent = MEvent.objects.create(name="Event")
         res = "name:;" + mevent.name
         data = Pack(mevent)
         self.assertEqual(data, res)
+"""

@@ -12,13 +12,20 @@ class MqueueBaseTest(TestCase):
         self.factory = RequestFactory()
         self.maxDiff = None
         self.user = User.objects.create_user(
-            'myuser', 'myemail@test.com', 'super_password')
+            "myuser", "myemail@test.com", "super_password"
+        )
 
     def reset(self):
         for event in MEvent.objects.all():
             event.delete()
 
-    def create_mevent(self, name="M event", url='/', obj_pk=1, notes='Notes'):
+    def create_mevent(self, name="M event", url="/", obj_pk=1, notes="Notes"):
         self._content_type = ContentType.objects.get_for_model(User)
-        return MEvent.objects.create(name=name, url=url, obj_pk=obj_pk, notes=notes,
-                                     model=User, content_type=self._content_type)
+        return MEvent.objects.create(
+            name=name,
+            url=url,
+            obj_pk=obj_pk,
+            notes=notes,
+            model=User,
+            content_type=self._content_type,
+        )

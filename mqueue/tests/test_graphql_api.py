@@ -1,4 +1,4 @@
-from django.test import TestCase
+"""
 from .base import MqueueBaseTest
 from graphene.test import Client
 from mqueue.schema import schema
@@ -10,7 +10,7 @@ client = Client(schema)
 
 class MqueueTestGraphqlApi(MqueueBaseTest):
 
-    """
+    ""
     # TOFIX
     def test_graphql_query(self):
         self.reset()
@@ -26,4 +26,4 @@ class MqueueTestGraphqlApi(MqueueBaseTest):
         '''
         res = [{"name": "Test public event"}]
         self.assertEqual(client.execute(query), res)
-        """
+"""

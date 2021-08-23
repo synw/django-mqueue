@@ -1,4 +1,2 @@
-
-
-class MqueueTest():
+class MqueueTest:
     pass

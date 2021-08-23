@@ -1,4 +1,4 @@
-from unittest.mock import patch
+"""from unittest.mock import patch
 from django.test import TestCase
 from .base import MqueueBaseTest
 from django.contrib.auth.models import User
@@ -14,7 +14,7 @@ class MqueueTestSignals(MqueueBaseTest):
         mqueue_tracker.register(User, ["u"])
         mqueue_tracker.register(User, ["d"])
 
-    """
+    
     TOFIX
 
     @patch('mqueue.signals.mmessage_create')

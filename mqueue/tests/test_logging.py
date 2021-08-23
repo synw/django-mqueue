@@ -1,4 +1,4 @@
-import logging
+"""import logging
 from unittest.mock import patch
 from django.test import TestCase
 from .base import MqueueBaseTest
@@ -7,7 +7,7 @@ from mqueue.models import MEvent
 
 class MqueueTestLogging(MqueueBaseTest):
 
-    """
+    
 
     # TOFIX
 

@@ -1,15 +1,15 @@
 from unittest.mock import patch
-from django.test import TestCase
 from .base import MqueueBaseTest
-from django.contrib.auth.signals import user_logged_in
-from django.contrib.auth.models import User
-from mqueue.models import MEvent
-from mqueue.watchers import send_msg, login_action, logout_action, login_failed, init_watchers
-from mqueue.conf import WATCH
+from mqueue.watchers import (
+    send_msg,
+    login_action,
+    logout_action,
+    login_failed,
+    init_watchers,
+)
 
 
 class MqueueTestWatchers(MqueueBaseTest):
-
     def test_send_msg(self):
         instance = self.user
         send_msg("test", instance, "Event string")
@@ -23,7 +23,6 @@ class MqueueTestWatchers(MqueueBaseTest):
         logout_action("test", instance)
 
     def test_login_failed(self):
-        instance = self.user
         login_failed("test", "user")
 
     @patch("django.contrib.auth.signals.user_logged_in")
