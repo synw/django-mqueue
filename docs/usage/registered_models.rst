@@ -83,6 +83,8 @@ events. Define an ``events`` model method like this:
          # usage:
          # if op in ["create", "update"]:
          evt.bucket = "something"
+         evt.notes = "Lorem ipsum..."
+         evt.data = {"k": "v"}
          return evt
 
 This callback will be automatically applied before auto saving events
