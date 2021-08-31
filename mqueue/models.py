@@ -24,9 +24,7 @@ class MEventManager(models.Manager):
     def create(self, *args, **kwargs):
         keys = kwargs.keys()
         if "name" not in keys:
-            raise ValueError(
-                u"You must provide a 'name' argument for the MEvent"
-            )
+            raise ValueError(u"You must provide a 'name' argument for the MEvent")
         else:
             name = kwargs["name"]
         obj_pk = None
@@ -75,9 +73,7 @@ class MEventManager(models.Manager):
             request = kwargs["request"]
             try:
                 for key in request.META.keys():
-                    formated_request += (
-                        str(key) + " : " + str(request.META[key]) + "\n"
-                    )
+                    formated_request += str(key) + " : " + str(request.META[key]) + "\n"
             except Exception:
                 pass
         # static stuff
@@ -125,19 +121,6 @@ class MEventManager(models.Manager):
             scope=scope,
             request=formated_request,
         )
-        # proceed hooks
-        dispatch(mevent)
-        # print info
-        if settings.DEBUG:
-            print(
-                bcolors.SUCCESS
-                + "Event"
-                + bcolors.ENDC
-                + " ["
-                + mevent.event_class
-                + "] : "
-                + name
-            )
         # add extra info from instance
         modelname = None
         if instance is not None:
@@ -158,6 +141,19 @@ class MEventManager(models.Manager):
             groups = kwargs["groups"]
             mevent.groups.add(*groups)
             mevent.save()
+        # proceed hooks
+        dispatch(mevent)
+        # print info
+        if settings.DEBUG:
+            print(
+                bcolors.SUCCESS
+                + "Event"
+                + bcolors.ENDC
+                + " ["
+                + mevent.event_class
+                + "] : "
+                + name
+            )
         return mevent
 
     def events_for_model(self, model, event_classes=[]):
@@ -182,9 +178,7 @@ class MEventManager(models.Manager):
 
     def events_for_object(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        events = MEvent.objects.filter(
-            content_type=content_type, obj_pk=obj.pk
-        )
+        events = MEvent.objects.filter(content_type=content_type, obj_pk=obj.pk)
         return events
 
 
@@ -211,9 +205,7 @@ class MEvent(models.Model):
     date_posted = models.DateTimeField(
         auto_now_add=True, verbose_name=_(u"Date posted")
     )
-    event_class = models.CharField(
-        max_length=120, blank=True, verbose_name=_("Class")
-    )
+    event_class = models.CharField(max_length=120, blank=True, verbose_name=_("Class"))
     user = models.ForeignKey(
         USER_MODEL,
         null=True,
@@ -228,9 +220,7 @@ class MEvent(models.Model):
         verbose_name=_(u"Groups"),
     )
     request = models.TextField(blank=True, verbose_name=_(u"Request"))
-    bucket = models.CharField(
-        max_length=60, blank=True, verbose_name=_("Bucket")
-    )
+    bucket = models.CharField(max_length=60, blank=True, verbose_name=_("Bucket"))
     data = models.TextField(blank=True, verbose_name=_(u"Data"))
     # manager
     scope = models.CharField(
