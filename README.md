@@ -18,3 +18,7 @@ Events can be linked to a model instance and a user instance.
 Check the [documentation](http://django-mqueue.readthedocs.org/en/latest/)
 
 ![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_list.png)
+
+## Websockets events demo
+
+Push events to websockets demo: [django-mqueue-livefeed](https://github.com/synw/django-mqueue-livefeed)
