@@ -6,8 +6,6 @@ from graphene_django.debug import DjangoDebug
 from django.conf import settings
 from .models import MEvent
 
-# from .conf import API_MAX_EVENTS
-
 
 class EventNode(DjangoObjectType):
     class Meta:
@@ -72,20 +70,20 @@ class EQuery(graphene.AbstractType):
     staff_events = DjangoFilterConnectionField(StaffEventNode)
     all_events = DjangoFilterConnectionField(SuperuserEventNode)
 
-    def resolve_public_events(root, info, **kwargs):
+    def resolve_public_events(root, info, **kwargs):  # type: ignore
         return MEvent.objects.filter(scope="public")
 
-    def resolve_users_events(root, info, **kwargs):
+    def resolve_users_events(root, info, **kwargs):  # type: ignore
         if info.context.user.is_authenticated:
             return MEvent.objects.filter(scope="users")
         return MEvent.objects.none()
 
-    def resolve_staff_events(root, info, **kwargs):
+    def resolve_staff_events(root, info, **kwargs):  # type: ignore
         if info.context.user.is_staff:
             return MEvent.objects.filter(scope="staff")
         return MEvent.objects.none()
 
-    def resolve_all_events(root, info, **kwargs):
+    def resolve_all_events(root, info, **kwargs):  # type: ignore
         if info.context.user.is_superuser:
             return MEvent.objects.all()
         return MEvent.objects.none()

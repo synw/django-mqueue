@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-
+# pyright: reportUntypedClassDecorator=false
+from typing import Any, List, Union
+from django.http.request import HttpRequest
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from django.utils.html import format_html
@@ -7,17 +8,17 @@ from .models import MEvent
 from .utils import format_event_class
 
 
-def link_to_object(obj):
+def link_to_object(obj: MEvent) -> str:
     return format_html('<a href="' + obj.url + '" target="_blank">' + obj.url + "</a>")
 
 
-def link_to_object_admin(obj):
+def link_to_object_admin(obj: MEvent) -> str:
     return format_html(
         '<a href="' + obj.admin_url + '" target="_blank">' + obj.admin_url + "</a>"
     )
 
 
-def event(obj):
+def event(obj: MEvent) -> str:
     return format_html(format_event_class(obj))
 
 
@@ -25,7 +26,7 @@ def event(obj):
 class MEventAdmin(admin.ModelAdmin):
     date_hierarchy = "date_posted"
     readonly_fields = ["date_posted", "request"]
-    list_display = [
+    list_display: List[Any] = [
         event,
         "name",
         "date_posted",
@@ -63,6 +64,8 @@ class MEventAdmin(admin.ModelAdmin):
             )
         }
 
-    def get_readonly_fields(self, request, obj=None):
+    def get_readonly_fields(
+        self, request: HttpRequest, obj: Union[MEvent, None] = None
+    ):
         super(MEventAdmin, self).get_readonly_fields(request, obj)
         return ("notes", "request")

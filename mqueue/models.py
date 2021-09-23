@@ -1,15 +1,18 @@
-# -*- coding: utf-8 -*-
+# pyright: reportUnknownVariableType=false
 
-from django.db import models
+from typing import Union
+
 from django.conf import settings
-from django.db.models.deletion import SET_NULL
-from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AnonymousUser, Group, User
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import Group, User, AnonymousUser
-from .utils import get_user, get_url, get_admin_url
-from .hooks import dispatch
-from .conf import bcolors, NOSAVE
+from django.db import models
+from django.db.models.base import Model
+from django.db.models.deletion import SET_NULL
+from django.utils.translation import gettext_lazy as _
 
+from .conf import NOSAVE, bcolors
+from .hooks import dispatch
+from .utils import get_admin_url, get_url, get_user
 
 USER_MODEL = getattr(settings, "AUTH_USER_MODEL", User)
 SCOPE = (
@@ -21,13 +24,13 @@ SCOPE = (
 
 
 class MEventManager(models.Manager):
-    def create(self, *args, **kwargs):
+    def create(self, *args, **kwargs):  # type: ignore
         keys = kwargs.keys()
         if "name" not in keys:
             raise ValueError(u"You must provide a 'name' argument for the MEvent")
         else:
             name = kwargs["name"]
-        obj_pk = None
+        obj_pk: Union[int, None] = None
         if "obj_pk" in keys and "instance" not in keys:
             obj_pk = kwargs["obj_pk"]
         content_type = None
@@ -36,7 +39,7 @@ class MEventManager(models.Manager):
             model = kwargs["model"]
             content_type = ContentType.objects.get_for_model(model)
         # trying to grab an object instance in order to guess some fields
-        instance = None
+        instance: Union[Model, None] = None
         if obj_pk and content_type and "instance" not in keys:
             try:
                 instance = content_type.get_object_for_this_type(pk=obj_pk)
@@ -44,7 +47,7 @@ class MEventManager(models.Manager):
                 pass
         if "instance" in keys:
             instance = kwargs["instance"]
-            obj_pk = instance.pk
+            obj_pk = instance.pk  # type: ignore
             content_type = ContentType.objects.get_for_model(
                 kwargs["instance"].__class__
             )
@@ -53,7 +56,7 @@ class MEventManager(models.Manager):
         if "user" in keys:
             user = kwargs["user"]
         else:
-            if instance:
+            if instance is not None:
                 user = get_user(instance)
         url = ""
         if "url" in keys:
@@ -156,7 +159,7 @@ class MEventManager(models.Manager):
             )
         return mevent
 
-    def events_for_model(self, model, event_classes=[]):
+    def events_for_model(self, model, event_classes=[]):  # type: ignore
         content_type = ContentType.objects.get_for_model(model)
         if event_classes:
             qs = MEvent.objects.filter(
@@ -166,7 +169,7 @@ class MEventManager(models.Manager):
             qs = MEvent.objects.filter(content_type=content_type)
         return qs
 
-    def count_for_model(self, model, event_classes=[]):
+    def count_for_model(self, model, event_classes=[]):  # type: ignore
         content_type = ContentType.objects.get_for_model(model)
         if event_classes:
             qs = MEvent.objects.filter(
@@ -176,7 +179,7 @@ class MEventManager(models.Manager):
             qs = MEvent.objects.filter(content_type=content_type).count()
         return qs
 
-    def events_for_object(self, obj):
+    def events_for_object(self, obj):  # type: ignore
         content_type = ContentType.objects.get_for_model(obj.__class__)
         events = MEvent.objects.filter(content_type=content_type, obj_pk=obj.pk)
         return events
@@ -231,12 +234,12 @@ class MEvent(models.Model):
     )
     objects = MEventManager()
 
-    class Meta:
+    class Meta:  # type: ignore
         app_label = "mqueue"
         verbose_name = _(u"Event")
         verbose_name_plural = _(u"Events")
         ordering = ["-date_posted"]
         # permissions = (("view_mevent", "Can see Events"),)
 
-    def __unicode__(self):
+    def __str__(self) -> str:
         return self.name + " - " + str(self.date_posted)

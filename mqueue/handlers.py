@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
+# pyright: reportUnknownVariableType=false
 
 import traceback
 from logging import Handler
 
 
 class LogsDBHandler(Handler, object):
-    def emit(self, record):
+    def emit(self, record):  # type: ignore
         from .models import MEvent
 
         msg = record.getMessage()

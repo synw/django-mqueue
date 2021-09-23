@@ -1,13 +1,20 @@
+from typing import Union
+
+from django.contrib.auth.models import User
+from django.db.models.base import Model
 from django.urls import reverse
+
+from mqueue.models import MEvent
+
 from .conf import (
     EVENT_CLASSES,
-    EVENT_ICONS_HTML,
-    EVENT_EXTRA_HTML,
     EVENT_DEFAULT_BADGES,
+    EVENT_EXTRA_HTML,
+    EVENT_ICONS_HTML,
 )
 
 
-def get_event_class_str(event_class=None):
+def get_event_class_str(event_class: Union[str, None] = None) -> str:
     event_class_str = "Default"
     if event_class is not None:
         if "created" in event_class:
@@ -19,16 +26,16 @@ def get_event_class_str(event_class=None):
     return event_class_str
 
 
-def get_event_badge(obj) -> str:
+def get_event_badge(obj: MEvent) -> str:
     """
     Get a badge html for an event
     """
     hasFormater = getattr(obj, "event_badge", None)
     if hasFormater:
-        return obj.event_badge
+        return obj.event_badge  # type: ignore
     formated_event_class = get_event_class_str(obj.event_class)
     icon = EVENT_DEFAULT_BADGES["Default"]["icon"]
-    name = obj.event_class
+    name: str = obj.event_class
     if name is None:
         name = get_event_class_str(obj.event_class)
     if formated_event_class in EVENT_DEFAULT_BADGES.keys():
@@ -39,19 +46,21 @@ def get_event_badge(obj) -> str:
     return html
 
 
-def format_event_class(obj=None, event_class=None):
+def format_event_class(
+    obj: Union[MEvent, None] = None, event_class: Union[str, None] = None
+) -> str:
     event_html = ""
     if event_class is None:
-        event_class = obj.event_class
+        _event_class: str = obj.event_class  # type: ignore
     else:
-        event_class = event_class
+        _event_class = event_class
     printed_class = get_event_class_str(event_class).replace("_", " ").capitalize()
     icon = ""
-    if event_class in EVENT_ICONS_HTML.keys():
-        icon = EVENT_ICONS_HTML[event_class] + "&nbsp;"
+    if _event_class in EVENT_ICONS_HTML.keys():
+        icon = EVENT_ICONS_HTML[_event_class] + "&nbsp;"
         # printed_class = event_class
     else:
-        event_class_lower = event_class.lower()
+        event_class_lower = _event_class.lower()
         if "created" in event_class_lower:
             icon = EVENT_ICONS_HTML["Object created"] + "&nbsp;"
             printed_class = "Object created"
@@ -87,66 +96,74 @@ def format_event_class(obj=None, event_class=None):
         + printed_class
         + "</span>"
     )
-    if event_class in EVENT_EXTRA_HTML.keys():
-        event_html += EVENT_EXTRA_HTML[event_class]
+    if _event_class in EVENT_EXTRA_HTML.keys():
+        event_html += EVENT_EXTRA_HTML[_event_class]
     return event_html
 
 
-def get_object_name(instance, user):
-    obj_name = ""
+def get_object_name(instance: Model, user: User) -> str:
+    obj_name: str = ""
     try:
-        obj_name = instance.__unicode__()
+        obj_name = instance.__str__()  # type: ignore
     except AttributeError:
         try:
-            obj_name = instance.name
+            obj_name = instance.name  # type: ignore
         except Exception:
             try:
-                obj_name = instance.title
+                obj_name = instance.title  # type: ignore
             except Exception:
                 try:
-                    obj_name = instance.slug
+                    obj_name = instance.slug  # type: ignore
                 except Exception:
                     obj_name = str(instance.pk)
     if obj_name:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45] + "..."
     if hasattr(instance, "date_posted"):
-        obj_name = instance.__class__.__name__ + " - " + str(instance.date_posted)
+        obj_name = (
+            instance.__class__.__name__,
+            " - ",
+            str(instance.date_posted),  # type: ignore
+        )
     elif hasattr(instance, "created"):
-        obj_name = instance.__class__.__name__ + " - " + str(instance.created)
+        obj_name = (
+            instance.__class__.__name__,
+            " - ",
+            str(instance.created),  # type: ignore
+        )
     if user:
-        obj_name += " (" + user.username + ")"
+        obj_name += " (" + user.username + ")"  # type: ignore
     return obj_name
 
 
-def get_user(instance):
-    user = None
+def get_user(instance: Model) -> Union[User, None]:
+    user: Union[User, None] = None
     try:
-        user = instance.user
+        user = instance.user  # type: ignore
     except Exception:
         try:
-            user = instance.editor
+            user = instance.editor  # type: ignore
         except Exception:
             pass
     return user
 
 
-def get_url(instance):
+def get_url(instance: Model) -> str:
     url = ""
     get_event_object_url = getattr(instance.__class__, "get_event_object_url", None)
     if callable(get_event_object_url):
-        url = instance.get_event_object_url()
-        return url
+        url = instance.get_event_object_url()  # type: ignore
+        return url  # type: ignore
     get_absolute_url = getattr(instance.__class__, "get_absolute_url", None)
     if callable(get_absolute_url):
-        url = instance.get_absolute_url()
-        return url
+        url = instance.get_absolute_url()  # type: ignore
+        return url  # type: ignore
     return ""
 
 
-def get_admin_url(instance):
+def get_admin_url(instance: Model) -> str:
     admin_url = reverse(
         "admin:%s_%s_change" % (instance._meta.app_label, instance._meta.model_name),
-        args=[instance.id],
+        args=[instance.id],  # type: ignore
     )
     return admin_url

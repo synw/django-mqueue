@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
-
+from typing import Dict, List
 from django.conf import settings
 
 
-WATCH = getattr(settings, "MQUEUE_WATCH", [])
+WATCH: List[str] = getattr(settings, "MQUEUE_WATCH", [])
 
-NOSAVE = getattr(settings, "MQUEUE_NOSAVE", [])
+NOSAVE: List[str] = getattr(settings, "MQUEUE_NOSAVE", [])
 
-HOOKS = getattr(settings, "MQUEUE_HOOKS", {})
+HOOKS: Dict[str, Dict[str, str]] = getattr(settings, "MQUEUE_HOOKS", {})
 
 DOMAIN = getattr(settings, "SITE_SLUG", "default")
 
@@ -46,7 +45,7 @@ EVENT_ICONS_HTML = {
 
 EVENT_ICONS_HTML = getattr(settings, "MQUEUE_EVENT_ICONS_HTML", EVENT_ICONS_HTML)
 
-EVENT_EXTRA_HTML = getattr(settings, "MQUEUE_EVENT_EXTRA_HTML", {})
+EVENT_EXTRA_HTML: Dict[str, str] = getattr(settings, "MQUEUE_EVENT_EXTRA_HTML", {})
 
 EVENT_DEFAULT_BADGES = {
     "Default": {
