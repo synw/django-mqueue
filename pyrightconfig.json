@@ -1,0 +1,16 @@
+{
+  "reportMissingImports": false,
+  "reportMissingTypeStubs": false,
+  "strictSetInference": true,
+  "strictDictionaryInference": true,
+  "strictListInference": true,
+  "reportUntypedFunctionDecorator": true,
+  "reportUntypedClassDecorator": true,
+  "reportIncompatibleMethodOverride": "error",
+  "reportIncompatibleVariableOverride": "error",
+  "reportUninitializedInstanceVariable": "error",
+  "reportUnknownParameterType": true,
+  "reportUnknownVariableType": true,
+  "reportUnnecessaryCast": "warning",
+  "reportUnnecessaryComparison": "warning",
+}
