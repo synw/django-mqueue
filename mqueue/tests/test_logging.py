@@ -7,8 +7,6 @@ from mqueue.models import MEvent
 
 class MqueueTestLogging(MqueueBaseTest):
 
-    
-
     # TOFIX
 
     @patch('mqueue.logging.DEV_LOGGING')

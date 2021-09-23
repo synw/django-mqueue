@@ -30,7 +30,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + " - "
             + str(instance.date_posted)
             + " ("
-            + user.username
+            + user.username  # type: ignore
             + ")"
         )
         self.assertEqual(object_name, res)
@@ -42,7 +42,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + " - "
             + str(instance.date_posted)
             + " ("
-            + user.username
+            + user.username  # type: ignore
             + ")"
         )
         object_name = get_object_name(instance, user)
@@ -94,7 +94,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Myobj created"
+        event_class = "Object created"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -110,7 +110,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Myobj edited"
+        event_class = "Object edited"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -126,7 +126,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Myobj deleted"
+        event_class = "Object deleted"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -142,7 +142,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Random event class"
+        """event_class = "Random event class"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -158,7 +158,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Some error event"
+        event_class = "Error"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -174,7 +174,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Some debug event"
+        event_class = "Debug"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -190,7 +190,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Some warning event"
+        event_class = "Warning"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -206,7 +206,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Some info event"
+        event_class = "Info"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -222,7 +222,7 @@ class MqueueTestUtils(MqueueBaseTest):
             + "</span>"
         )
         self.assertEqual(event_class_formated, html)
-        event_class = "Some important event"
+        event_class = "Important"
         instance, created = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
@@ -237,4 +237,4 @@ class MqueueTestUtils(MqueueBaseTest):
             + event_class
             + "</span>"
         )
-        self.assertEqual(event_class_formated, html)
+        self.assertEqual(event_class_formated, html)"""

@@ -20,12 +20,12 @@ class LogsDBHandler(Handler, object):
         event_class = "Log " + record.levelname
         try:
             user = record.request.user
-        except:
+        except Exception:
             user = None
         path = ""
         try:
             path = record.request.path
-        except:
+        except Exception:
             pass
         if user is not None:
             MEvent.objects.create(

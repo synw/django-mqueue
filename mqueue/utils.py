@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.urls import reverse
 from .conf import (
     EVENT_CLASSES,
@@ -35,7 +33,7 @@ def get_event_badge(obj) -> str:
         name = get_event_class_str(obj.event_class)
     if formated_event_class in EVENT_DEFAULT_BADGES.keys():
         icon = EVENT_DEFAULT_BADGES[formated_event_class]["icon"]
-    html = f'<span class="mq-label" style="">'
+    html = '<span class="mq-label" style="">'
     icon_html = f'<i class="{icon}"></i>'
     html = icon_html + "&nbsp;" + name
     return html

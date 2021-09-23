@@ -14,9 +14,6 @@ class MqueueTestSignals(MqueueBaseTest):
         mqueue_tracker.register(User, ["u"])
         mqueue_tracker.register(User, ["d"])
 
-    
-    TOFIX
-
     @patch('mqueue.signals.mmessage_create')
     def test_signal_create(self, mock):
         mqueue_tracker.register(User, ["c", "u", "d"])

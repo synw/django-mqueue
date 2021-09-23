@@ -1,5 +1,8 @@
-from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
-from django.contrib.auth.models import User
+from django.contrib.auth.signals import (
+    user_logged_in,
+    user_logged_out,
+    user_login_failed,
+)
 from .models import MEvent
 from .utils import get_url, get_admin_url, get_object_name
 from .conf import WATCH
@@ -35,11 +38,7 @@ def login_failed(sender, credentials, **kwargs):
     # create event
     name = "Login failed"
     event_class = "Warning"
-    MEvent.objects.create(
-        name=name,
-        event_class=event_class,
-        notes=credentials
-    )
+    MEvent.objects.create(name=name, event_class=event_class, notes=credentials)
     return
 
 
