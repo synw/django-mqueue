@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.urls import reverse
 
-from mqueue.models import MEvent
-
 from .conf import (
     EVENT_CLASSES,
     EVENT_DEFAULT_BADGES,
@@ -26,18 +24,18 @@ def get_event_class_str(event_class: Union[str, None] = None) -> str:
     return event_class_str
 
 
-def get_event_badge(obj: MEvent) -> str:
+def get_event_badge(obj) -> str:  # type: ignore
     """
     Get a badge html for an event
     """
     hasFormater = getattr(obj, "event_badge", None)
     if hasFormater:
         return obj.event_badge  # type: ignore
-    formated_event_class = get_event_class_str(obj.event_class)
+    formated_event_class = get_event_class_str(str(obj.event_class))
     icon = EVENT_DEFAULT_BADGES["Default"]["icon"]
-    name: str = obj.event_class
+    name: str = str(obj.event_class)
     if name is None:
-        name = get_event_class_str(obj.event_class)
+        name = get_event_class_str(str(obj.event_class))
     if formated_event_class in EVENT_DEFAULT_BADGES.keys():
         icon = EVENT_DEFAULT_BADGES[formated_event_class]["icon"]
     html = '<span class="mq-label" style="">'
@@ -47,7 +45,7 @@ def get_event_badge(obj: MEvent) -> str:
 
 
 def format_event_class(
-    obj: Union[MEvent, None] = None, event_class: Union[str, None] = None
+    obj=None, event_class: Union[str, None] = None  # type: ignore
 ) -> str:
     event_html = ""
     if event_class is None:
@@ -120,19 +118,13 @@ def get_object_name(instance: Model, user: User) -> str:
         if len(obj_name) >= 45:
             obj_name = obj_name[:45] + "..."
     if hasattr(instance, "date_posted"):
-        obj_name = (
-            instance.__class__.__name__,
-            " - ",
-            str(instance.date_posted),  # type: ignore
-        )
+        obj_name = instance.__class__.__name__ + " - "
+        obj_name += str(instance.date_posted)  # type: ignore
     elif hasattr(instance, "created"):
-        obj_name = (
-            instance.__class__.__name__,
-            " - ",
-            str(instance.created),  # type: ignore
-        )
+        obj_name = instance.__class__.__name__ + " - "
+        obj_name += (str(instance.created),)  # type: ignore
     if user:
-        obj_name += " (" + user.username + ")"  # type: ignore
+        obj_name += f" ({user.username})"
     return obj_name
 
 
@@ -163,7 +155,8 @@ def get_url(instance: Model) -> str:
 
 def get_admin_url(instance: Model) -> str:
     admin_url = reverse(
-        "admin:%s_%s_change" % (instance._meta.app_label, instance._meta.model_name),
+        "admin:%s_%s_change"
+        % (instance._meta.app_label, instance._meta.model_name),  # type: ignore
         args=[instance.id],  # type: ignore
     )
     return admin_url

@@ -25,7 +25,7 @@ class MqueueConfig(AppConfig):
             try:
                 module = importlib.import_module(path)
                 model = getattr(module, modname)
-                mqueue_tracker.register(model, level)
+                mqueue_tracker.register(model, level)  # type: ignore
             except ImportError as e:
                 msg = "ERROR from Django Mqueue : can not import model "
                 msg += modpath

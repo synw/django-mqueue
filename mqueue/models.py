@@ -27,7 +27,7 @@ class MEventManager(models.Manager):
     def create(self, *args, **kwargs):  # type: ignore
         keys = kwargs.keys()
         if "name" not in keys:
-            raise ValueError(u"You must provide a 'name' argument for the MEvent")
+            raise ValueError("You must provide a 'name' argument for the MEvent")
         else:
             name = kwargs["name"]
         obj_pk: Union[int, None] = None
@@ -142,7 +142,7 @@ class MEventManager(models.Manager):
         groups = None
         if "groups" in keys:
             groups = kwargs["groups"]
-            mevent.groups.add(*groups)
+            mevent.groups.add(*groups)  # type: ignore
             mevent.save()
         # proceed hooks
         dispatch(mevent)
@@ -153,7 +153,7 @@ class MEventManager(models.Manager):
                 + "Event"
                 + bcolors.ENDC
                 + " ["
-                + mevent.event_class
+                + str(mevent.event_class)
                 + "] : "
                 + name
             )
@@ -191,23 +191,21 @@ class MEvent(models.Model):
         ContentType,
         null=True,
         blank=True,
-        verbose_name=_(u"Content type"),
+        verbose_name=_("Content type"),
         on_delete=SET_NULL,
     )
     obj_pk = models.IntegerField(
-        blank=True, null=True, verbose_name=_(u"Object primary key")
+        blank=True, null=True, verbose_name=_("Object primary key")
     )
-    name = models.CharField(max_length=120, verbose_name=_(u"Name"))
+    name = models.CharField(max_length=120, verbose_name=_("Name"))
     # content fields
-    url = models.CharField(max_length=255, blank=True, verbose_name=_(u"Url"))
+    url = models.CharField(max_length=255, blank=True, verbose_name=_("Url"))
     admin_url = models.CharField(
-        max_length=255, blank=True, verbose_name=_(u"Admin url")
+        max_length=255, blank=True, verbose_name=_("Admin url")
     )
     notes = models.TextField(blank=True)
     # meta
-    date_posted = models.DateTimeField(
-        auto_now_add=True, verbose_name=_(u"Date posted")
-    )
+    date_posted = models.DateTimeField(auto_now_add=True, verbose_name=_("Date posted"))
     event_class = models.CharField(max_length=120, blank=True, verbose_name=_("Class"))
     user = models.ForeignKey(
         USER_MODEL,
@@ -215,16 +213,16 @@ class MEvent(models.Model):
         blank=True,
         related_name="+",
         on_delete=models.SET_NULL,
-        verbose_name=_(u"User"),
+        verbose_name=_("User"),
     )
     groups = models.ManyToManyField(
         Group,
         blank=True,
-        verbose_name=_(u"Groups"),
+        verbose_name=_("Groups"),
     )
-    request = models.TextField(blank=True, verbose_name=_(u"Request"))
+    request = models.TextField(blank=True, verbose_name=_("Request"))
     bucket = models.CharField(max_length=60, blank=True, verbose_name=_("Bucket"))
-    data = models.TextField(blank=True, verbose_name=_(u"Data"))
+    data = models.TextField(blank=True, verbose_name=_("Data"))
     # manager
     scope = models.CharField(
         max_length=18,
@@ -236,10 +234,10 @@ class MEvent(models.Model):
 
     class Meta:  # type: ignore
         app_label = "mqueue"
-        verbose_name = _(u"Event")
-        verbose_name_plural = _(u"Events")
+        verbose_name = _("Event")
+        verbose_name_plural = _("Events")
         ordering = ["-date_posted"]
         # permissions = (("view_mevent", "Can see Events"),)
 
     def __str__(self) -> str:
-        return self.name + " - " + str(self.date_posted)
+        return f"{self.name} - {self.date_posted}"

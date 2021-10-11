@@ -25,7 +25,7 @@ class MqueueTestCreate(MqueueBaseTest):
         self.assertEqual(mevent.obj_pk, 1)
         self.assertEqual(mevent.notes, "Notes")
         self.assertEqual(
-            mevent.__unicode__(), mevent.name + " - " + str(mevent.date_posted)
+            mevent.__str__(), mevent.name + " - " + str(mevent.date_posted)
         )
 
     def test_create_mevent_empty(self):

@@ -25,7 +25,7 @@ class MqueueTestUtils(MqueueBaseTest):
         instance, _ = MEvent.objects.get_or_create(name="Event name")
         user = self.user
         object_name = get_object_name(instance, user)
-        res = (
+        res: str = (
             instance.__class__.__name__
             + " - "
             + str(instance.date_posted)
@@ -37,7 +37,7 @@ class MqueueTestUtils(MqueueBaseTest):
         # test name
         MEvent.objects.create(name="123")
         instance = MEvent.objects.get(name="123")
-        res = (
+        res: str = (
             instance.__class__.__name__
             + " - "
             + str(instance.date_posted)

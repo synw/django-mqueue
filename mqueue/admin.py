@@ -1,6 +1,7 @@
 # pyright: reportUntypedClassDecorator=false
 from typing import Any, List, Union
 from django.http.request import HttpRequest
+from django.utils.safestring import SafeText
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from django.utils.html import format_html
@@ -8,18 +9,20 @@ from .models import MEvent
 from .utils import format_event_class
 
 
-def link_to_object(obj: MEvent) -> str:
-    return format_html('<a href="' + obj.url + '" target="_blank">' + obj.url + "</a>")
-
-
-def link_to_object_admin(obj: MEvent) -> str:
-    return format_html(
-        '<a href="' + obj.admin_url + '" target="_blank">' + obj.admin_url + "</a>"
+def link_to_object(obj: MEvent) -> SafeText:
+    return format_html(  # type: ignore
+        f'<a href="{obj.url}" target="_blank">{obj.url}</a>'
     )
 
 
-def event(obj: MEvent) -> str:
-    return format_html(format_event_class(obj))
+def link_to_object_admin(obj: MEvent) -> SafeText:
+    return format_html(  # type: ignore
+        f'<a href="{obj.admin_url}" target="_blank">{obj.admin_url}</a>'
+    )
+
+
+def event(obj: MEvent) -> SafeText:
+    return format_html(format_event_class(obj))  # type: ignore
 
 
 @admin.register(MEvent)
@@ -44,11 +47,11 @@ class MEventAdmin(admin.ModelAdmin):
     )
     search_fields = ["name", "user__username", "event_class", "bucket"]
     link_to_object.allow_tags = True
-    link_to_object.short_description = _(u"See on site")
+    link_to_object.short_description = _("See on site")
     link_to_object_admin.allow_tags = True
-    link_to_object_admin.short_description = _(u"See in admin")
+    link_to_object_admin.short_description = _("See in admin")
     format_event_class.allow_tags = True
-    format_event_class.short_description = _(u"Class")
+    format_event_class.short_description = _("Class")
     filters_on_top = True
     list_select_related = (
         "user",
