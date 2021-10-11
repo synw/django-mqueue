@@ -9,7 +9,7 @@ Events queue application for Django. Features:
 
 Example:
 
-   ```pyhton
+   ```python
    MEvent.objects.create(name="Test event", event_class="test", data={"k":"v"})
    ```
 
