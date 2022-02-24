@@ -1,5 +1,4 @@
 # pyright: reportUnknownVariableType=false
-
 import traceback
 from logging import Handler
 
@@ -19,12 +18,12 @@ class LogsDBHandler(Handler, object):
             msg += "\n\n" + ex_traceback
         event_class = "Log " + record.levelname
         try:
-            user = record.request.user
+            user = record.request.user  # type: ignore
         except Exception:
             user = None
         path = ""
         try:
-            path = record.request.path
+            path = record.request.path  # type: ignore
         except Exception:
             pass
         if user is not None:
@@ -33,7 +32,7 @@ class LogsDBHandler(Handler, object):
                 event_class=event_class,
                 notes=msg,
                 user=user,
-                request=record.request,
+                request=record.request,  # type: ignore
                 url=path,
             )
         else:
@@ -41,7 +40,7 @@ class LogsDBHandler(Handler, object):
                 name=name,
                 event_class=event_class,
                 notes=msg,
-                request=record.request,
+                request=record.request,  # type: ignore
                 url=path,
             )
         return

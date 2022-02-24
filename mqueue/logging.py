@@ -12,34 +12,27 @@ DEV_LOGGING = {
     },
     "formatters": {
         "verbose": {
-            "format": (
-                "[%(asctime)s] %(levelname)s ",
-                "[%(name)s.%(funcName)s:%(lineno)d] %(message)s",
-            ),
+            "format": "{asctime} {levelname} {name} {funcName:s} {lineno:d} {message}",
+            "style": "{",
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
     "handlers": {
-        "devlog": {
+        "db": {
             "level": "WARNING",
             "filters": ["require_debug_true"],
-            "class": "mqueue.handlers.LogsDBHandler",
-            "formatter": "verbose",
-        },
-        "prodlog": {
-            "level": "ERROR",
-            "filters": ["require_debug_false"],
             "class": "mqueue.handlers.LogsDBHandler",
             "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["devlog", "prodlog"],
-            "propagate": True,
+            "handlers": ["db"],
+            "propagate": False,
         },
     },
 }
+"""
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -48,7 +41,7 @@ LOGGING = {
             "()": "django.utils.log.RequireDebugFalse",
         },
     },
-    "formatters": {
+    "formatter": {
         "verbose": {
             "format": (
                 "[%(asctime)s] %(levelname)s ",
@@ -80,7 +73,7 @@ LOGGING_WARNING = {
             "()": "django.utils.log.RequireDebugFalse",
         },
     },
-    "formatters": {
+    "formatter": {
         "verbose": {
             "format": (
                 "[%(asctime)s] %(levelname)s ",
@@ -104,3 +97,4 @@ LOGGING_WARNING = {
         },
     },
 }
+"""
