@@ -1,0 +1,9 @@
+<template x-data x-for="msg in $livefeed.msgs">
+  <div class="{{ css_class|default:"" }}">
+    <span :class="`mq-label mq-${msg.cls}`">
+      <i :class="`${msg.icon}`"></i>&nbsp;
+      <span x-html="msg.clsMsg"></span>
+    </span>&nbsp;
+    <span x-html="msg.msg"></span>
+  </div>
+</template>
