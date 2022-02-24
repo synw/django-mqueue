@@ -2,7 +2,7 @@
 from typing import Any, List, Union
 from django.http.request import HttpRequest
 from django.utils.safestring import SafeText
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import MEvent
