@@ -1,4 +1,5 @@
 recursive-include mqueue/static *
+recursive-include mqueue/templates *
 recursive-include mqueue/migrations *
 recursive-include mqueue/locale *
 recursive-include mqueue/hooks *
