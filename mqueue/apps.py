@@ -1,12 +1,13 @@
 import importlib
 from typing import List, Tuple, Union
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.apps import AppConfig
 
 
 class MqueueConfig(AppConfig):
     name = "mqueue"
-    verbose_name = _(u"Events queue")
+    default_auto_field = "django.db.models.BigAutoField"
+    verbose_name = _("Events queue")
 
     def ready(self):
         # models registration from settings
