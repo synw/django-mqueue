@@ -12,11 +12,13 @@ Redis
 
 ::
 
-   "redis": {
-        "path": "mqueue.hooks.redis",
-        "host": "localhost",
-        "port": 6379,
-        "db": 0,
+   MQUEUE_HOOKS = {
+    "redis": {
+            "path": "mqueue.hooks.redis",
+            "host": "localhost",
+            "port": 6379,
+            "db": 0,
+        }
     }
 
 Centrifugo
@@ -26,13 +28,13 @@ Install `Django Instant <https://github.com/synw/django-instant>`_ to manage the
 
 ::
 
-   "centrifugo": {
-        "path": "mqueue.hooks.centrifugo",
-        "channel": "$events"
-    }  
 
-   
-Note: for the Go based hooks you might need to make the binary (``mqueue/hooks/<hookname>/run``) executable with chmod
+   MQUEUE_HOOKS = {
+        "centrifugo": {
+            "path": "mqueue.hooks.centrifugo",
+            "channel": "$events"
+        }
+   }
    
 Custom hook
 -----------

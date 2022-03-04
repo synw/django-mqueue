@@ -30,6 +30,14 @@ Run the migrations.
 	usage/retrieve_events
 	usage/hooks
 
+.. livefeed
+
+.. toctree::
+	:maxdepth: 2
+	:caption: Real time events
+	
+	livefeed/livefeed
+
 .. logs
 
 .. toctree::
