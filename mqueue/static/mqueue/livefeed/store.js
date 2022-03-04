@@ -54,7 +54,7 @@ function processEvent(event) {
     }
   }
   const evt = new MEvent(event.message, cls, event?.data ?? {}, model, $eventIcons[cls], clsMsg)
-  console.log(JSON.stringify(evt, null, "  "))
+  //console.log(JSON.stringify(evt, null, "  "))
   return evt
 }
 
@@ -68,8 +68,8 @@ function livefeed() {
         console.log("Init livefeed");
       }
       $instant.addHandler("$livefeed", (msg) => {
-        console.log("NEW EVENT", JSON.stringify(msg, null, "  "));
-        this.msgs.push(processEvent(msg));
+        //console.log("NEW EVENT", JSON.stringify(msg, null, "  "));
+        this.msgs.unshift(processEvent(msg));
       });
     },
   });
