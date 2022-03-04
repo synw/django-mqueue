@@ -6,6 +6,7 @@ settings.py
 .settings
 coverage_html_report/
 test_db
+pyvenv.cfg
 
 __pycache__/
 *.py[cod]
@@ -27,6 +28,7 @@ lib64/
 parts/
 sdist/
 var/
+bin/
 *.egg-info/
 .installed.cfg
 *.egg
