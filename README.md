@@ -3,7 +3,6 @@
 Events queue application for Django. Features:
 
 - **Monitor models**: models can be registered to autogenerate events on create/update/delete actions
-- **Query events** from the frontend: a Graphql api is available to retrieve events
 - **Export events**: save events to Redis or send them over websockets
 
 Example:
