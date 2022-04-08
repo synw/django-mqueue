@@ -16,8 +16,6 @@ sys.path.append(os.path.abspath(os.path.join(BASE_DIR, "..")))
 CUSTOM_INSTALLED_APPS = (
     "mqueue",
     "django.contrib.admin",
-    "graphene_django",
-    "django_filters",
 )
 
 ALWAYS_INSTALLED_APPS = (
@@ -89,7 +87,6 @@ settings.configure(
             "db": 0,
         },
     },
-    GRAPHENE={"SCHEMA": "mqueue.schema.schema"},
     DEFAULT_AUTO_FIELD="django.db.models.BigAutoField",
 )
 
@@ -116,7 +113,7 @@ args.append(test_cases)
 args.append("--verbosity=2")
 args.extend(sys.argv[offset:])
 
-print("ARFS", args)
+# print("ARFS", args)
 
 # args = ["coverage run", 'test']
 execute_from_command_line(args)
