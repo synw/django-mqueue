@@ -3,6 +3,7 @@ from typing import Union
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.urls import reverse
+# from mqueue.models import MEvent
 
 from .conf import (
     EVENT_CLASSES,
@@ -24,17 +25,17 @@ def get_event_class_str(event_class: Union[str, None] = None) -> str:
     return event_class_str
 
 
-def get_event_badge(obj) -> str:  # type: ignore
+def get_event_badge(obj) -> str:
     """
     Get a badge html for an event
     """
     hasFormater = getattr(obj, "event_badge", None)
     if hasFormater:
-        return obj.event_badge  # type: ignore
+        return obj.event_badge
     formated_event_class = get_event_class_str(str(obj.event_class))
     icon = EVENT_DEFAULT_BADGES["Default"]["icon"]
     name: str = str(obj.event_class)
-    if name is None:
+    if not name:
         name = get_event_class_str(str(obj.event_class))
     if formated_event_class in EVENT_DEFAULT_BADGES.keys():
         icon = EVENT_DEFAULT_BADGES[formated_event_class]["icon"]
@@ -45,53 +46,53 @@ def get_event_badge(obj) -> str:  # type: ignore
 
 
 def format_event_class(
-    obj=None, event_class: Union[str, None] = None  # type: ignore
+    obj, event_class: Union[str, None] = None
 ) -> str:
+    print("OBJ", type(obj), obj.event_class, "/", event_class)
     event_html = ""
     if event_class is None:
         _event_class: str = obj.event_class  # type: ignore
     else:
         _event_class = event_class
-    printed_class = get_event_class_str(event_class).replace("_", " ").capitalize()
     icon = ""
+    css_class = "Default"
     if _event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[_event_class] + "&nbsp;"
         # printed_class = event_class
-    else:
+    else:        
         event_class_lower = _event_class.lower()
         if "created" in event_class_lower:
             icon = EVENT_ICONS_HTML["Object created"] + "&nbsp;"
-            printed_class = "Object created"
+            css_class = EVENT_CLASSES["Object created"]
         elif "edited" in event_class_lower:
             icon = EVENT_ICONS_HTML["Object edited"] + "&nbsp;"
-            printed_class = "Object edited"
+            css_class = EVENT_CLASSES["Object edited"]
         elif "deleted" in event_class_lower:
             icon = EVENT_ICONS_HTML["Object deleted"] + "&nbsp;"
-            printed_class = "Object deleted"
+            css_class = EVENT_CLASSES["Object deleted"]
         else:
             icon = EVENT_ICONS_HTML["Default"] + "&nbsp;"
-            printed_class = "Default"
         if "error" in event_class_lower:
             icon = EVENT_ICONS_HTML["Error"] + "&nbsp;"
-            printed_class = "Error"
+            css_class = EVENT_CLASSES["Error"]
         elif "debug" in event_class_lower:
             icon = EVENT_ICONS_HTML["Debug"] + "&nbsp;"
-            printed_class = "Debug"
+            css_class = EVENT_CLASSES["Debug"]
         elif "warning" in event_class_lower:
             icon = EVENT_ICONS_HTML["Warning"] + "&nbsp;"
-            printed_class = "Warning"
+            css_class = EVENT_CLASSES["Warning"]
         elif "info" in event_class_lower or "infos" in event_class_lower:
             icon = EVENT_ICONS_HTML["Info"] + "&nbsp;"
-            printed_class = "Info"
+            css_class = EVENT_CLASSES["Info"]
         elif "important" in event_class_lower:
             icon = EVENT_ICONS_HTML["Important"] + "&nbsp;"
-            printed_class = "Important"
+            css_class = EVENT_CLASSES["Important"]
     event_html += (
         '<span class="'
-        + EVENT_CLASSES[printed_class]
+        + css_class
         + '">'
         + icon
-        + printed_class
+        + str(_event_class)
         + "</span>"
     )
     if _event_class in EVENT_EXTRA_HTML.keys():
@@ -122,7 +123,7 @@ def get_object_name(instance: Model, user: User) -> str:
         obj_name += str(instance.date_posted)  # type: ignore
     elif hasattr(instance, "created"):
         obj_name = instance.__class__.__name__ + " - "
-        obj_name += (str(instance.created),)  # type: ignore
+        obj_name += str(instance.created)  # type: ignore
     if user:
         obj_name += f" ({user.username})"
     return obj_name

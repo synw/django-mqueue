@@ -71,4 +71,4 @@ class MEventAdmin(admin.ModelAdmin):
         self, request: HttpRequest, obj: Union[MEvent, None] = None
     ):
         super(MEventAdmin, self).get_readonly_fields(request, obj)
-        return ("notes", "request")
+        return ("request",)
