@@ -15,7 +15,7 @@ Example:
 
 Events can be linked to a model instance and a user instance.
 
-![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docs/_static/events_list.png)
+![Event queue screenshot](https://raw.github.com/synw/django-mqueue/master/docsite/src/assets/screenshot.png)
 
 ## Real time events demo
 
