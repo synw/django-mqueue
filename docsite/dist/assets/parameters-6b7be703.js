@@ -1,4 +1,4 @@
-import{d as s,a,b as t,f as n,q as o,u as e,H as l,O as r,G as i}from"./index-540edc84.js";const d=`from mqueue.models import MEvent
+import{d as s,a,b as t,f as n,q as o,u as e,H as l,O as r,G as i}from"./index-22118213.js";const d=`from mqueue.models import MEvent
 from myapp.models import MyModel
 
 obj = MyModel.objects.get(x="y")
