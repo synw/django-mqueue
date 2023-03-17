@@ -1,4 +1,4 @@
-import{d as o,a as n,b as a,f as r,q as s,u as e,D as l,E as d,H as i,O as u,G as t}from"./index-47c60f31.js";const c=`import json
+import{d as o,a as n,b as a,f as r,q as s,u as e,D as l,E as d,H as i,O as u,G as t}from"./index-540edc84.js";const c=`import json
 from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
 from mqueue.models import MEvent
