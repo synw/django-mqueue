@@ -7,6 +7,7 @@ settings.py
 coverage_html_report/
 test_db
 pyvenv.cfg
+.venv
 
 __pycache__/
 *.py[cod]
