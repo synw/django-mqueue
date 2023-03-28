@@ -16,4 +16,7 @@
   "reportUnnecessaryComparison": true,
   "enableTypeIgnoreComments": true,
   "useLibraryCodeForTypes": true,
+  "exclude": [
+    "docsite"
+  ]
 }

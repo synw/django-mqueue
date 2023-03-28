@@ -3,6 +3,7 @@ from typing import Union
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.urls import reverse
+
 # from mqueue.models import MEvent
 
 from .conf import (
@@ -46,54 +47,47 @@ def get_event_badge(obj) -> str:
 
 
 def format_event_class(
-    obj, event_class: Union[str, None] = None
+    obj: Model | None = None, event_class: Union[str, None] = None
 ) -> str:
-    print("OBJ", type(obj), obj.event_class, "/", event_class)
+    # print("OBJ", type(obj), obj.event_class, "/", event_class)
     event_html = ""
     if event_class is None:
         _event_class: str = obj.event_class  # type: ignore
     else:
         _event_class = event_class
     icon = ""
-    css_class = "Default"
+    css_class = EVENT_CLASSES["Default"]
+    event_class_lower = _event_class.lower()  # type: ignore
+    if "created" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Object created"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Object created"]
+    elif "edited" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Object edited"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Object edited"]
+    elif "deleted" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Object deleted"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Object deleted"]
+    else:
+        icon = EVENT_ICONS_HTML["Default"] + "&nbsp;"
+    if "error" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Error"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Error"]
+    elif "debug" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Debug"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Debug"]
+    elif "warning" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Warning"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Warning"]
+    elif "info" in event_class_lower or "infos" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Info"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Info"]
+    elif "important" in event_class_lower:
+        icon = EVENT_ICONS_HTML["Important"] + "&nbsp;"
+        css_class = EVENT_CLASSES["Important"]
     if _event_class in EVENT_ICONS_HTML.keys():
         icon = EVENT_ICONS_HTML[_event_class] + "&nbsp;"
-        # printed_class = event_class
-    else:        
-        event_class_lower = _event_class.lower()
-        if "created" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Object created"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Object created"]
-        elif "edited" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Object edited"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Object edited"]
-        elif "deleted" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Object deleted"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Object deleted"]
-        else:
-            icon = EVENT_ICONS_HTML["Default"] + "&nbsp;"
-        if "error" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Error"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Error"]
-        elif "debug" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Debug"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Debug"]
-        elif "warning" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Warning"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Warning"]
-        elif "info" in event_class_lower or "infos" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Info"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Info"]
-        elif "important" in event_class_lower:
-            icon = EVENT_ICONS_HTML["Important"] + "&nbsp;"
-            css_class = EVENT_CLASSES["Important"]
     event_html += (
-        '<span class="'
-        + css_class
-        + '">'
-        + icon
-        + str(_event_class)
-        + "</span>"
+        '<span class="' + css_class + '">' + icon + str(_event_class) + "</span>"
     )
     if _event_class in EVENT_EXTRA_HTML.keys():
         event_html += EVENT_EXTRA_HTML[_event_class]

@@ -22,4 +22,4 @@ class MqueueTestAdmin(MqueueBaseTest):
 
         adm = MEventAdmin(MEvent, TestAdminSite)
         res = adm.get_readonly_fields(request)
-        self.assertEqual(res, ("notes", "request"))
+        self.assertEqual(res, ("request",))

@@ -95,10 +95,10 @@ class MqueueTestUtils(MqueueBaseTest):
         )
         self.assertEqual(event_class_formated, html)
         event_class = "Object created"
-        instance, created = MEvent.objects.get_or_create(
+        instance, _ = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
-        event_class_formated = format_event_class(event_class=event_class)
+        event_class_formated = format_event_class(instance)
         res_event_class = "Object created"
         icon = EVENT_ICONS_HTML[res_event_class] + "&nbsp;"
         html = (
@@ -111,7 +111,7 @@ class MqueueTestUtils(MqueueBaseTest):
         )
         self.assertEqual(event_class_formated, html)
         event_class = "Object edited"
-        instance, created = MEvent.objects.get_or_create(
+        instance, _ = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
         event_class_formated = format_event_class(event_class=event_class)
@@ -127,7 +127,7 @@ class MqueueTestUtils(MqueueBaseTest):
         )
         self.assertEqual(event_class_formated, html)
         event_class = "Object deleted"
-        instance, created = MEvent.objects.get_or_create(
+        instance, _ = MEvent.objects.get_or_create(
             name="Event name", event_class=event_class
         )
         event_class_formated = format_event_class(event_class=event_class)

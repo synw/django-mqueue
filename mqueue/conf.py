@@ -6,7 +6,7 @@ WATCH: List[str] = getattr(settings, "MQUEUE_WATCH", [])
 
 NOSAVE: List[str] = getattr(settings, "MQUEUE_NOSAVE", [])
 
-HOOKS: Dict[str, Dict[str, str]] = getattr(settings, "MQUEUE_HOOKS", {})
+HOOKS: Dict[str, Dict[str, str | int]] = getattr(settings, "MQUEUE_HOOKS", {})
 
 DOMAIN = getattr(settings, "SITE_SLUG", "default")
 

@@ -7,7 +7,6 @@ import django
 from django.conf import settings
 from django.core.management import execute_from_command_line
 
-
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.abspath(os.path.join(BASE_DIR, "..")))
 
@@ -79,6 +78,7 @@ settings.configure(
     PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
     FIXTURE_DIRS=glob.glob(BASE_DIR + "/" + "*/fixtures/"),
     MQUEUE_AUTOREGISTER=(("django.contrib.auth.models.User", ["c", "d", "u"]),),
+    DEFAULT_AUTO_FIELD="django.db.models.BigAutoField",
     MQUEUE_HOOKS={
         "redis": {
             "path": "mqueue.hooks.redis",
@@ -87,7 +87,6 @@ settings.configure(
             "db": 0,
         },
     },
-    DEFAULT_AUTO_FIELD="django.db.models.BigAutoField",
 )
 
 django.setup()
