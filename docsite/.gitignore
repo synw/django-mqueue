@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
+dist
 dist-ssr
 !/doc/dist
 *.local
@@ -8,3 +9,4 @@ yarn-error.log
 .yarnrc
 /dev
 .vscode
+package-lock.json

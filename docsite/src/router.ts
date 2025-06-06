@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
-//import HomeView from "./pages/HomeView.vue"
 import { libName } from "./conf"
 // @ts-ignore
 import { default as autoRoutes } from '~pages'
@@ -7,18 +6,7 @@ import { default as autoRoutes } from '~pages'
 const baseTitle = libName;
 
 const routes: Array<RouteRecordRaw> = [
-  /*{
-    path: "/",
-    component: HomeView,
-    meta: {
-      title: "Home"
-    }
-  },*/
   ...autoRoutes,
-  /*{
-    path: "/path+",
-    component: () => import("./views/PageView.vue"),
-  }*/
 ]
 
 const router = createRouter({

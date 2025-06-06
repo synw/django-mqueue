@@ -36,7 +36,7 @@ export default defineConfig({
       },
     }
   ],
-  assetsInclude: ["**/*.md", /\.py$/, "**/*.py"],
+  assetsInclude: ["**/*.md"],
   base: process.env.NODE_ENV === 'production' ? `/${libName.toLowerCase()}` : './',
   resolve: {
     alias: [

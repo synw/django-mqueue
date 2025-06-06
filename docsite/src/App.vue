@@ -1,9 +1,9 @@
 <template>
   <the-header :lib-title="libTitle" :links="links"></the-header>
-  <div class="p-5 pb-16 mt-16 md:ml-64">
+  <div class="absolute p-5 pb-16 md:w-[calc(100%_-_20rem)] top-16 md:left-80 main-h">
     <router-view></router-view>
   </div>
-  <the-sidebar class="fixed left-0 hidden w-64 h-screen p-3 top-16 sm:block secondary"></the-sidebar>
+  <the-sidebar class="fixed left-0 hidden p-3 overflow-y-auto w-80 top-16 md:block secondary main-h"></the-sidebar>
 </template>
 
 <script setup lang="ts">
@@ -17,7 +17,11 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 function openLink(url: string) {
-  router.push(url)
+  if (url.startsWith("http")) {
+    window.open(url, '_blank');
+  } else {
+    router.push(url)
+  }
 }
 
 // global helper for markdown links
@@ -29,7 +33,8 @@ onBeforeMount(() => initState());
 </script>
 
 <style lang="sass">
-.var
-  color: #b75501
+.main-h
+  height: calc(100vh - 4rem)
+  @apply overflow-y-auto
 </style>
 

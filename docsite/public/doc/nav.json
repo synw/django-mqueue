@@ -107,14 +107,6 @@
               "type": "markdown"
             },
             {
-              "name": "centrifugo",
-              "title": "Centrifugo",
-              "filename": "2.centrifugo.md",
-              "url": "/post_processing/hooks/centrifugo",
-              "docpath": "/4.post_processing/hooks/2.centrifugo.md",
-              "type": "markdown"
-            },
-            {
               "name": "custom",
               "title": "Custom",
               "filename": "3.custom.md",
@@ -158,14 +150,6 @@
       "children": [],
       "title": "Extra",
       "content": [
-        {
-          "name": "livefeed",
-          "title": "Livefeed",
-          "filename": "1.livefeed.md",
-          "url": "/extra/livefeed",
-          "docpath": "/5.extra/1.livefeed.md",
-          "type": "markdown"
-        },
         {
           "name": "logs_handler",
           "title": "Logs handler",
