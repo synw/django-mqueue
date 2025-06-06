@@ -1,4 +1,7 @@
-def Pack(event):
+from ...models import MEvent
+
+
+def Pack(event: MEvent):
     sep = "#!#"
     data = ["name:;" + event.name]
     if event.event_class:
@@ -16,11 +19,11 @@ def Pack(event):
     if event.notes:
         data.append("notes:;" + str(event.notes))
     if event.request:
-        request = event.request.replace("\n", "//")
+        request = event.request.replace("\n", "//")  # type: ignore
         data.append("request:;" + request)
     if event.bucket:
         data.append("bucket:;" + event.bucket)
-    if event.data or event.data != {}:
+    if bool(event.data):
         data.append("data:;" + str(event.data))
     d = str.join(sep, data)
     return d

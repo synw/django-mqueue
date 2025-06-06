@@ -46,12 +46,12 @@ class MEventAdmin(admin.ModelAdmin):
         "scope",
     )
     search_fields = ["name", "user__username", "event_class", "bucket"]
-    link_to_object.allow_tags = True
-    link_to_object.short_description = _("See on site")
-    link_to_object_admin.allow_tags = True
-    link_to_object_admin.short_description = _("See in admin")
-    format_event_class.allow_tags = True
-    format_event_class.short_description = _("Class")
+    link_to_object.allow_tags = True  # type: ignore
+    link_to_object.short_description = _("See on site")  # type: ignore
+    link_to_object_admin.allow_tags = True  # type: ignore
+    link_to_object_admin.short_description = _("See in admin")  # type: ignore
+    format_event_class.allow_tags = True  # type: ignore
+    format_event_class.short_description = _("Class")  # type: ignore
     filters_on_top = True
     list_select_related = (
         "user",

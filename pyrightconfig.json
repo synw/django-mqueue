@@ -17,6 +17,7 @@
   "enableTypeIgnoreComments": true,
   "useLibraryCodeForTypes": true,
   "exclude": [
-    "docsite"
+    "docsite",
+    "tests"
   ]
 }

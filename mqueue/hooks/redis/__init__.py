@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import time
 from typing import Dict
 
@@ -23,8 +21,7 @@ except ImportError:
 
 
 def save(event: MEvent, conf: Dict[str, str]):
-    global EVENT_NUM, R, DOMAIN
-    name = DOMAIN + "_event" + str(EVENT_NUM)
+    name = DOMAIN + "_event" + str(EVENT_NUM)  # type: ignore
     data = serializer.Pack(event)
     R.set(name, data)
-    EVENT_NUM += 1
+    EVENT_NUM += 1  # type: ignore

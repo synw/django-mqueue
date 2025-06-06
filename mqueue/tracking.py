@@ -5,7 +5,7 @@ from .signals import mmessage_update, mmessage_delete, mmessage_create
 
 
 class MTracker(object):
-    def register(self, model: Model, monitoring_level: List[str]):
+    def register(self, model: type[Model], monitoring_level: List[str]):
         if "c" in monitoring_level:
             post_save.connect(mmessage_create, sender=model)
         if "u" in monitoring_level:
