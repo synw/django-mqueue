@@ -1,10 +1,11 @@
-from typing import Union
+import datetime
+from typing import Any, Dict, Union
 
 from django.contrib.auth.models import User
 from django.db.models.base import Model
 from django.urls import reverse
-
-# from mqueue.models import MEvent
+from django.core.exceptions import ValidationError
+from django.utils.dateparse import parse_date
 
 from .conf import (
     EVENT_CLASSES,
@@ -155,3 +156,29 @@ def get_admin_url(instance: Model) -> str:
         args=[instance.id],  # type: ignore
     )
     return admin_url
+
+
+def formatEvent(row) -> Dict[str, Any]:
+    return {
+        "name": row.name,
+        "bucket": row.bucket,
+        "data": row.data,
+        "scope": row.scope,
+        "event_class": row.event_class,
+        "user": row.user,
+        "date": row.date_posted,
+        "notes": row.notes,
+        "url": row.url,
+        "admin_url": row.admin_url,
+    }
+
+
+def validate_and_parse_date(date_str: str) -> datetime.date:
+    """Convert string input to date object with validation."""
+    try:
+        parsed_date = parse_date(date_str)
+        if not parsed_date:
+            raise ValueError(f"Invalid date format: {date_str}")
+        return parsed_date
+    except Exception as e:
+        raise ValidationError(f"Failed to parse date: {str(e)}")
