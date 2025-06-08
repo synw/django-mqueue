@@ -1,5 +1,5 @@
 from os import path
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 
 
 version = __import__("mqueue").__version__
@@ -10,7 +10,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="django-mqueue",
-    packages=find_packages(),
+    packages=find_namespace_packages(),
     include_package_data=True,
     version=version,
     description="Events queue for Django",
@@ -25,9 +25,9 @@ setup(
         "Development Status :: 4 - Beta",
         "Framework :: Django :: 1.11",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.8",
     ],
+    license="MIT",
     zip_safe=False,
     install_requires=["django-mcpx", "django-import-export"],
 )
