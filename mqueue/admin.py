@@ -7,26 +7,24 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import MEvent
 from .utils import format_event_class
-
+from import_export.admin import ImportExportModelAdmin
+from .resources import MEventResource
 
 def link_to_object(obj: MEvent) -> SafeText:
     return format_html(  # type: ignore
         f'<a href="{obj.url}" target="_blank">{obj.url}</a>'
     )
 
-
 def link_to_object_admin(obj: MEvent) -> SafeText:
     return format_html(  # type: ignore
         f'<a href="{obj.admin_url}" target="_blank">{obj.admin_url}</a>'
     )
 
-
 def event(obj: MEvent) -> SafeText:
     return format_html(format_event_class(obj))  # type: ignore
 
-
 @admin.register(MEvent)
-class MEventAdmin(admin.ModelAdmin):
+class MEventAdmin(ImportExportModelAdmin):
     date_hierarchy = "date_posted"
     readonly_fields = ["date_posted", "request"]
     list_display: List[Any] = [
@@ -57,6 +55,7 @@ class MEventAdmin(admin.ModelAdmin):
         "user",
         "content_type",
     )
+    resource_classes = [MEventResource]
 
     class Media:
         css = {
