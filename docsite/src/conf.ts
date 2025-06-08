@@ -3,7 +3,7 @@ const links: Array<{ href: string; name: string }> = [
 ];
 
 // python runtime
-const pipPackages = [];
+const pipPackages = ["django", "django-mqueue", "sqlite3"];
 const pyodidePackages = [];
 const examplesExtension = "py";
 
